@@ -1,78 +1,179 @@
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
+import { useEffect, useState } from "react";
+import HeroSection from "../../components/HeroSection";
+import { Api } from "../../services/service";
+import { useRouter } from "next/router";
+import { useTranslation } from "react-i18next";
+import "react-multi-carousel/lib/styles.css";
+import Head from "next/head";
+import { useContext } from "react";
+import { favoriteProductContext, userContext } from "./_app";
+import CustomerReviews from "../../components/Testimonials";
+import MindfulLuxury from "../../components/MindfulLuxury";
+import ProductCard from "../../components/ProductCard";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+export default function Home(props) {
+  const { t } = useTranslation();
+  const [user] = useContext(userContext);
+  const router = useRouter();
+  const [setFavorite] = useContext(favoriteProductContext);
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    fetchFavorite();
+  }, []);
 
-export default function Home() {
+  const fetchFavorite = async () => {
+    try {
+      const res = await Api("get", "getFavourite", null, router, {
+        id: user._id,
+      });
+      const favs = Array.isArray(res?.data) ? res.data : [];
+      setFavorite(favs);
+      localStorage.setItem("Favorite", JSON.stringify(favs));
+    } catch (err) {
+      props.loader(false);
+    }
+  };
+
   return (
-    <div
-      className={`${geistSans.className} ${geistMono.className} flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black`}
-    >
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <>
+      <Head>
+        <title>Shop Everyday Essentials at Tobaline Today</title>
+        <meta
+          name="description"
+          content="Tobaline offers top-quality Clothes!"
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the index.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+        <link rel="canonical" href="" />
+      </Head>
+      <div className="">
+        <HeroSection />
+
+        <div className="bg-[#D9D9D92E] relative w-full py-16">
+          <div className="absolute inset-0 bg-[url('/images/monotonoise.png')] opacity-[0.03]" />
+          <section className=" w-full relative flex flex-col justify-center items-center">
+            <div className="container mx-auto px-2 md:px-0">
+              <h1 className=" text-[20px] md:text-6xl mb-3 text-black">
+                {t("Our")}
+              </h1>
+              <h1 className=" text-[20px] md:text-6xl font-bold md:mb-10 mb-5 text-black">
+                {t("Best Picks For You")}
+              </h1>
+
+              <BestSeller />
+            </div>
+          </section>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+
+        <MindfulLuxury />
+
+        <CustomerReviews />
+      </div>
+    </>
+  );
+}
+
+function BestSeller(props) {
+  const router = useRouter();
+  const { t } = useTranslation();
+  const products = [
+    {
+      id: 1,
+      title: "Women's Pure Silk Pajamas Set",
+      country: "United States",
+      image: "/images/product1.png",
+      price: 129.95,
+      oldPrice: 269.95,
+
+      rating: 5,
+      reviews: 129,
+    },
+    {
+      id: 2,
+      title: "Luxury Silk Nightwear",
+      country: "Italy",
+      image: "/images/product2.png",
+      price: 149.99,
+      oldPrice: 299.99,
+
+      rating: 4,
+      reviews: 86,
+    },
+    {
+      id: 3,
+      title: "Women's Silver Inlay LinenPants",
+      country: "Italy",
+      image: "/images/product3.png",
+      price: 149.99,
+      oldPrice: 299.99,
+
+      rating: 4,
+      reviews: 86,
+    },
+    {
+      id: 4,
+      title: "Women's Picture Frame Bag",
+      country: "Italy",
+      image: "/images/product4.png",
+      price: 149.99,
+      oldPrice: 299.99,
+
+      rating: 4,
+      reviews: 86,
+    },
+  ];
+  const [productList, setProductList] = useState(products);
+
+  useEffect(() => {
+    // fetchProducts(1);
+  }, []);
+
+  const fetchProducts = async (pageNum) => {
+    try {
+      setLoadingMore(true);
+      const res = await Api(
+        "get",
+        `getTopSoldProduct?page=${pageNum}&limit=16`,
+        null,
+        router,
+      );
+
+      if (res?.data) {
+        // setProductList(res.data);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoadingMore(false);
+    }
+  };
+
+  return (
+    <div className="flex flex-col relative">
+      <div className="grid md:grid-cols-4 lg:grid-cols-4 grid-cols-2 gap-4 mx-auto w-full">
+        {productList.length > 0 ? (
+          productList.map((item, i) => (
+            <ProductCard
+              key={i}
+              product={item}
+              url={`/product-details/${item?.slug}`}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs/pages/getting-started?utm_source=create-next-app&utm_medium=default-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+          ))
+        ) : (
+          <div className="col-span-6 flex justify-center text-[16px] text-gray-500 min-h-[200px]">
+            {t("No products available")}.
+          </div>
+        )}
+      </div>
+
+      <div>
+        <button
+          className="md:text-[20px] bg-white border border-[#222222] text-stone-800 hover:bg-stone-800 hover:text-white transition-colors duration-300 px-8 py-3 mt-12 w-full flex items-center justify-center rounded-md cursor-pointer"
+          onClick={() => router.push("Collection")}
+        >
+          VIEW COLLECTIONS
+        </button>
+      </div>
     </div>
   );
 }
