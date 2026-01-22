@@ -1,6 +1,10 @@
+"use client";
+
 import React, { useState } from "react";
 import { MapPin, Phone, Mail } from "lucide-react";
 import { toast } from "react-toastify";
+import { Api } from "../../services/service";
+import { useRouter } from "next/router";
 
 function ContactUs(props) {
   const [formData, setFormData] = useState({
@@ -10,7 +14,7 @@ function ContactUs(props) {
     subject: "",
     message: "",
   });
-
+  const router = useRouter();
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -58,17 +62,22 @@ function ContactUs(props) {
     setIsSubmitting(true);
 
     const data = {
-      name: value.Name,
-      Email: value.email,
-      subject: value.subject.toLowerCase(),
-      message: value.message,
-      phoneNumber: value.phoneNumber,
+      name: formData.Name,
+      Email: formData.email,
+      subject: formData.subject.toLowerCase(),
+      message: formData.message,
+      phone: formData.phoneNumber,
     };
+    console.log(data);
 
-    Api("post", "contactUs", data, router).then(
+    Api("post", "contactus/create", data, router).then(
       (res) => {
         props.loader(false);
-        toast.success("Message sent successfully!");
+        props.toaster({
+          type: "success",
+          message: res?.message || "Querry sent successfully!",
+        });
+        setIsSubmitting(false);
         setFormData({
           Name: "",
           email: "",
@@ -80,7 +89,12 @@ function ContactUs(props) {
       (err) => {
         props.loader(false);
         console.log(err);
+        setIsSubmitting(false);
         toast.error(err?.message || "Something went wrong");
+        props.toaster({
+          type: "error",
+          message: err?.message || "Something went wrong Failed!",
+        });
       },
     );
   };
@@ -158,7 +172,6 @@ function ContactUs(props) {
           </div>
         </div>
 
-       
         <div className="bg-white rounded-lg shadow-sm p-4 md:p-12">
           <h2 className="text-3xl font-serif font-bold text-center text-gray-900 mb-8">
             Contact

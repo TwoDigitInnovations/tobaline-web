@@ -1,29 +1,29 @@
 import axios from "axios";
-// export const ConstantsUrl = "http://localhost:8000/v1/api/";
-export const ConstantsUrl = "https://api.bachhoahouston.com/v1/api/";
+export const ConstantsUrl = "http://localhost:8001/";
+// export const ConstantsUrl = "https://api.tobaline.com/";
 
-function Api(method, url, data, router, params) {
-  return new Promise(function (resolve, reject) {
+function Api(method, url, data = {}, router) {
+  return new Promise((resolve, reject) => {
     let token = "";
+
     if (typeof window !== "undefined") {
-      token = localStorage?.getItem("token") || "";
+      token = localStorage.getItem("token") || "";
     }
 
     axios({
       method,
       url: ConstantsUrl + url,
-      data,
-      headers: { Authorization: `jwt ${token}` },
-      params,
-    }).then(
-      (res) => {
-        resolve(res.data);
+      ...(method.toLowerCase() === "get" ? { params: data } : { data }),
+      headers: {
+        Authorization: token ? `Bearer ${token}` : "",
       },
+    }).then(
+      (res) => resolve(res.data),
       (err) => {
-
         if (err.response) {
           const status = err.response.status;
           const message = err.response?.data?.message || "";
+
           if (
             (status === 401 || status === 403) &&
             typeof window !== "undefined"
@@ -32,9 +32,8 @@ function Api(method, url, data, router, params) {
               message.toLowerCase().includes("jwt expired") ||
               message.toLowerCase().includes("unauthorized")
             ) {
-              localStorage.removeItem("token");
-              localStorage.removeItem("userDetail");
-              router?.push("/signIn");
+              // localStorage.clear();
+              // router?.push("/login");
             }
           }
 
@@ -46,6 +45,7 @@ function Api(method, url, data, router, params) {
     );
   });
 }
+
 
 function ApiFormData(method, url, data, router) {
   return new Promise(function (resolve, reject) {
@@ -66,7 +66,6 @@ function ApiFormData(method, url, data, router) {
         resolve(res.data);
       },
       (err) => {
-
         if (err.response) {
           if (err?.response?.status === 401) {
             if (typeof window !== "undefined") {
@@ -78,7 +77,7 @@ function ApiFormData(method, url, data, router) {
         } else {
           reject(err);
         }
-      }
+      },
     );
   });
 }
@@ -110,7 +109,6 @@ function ApiGetPdf(url, data, router, params) {
         resolve(res.data);
       },
       (err) => {
-
         if (err.response) {
           const status = err.response.status;
           const message = err.response?.data?.message || "";
@@ -132,7 +130,7 @@ function ApiGetPdf(url, data, router, params) {
         } else {
           reject(err);
         }
-      }
+      },
     );
   });
 }
@@ -213,7 +211,6 @@ const pdfDownload = async (fileName, data) => {
 
     pdfmake.createPdf(data).download(fileName);
     pdfmake.createPdf(data).getDataUrl((blob) => {
-
       resolve(blob);
     });
   });
@@ -222,7 +219,7 @@ const pdfDownload = async (fileName, data) => {
 const replaceUrl = (url) => {
   return url?.replace(
     "https://surfacegallery.s3.eu-north-1.amazonaws.com",
-    "https://d1wm56uk2e4fvb.cloudfront.net"
+    "https://d1wm56uk2e4fvb.cloudfront.net",
   );
 };
 

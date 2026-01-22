@@ -31,7 +31,7 @@ const Layout = ({ children, loader, toaster }) => {
         />
       </div>
 
-      <main className="flex-1 pt-20 overflow-x-hidden">{children}</main>
+      <main className="flex-1 md:pt-20 pt-14 overflow-x-hidden">{children}</main>
 
       {!isMobile && <Footer loader={loader} toaster={toaster} />}
 

@@ -39,7 +39,6 @@ const Footer = () => {
             <li><Link href="#">Returns & Exchanges</Link></li>
             <li><Link href="#">FAQ</Link></li>
             <li><Link href="#">Wholesale</Link></li>
-            <li><Link href="#">Affiliates</Link></li>
           </ul>
         </div>
 
@@ -48,9 +47,9 @@ const Footer = () => {
           <h3 className="text-white font-semibold mb-4">Company</h3>
           <ul className="space-y-2 text-sm">
             <li><Link href="#">We’re Hiring</Link></li>
-            <li><Link href="#">Terms & Conditions</Link></li>
-            <li><Link href="#">Privacy Policy</Link></li>
-            <li><Link href="#">Blogs</Link></li>
+            <li><Link href="/termsConditions">Terms & Conditions</Link></li>
+            <li><Link href="/privacypolicy">Privacy Policy</Link></li>
+
           </ul>
         </div>
 
@@ -58,11 +57,10 @@ const Footer = () => {
         <div>
           <h3 className="text-white font-semibold mb-4">About</h3>
           <ul className="space-y-2 text-sm">
-            <li><Link href="#">About Us</Link></li>
+            <li><Link href="/aboutus">About Us</Link></li>
             <li><Link href="/Contactus">Contact us</Link></li>
             <li><Link href="#">Collaborations</Link></li>
             <li><Link href="#">Charities</Link></li>
-            <li><Link href="#">Careers</Link></li>
           </ul>
         </div>
 

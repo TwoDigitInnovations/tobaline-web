@@ -1,48 +1,51 @@
-import React, { useState, useEffect, useContext } from "react";
+"use client";
+
+
+import React, { useState, useContext } from "react";
 import { useRouter } from "next/router";
 import { Api } from "../../services/service";
-import { IoEyeOffOutline } from "react-icons/io5";
-import { IoEyeOutline } from "react-icons/io5";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 import { userContext } from "./_app";
 
 const SignUp = (props) => {
   const { t } = useTranslation();
   const router = useRouter();
+  const [user] = useContext(userContext);
+
   const [userDetail, setUserDetail] = useState({
     name: "",
     email: "",
     password: "",
   });
-  const [user, setUser] = useContext(userContext);
+
   const [eyeIcon, setEyeIcon] = useState(false);
   const [errors, setErrors] = useState({});
-
-  // useEffect(() => {
-  //   if (user) router.push("/");
-  // }, [user]);
 
   const validateField = (name, value) => {
     switch (name) {
       case "name":
-        if (!value.trim()) return "First name is required";
-        if (!/^[A-Za-z]+$/.test(value)) return "Only letters allowed";
+        if (!value.trim()) return "Name is required";
+        if (!/^[A-Za-z ]+$/.test(value)) return "Only letters allowed";
         if (value.length < 2) return "Minimum 2 characters required";
         return "";
+
       case "email":
         if (!value) return "Email is required";
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
           return "Invalid email format";
         return "";
+
       case "password":
         if (!value) return "Password is required";
         if (value.length < 8) return "Minimum 8 characters required";
-        if (!/[A-Z]/.test(value)) return "At least one uppercase letter";
-        if (!/[a-z]/.test(value)) return "At least one lowercase letter";
-        if (!/[0-9]/.test(value)) return "At least one number";
+        if (!/[A-Z]/.test(value)) return "One uppercase letter required";
+        if (!/[a-z]/.test(value)) return "One lowercase letter required";
+        if (!/[0-9]/.test(value)) return "One number required";
         if (!/[^A-Za-z0-9]/.test(value))
-          return "At least one special character";
+          return "One special character required";
         return "";
+
       default:
         return "";
     }
@@ -51,83 +54,58 @@ const SignUp = (props) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === "name" && /[0-9]/.test(value)) {
-      return;
-    }
+    if (name === "name" && /[0-9]/.test(value)) return;
 
-    if (name === "number" && value && !/^\d*$/.test(value)) {
-      return;
-    }
-
-    setUserDetail({
-      ...userDetail,
-      [name]: value,
-    });
-
-    setErrors({
-      ...errors,
-      [name]: "",
-    });
+    setUserDetail({ ...userDetail, [name]: value });
+    setErrors({ ...errors, [name]: "" });
   };
 
   const handleBlur = (e) => {
     const { name, value } = e.target;
-    const error = validateField(name, value);
-    setErrors({
-      ...errors,
-      [name]: error,
-    });
+    setErrors({ ...errors, [name]: validateField(name, value) });
   };
 
   const submitSignUp = (e) => {
     e.preventDefault();
 
-    let formValid = true;
-    const newErrors = {};
+    // let formValid = true;
+    // const newErrors = {};
 
-    Object.keys(userDetail).forEach((key) => {
-      const error = validateField(key, userDetail[key]);
-      if (error) {
-        formValid = false;
-        newErrors[key] = error;
-      }
-    });
+    // Object.keys(userDetail).forEach((key) => {
+    //   const error = validateField(key, userDetail[key]);
+    //   if (error) {
+    //     formValid = false;
+    //     newErrors[key] = error;
+    //   }
+    // });
 
-    setErrors(newErrors);
+    // setErrors(newErrors);
 
-    if (!formValid) {
-      props?.toaster?.({
-        type: "error",
-        message: "Please fix the errors in the form",
-      });
-      return;
-    }
+    // if (!formValid) {
+    //   props?.toaster?.({
+    //     type: "error",
+    //     message: "Please fix the errors in the form",
+    //   });
+    //   return;
+    // }
 
     props?.loader?.(true);
+
     const data = {
       email: userDetail.email.toLowerCase(),
-      username: userDetail.name,
+      name: userDetail.name,
       password: userDetail.password,
-      number: userDetail.number,
-      lastname: userDetail.lastname,
       type: "USER",
     };
 
-    Api("post", "signUp", data, router).then(
+    Api("post", "auth/register", data, router).then(
       (res) => {
         props?.loader?.(false);
-        if (res?.success) {
-          router.push("/signIn");
-          props?.toaster?.({
-            type: "success",
-            message: "Registered successfully",
-          });
-        } else {
-          props?.toaster?.({
-            type: "error",
-            message: res?.data?.message || "Registration failed",
-          });
-        }
+        props?.toaster?.({
+          type: "success",
+          message: "Registered successfully",
+        });
+        router.push("/login");
       },
       (err) => {
         props?.loader?.(false);
@@ -140,115 +118,118 @@ const SignUp = (props) => {
   };
 
   return (
-    <>
-      <div className="md:min-h-screen min-h-[700px] flex max-w-7xl mx-auto">
-        <div className="w-full lg:w-1/2 flex md:p-0 p-8 items-center justify-center bg-white">
-          <div className="w-full max-w-md">
-            <div className="mb-8">
-              <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                Get Started Now
-              </h1>
-              <p className="text-gray-600 text-sm">
-                Enter your Credentials to Create your account
-              </p>
-            </div>
-
-            <div className="space-y-5">
-              <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  placeholder="Enter your Name"
-                  value={userDetail.name}
-                  onChange={(e) =>
-                    setUserDetail({ ...userDetail, name: e.target.value })
-                  }
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 text-black focus:ring-gray-900 focus:border-transparent text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={userDetail.email}
-                  onChange={(e) =>
-                    setUserDetail({ ...userDetail, email: e.target.value })
-                  }
-                  className="w-full px-4 py-2.5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 text-black focus:ring-gray-900 focus:border-transparent text-sm"
-                />
-              </div>
-
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <label className="block text-sm font-medium text-gray-900">
-                    Password
-                  </label>
-              
-                </div>
-                <div className="relative">
-                  <input
-                    type={eyeIcon ? "text" : "password"}
-                    placeholder="Enter your password"
-                    value={userDetail.password}
-                    onChange={(e) =>
-                      setUserDetail({ ...userDetail, password: e.target.value })
-                    }
-                    className="w-full px-4 py-2.5 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-sm pr-10"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setEyeIcon(!eyeIcon)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
-                  >
-                    {eyeIcon ? (
-                      <IoEyeOutline size={20} />
-                    ) : (
-                      <IoEyeOffOutline size={20} />
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              <button
-                // onClick={submit}
-                className="w-full mt-6 bg-black text-white py-3 rounded-md font-medium hover:bg-gray-800 transition-colors cursor-pointer"
-              >
-                Signup
-              </button>
-            </div>
-
-            <div className="mt-6 text-center">
-              <p className="text-sm text-gray-600">
-                Have an account?{" "}
-                <button
-                  className="font-semibold cursor-pointer text-gray-900 hover:underline"
-                  onClick={() => router.push("/login")}
-                >
-                  Sign In
-                </button>
-              </p>
-            </div>
+    <div className="md:min-h-screen min-h-[700px] flex max-w-7xl mx-auto">
+      <div className="w-full lg:w-1/2 flex md:p-0 p-8 items-center justify-center bg-white">
+        <form onSubmit={submitSignUp} className="w-full max-w-md">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">
+              Get Started Now
+            </h1>
+            <p className="text-gray-600 text-sm">
+              Enter your Credentials to Create your account
+            </p>
           </div>
-        </div>
 
-        <div className="hidden lg:block lg:w-1/2 relative ">
-          <div className="absolute inset-0 flex items-center justify-center pb-8">
-            <div className="relative w-full h-full max-w-2xl">
-              <img
-                src="/images/loginimage.png"
-                alt="Nature art"
-                className="w-full h-full object-cover rounded-lg shadow-2xl"
+          <div className="space-y-3">
+            {/* Name */}
+            <div>
+              <label className="block text-md font-medium text-gray-900 mb-1">
+                Name
+              </label>
+              <input
+                type="text"
+                name="name"
+                placeholder="Enter your Name"
+                value={userDetail.name}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-md text-black"
               />
+              {errors.name && (
+                <p className="text-red-500 text-xs mt-1">{errors.name}</p>
+              )}
             </div>
+
+            {/* Email */}
+            <div>
+              <label className="block text-md font-medium text-gray-900 mb-1">
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                value={userDetail.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-md text-black"
+              />
+              {errors.email && (
+                <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+              )}
+            </div>
+
+            {/* Password */}
+            <div>
+              <label className="block text-md font-medium text-gray-900 mb-1">
+                Password
+              </label>
+              <div className="relative">
+                <input
+                  type={eyeIcon ? "text" : "password"}
+                  name="password"
+                  placeholder="Enter your password"
+                  value={userDetail.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-md text-black pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setEyeIcon(!eyeIcon)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-black hover:text-gray-700 cursor-pointer"
+                >
+                  {eyeIcon ? <IoEyeOutline /> : <IoEyeOffOutline />}
+                </button>
+              </div>
+              {errors.password && (
+                <p className="text-red-500 text-xs mt-1">{errors.password}</p>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              className="w-full mt-6 bg-black text-white py-3 rounded-md font-medium hover:bg-gray-800"
+            >
+              Signup
+            </button>
+          </div>
+
+          <div className="mt-6 text-center flex  justify-center items-center gap-2">
+            <p className="text-sm text-gray-600 ">Have an account? </p>
+            <span
+              className="block font-semibold cursor-pointer text-gray-900 hover:underline"
+              onClick={() => router.push("/login")}
+            >
+              {" "}
+              Sign In{" "}
+            </span>
+          </div>
+        </form>
+      </div>
+
+      <div className="hidden lg:block lg:w-1/2 relative ">
+        <div className="absolute inset-0 flex items-center justify-center pb-8">
+          <div className="relative w-full h-full max-w-2xl">
+            <img
+              src="/images/loginimage.png"
+              alt="Nature art"
+              className="w-full h-full object-cover rounded-lg shadow-2xl"
+            />
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

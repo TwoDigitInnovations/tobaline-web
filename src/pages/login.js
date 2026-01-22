@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useContext, useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Api } from "../../services/service";
@@ -5,7 +7,7 @@ import { userContext } from "./_app";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 
-const login = (props) => {
+const Login = (props) => {
   const { t } = useTranslation();
   const router = useRouter();
   const [userDetail, setUserDetail] = useState({
@@ -14,39 +16,37 @@ const login = (props) => {
   });
   const [user, setUser] = useContext(userContext);
   const [eyeIcon, setEyeIcon] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
 
   const submit = (e) => {
     e.preventDefault();
+
+    if (!userDetail.email) {
+      props.toaster({ type: "error", message: "Please enter your email" });
+      return;
+    }
+    if (!userDetail.password) {
+      props.toaster({ type: "error", message: "Please enter your password" });
+      return;
+    }
     const data = {
-      username: userDetail.email.toLowerCase(),
+      email: userDetail.email.toLowerCase(),
       password: userDetail.password,
     };
 
     props.loader(true);
+    console.log(data);
 
-    Api("post", "login", data, router).then(
+    Api("post", "auth/login", data, router).then(
       (res) => {
         props.loader(false);
 
         if (res?.status) {
           const userData = res.data;
-
-          if (userData.status === "Suspended") {
-            props.toaster({
-              type: "error",
-              message:
-                "Your account has been suspended by our team. Please contact support.",
-            });
-            return;
-          }
-
           router.push("/");
-          localStorage.setItem("userDetail", JSON.stringify(userData));
+          localStorage.setItem("userDetail", JSON.stringify(userData.user));
           localStorage.setItem("token", userData.token);
-          setUser(userData);
+          setUser(userData.user);
           setUserDetail({ email: "", password: "" });
-
           props.toaster({
             type: "success",
             message: "You are successfully logged in",
@@ -65,10 +65,6 @@ const login = (props) => {
     );
   };
 
-  useEffect(() => {
-    if (!user) router.push("/login");
-  }, [user]);
-
   return (
     <>
       <div className="md:min-h-screen min-h-[700px] flex max-w-7xl mx-auto">
@@ -85,7 +81,7 @@ const login = (props) => {
 
             <div className="space-y-5">
               <div>
-                <label className="block text-sm font-medium text-gray-900 mb-2">
+                <label className="block text-md font-medium text-gray-900 mb-1">
                   Email
                 </label>
                 <input
@@ -102,12 +98,13 @@ const login = (props) => {
               {/* Password Input */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="block text-sm font-medium text-gray-900">
+                  <label className="block text-md font-medium text-gray-900">
                     Password
                   </label>
                   <button
                     type="button"
-                    className="text-sm text-gray-600 hover:text-gray-900"
+                    onClick={() => router.push("/forgotpasword")}
+                    className="text-sm text-gray-600 hover:text-gray-900 cursor-pointer hover:underline"
                   >
                     Forgot password
                   </button>
@@ -174,4 +171,4 @@ const login = (props) => {
   );
 };
 
-export default login;
+export default Login;
