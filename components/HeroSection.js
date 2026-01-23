@@ -1,11 +1,13 @@
 import React from "react";
 import { ChevronDown } from "lucide-react";
+import { useRouter } from "next/router";
 
 export default function HeroSection() {
+  const router = useRouter();
   return (
     <div className="min-h-screen ">
       <section className="relative flex flex-col items-center justify-center px-4 pt-20">
-        <div className="absolute inset-0 bg-[url('/images/Imagehomepage.png')] bg-cover bg-center "></div>
+        <div className="absolute inset-0 bg-[url('/images/geminibg.png')] bg-cover bg-center "></div>
 
         <div className="relative z-10 text-center max-w-4xl mb-16">
           <h2 className="text-3xl lg:text-[48px] font-serif text-stone-800 mb-6">
@@ -17,10 +19,13 @@ export default function HeroSection() {
           </p>
 
           <div className="flex flex-wrap gap-4 justify-center">
-            <button className="px-8 py-2 border-2 border-stone-800 text-stone-800 hover:bg-stone-800 hover:text-white cursor-pointer transition-colors duration-300">
+            <button   onClick={() => router.push("/Collection")} className="px-8 py-2 border-2 border-stone-800 text-stone-800 hover:bg-stone-800 hover:text-white cursor-pointer transition-colors duration-300">
               Explore the Collection
             </button>
-            <button className="px-8 py-2 bg-[#FFF6ED] border-2 border-stone-800 text-stone-800 hover:bg-stone-800 hover:text-white cursor-pointer   transition-colors duration-300">
+            <button
+              onClick={() => router.push("/Sustainability")}
+              className="px-8 py-2 bg-[#FFF6ED] border-2 border-stone-800 text-stone-800 hover:bg-stone-800 hover:text-white cursor-pointer   transition-colors duration-300"
+            >
               Our story
             </button>
           </div>

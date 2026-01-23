@@ -14,7 +14,7 @@ const Loader = ({ open }) => {
       <CircularProgress
         size={60}
         thickness={4}
-        sx={{ color: "#C6A15B" }} // GOLD accent (or black)
+        sx={{ color: "#000" }} // GOLD accent (or black)
       />
     </Backdrop>
   );

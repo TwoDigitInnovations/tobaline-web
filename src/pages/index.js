@@ -49,18 +49,18 @@ export default function Home(props) {
       <div className="">
         <HeroSection />
 
-        <div className="bg-[#D9D9D92E] relative w-full py-16">
+        <div className="bg-[#D9D9D92E] relative w-full py-8 md:py-16">
           <div className="absolute inset-0 bg-[url('/images/monotonoise.png')] opacity-[0.03]" />
           <section className=" w-full relative flex flex-col justify-center items-center">
             <div className="container mx-auto px-2 md:px-0">
-              <h1 className=" text-[20px] md:text-6xl mb-3 text-black">
+              <h1 className="text-4xl md:text-6xl md:mb-3 mb-0 text-black">
                 {t("Our")}
               </h1>
-              <h1 className=" text-[20px] md:text-6xl font-bold md:mb-10 mb-5 text-black">
+              <h1 className="text-4xl md:text-6xl font-bold md:mb-10 mb-5 text-black">
                 {t("Best Picks For You")}
               </h1>
 
-              <BestSeller />
+              <BestSeller loader={props.loader} />
             </div>
           </section>
         </div>
@@ -73,78 +73,34 @@ export default function Home(props) {
   );
 }
 
-function BestSeller(props) {
+function BestSeller({ loader }) {
   const router = useRouter();
   const { t } = useTranslation();
-  const products = [
-    {
-      id: 1,
-      title: "Women's Pure Silk Pajamas Set",
-      country: "United States",
-      image: "/images/product1.png",
-      price: 129.95,
-      oldPrice: 269.95,
 
-      rating: 5,
-      reviews: 129,
-    },
-    {
-      id: 2,
-      title: "Luxury Silk Nightwear",
-      country: "Italy",
-      image: "/images/product2.png",
-      price: 149.99,
-      oldPrice: 299.99,
-
-      rating: 4,
-      reviews: 86,
-    },
-    {
-      id: 3,
-      title: "Women's Silver Inlay LinenPants",
-      country: "Italy",
-      image: "/images/product3.png",
-      price: 149.99,
-      oldPrice: 299.99,
-
-      rating: 4,
-      reviews: 86,
-    },
-    {
-      id: 4,
-      title: "Women's Picture Frame Bag",
-      country: "Italy",
-      image: "/images/product4.png",
-      price: 149.99,
-      oldPrice: 299.99,
-
-      rating: 4,
-      reviews: 86,
-    },
-  ];
-  const [productList, setProductList] = useState(products);
+  const [productList, setProductList] = useState([]);
 
   useEffect(() => {
-    // fetchProducts(1);
-  }, []);
+    if (!router.isReady) return;
+    fetchProducts(1);
+  }, [router.isReady]);
 
   const fetchProducts = async (pageNum) => {
     try {
-      setLoadingMore(true);
+      loader(true);
       const res = await Api(
         "get",
-        `getTopSoldProduct?page=${pageNum}&limit=16`,
+        `product/getTopSoldProduct?page=${pageNum}&limit=16`,
         null,
         router,
       );
 
       if (res?.data) {
-        // setProductList(res.data);
+        setProductList(res.data);
+        loader(false);
       }
     } catch (err) {
       console.error(err);
-    } finally {
-      setLoadingMore(false);
+      loader(false);
     }
   };
 
@@ -160,7 +116,7 @@ function BestSeller(props) {
             />
           ))
         ) : (
-          <div className="col-span-6 flex justify-center text-[16px] text-gray-500 min-h-[200px]">
+          <div className="col-span-6 flex justify-center items-center text-[16px] text-gray-500 min-h-[200px]">
             {t("No products available")}.
           </div>
         )}
@@ -169,7 +125,7 @@ function BestSeller(props) {
       <div>
         <button
           className="md:text-[20px] bg-white border border-[#222222] text-stone-800 hover:bg-stone-800 hover:text-white transition-colors duration-300 px-8 py-3 mt-12 w-full flex items-center justify-center rounded-md cursor-pointer"
-          onClick={() => router.push("Collection")}
+          onClick={() => router.push("/Collection")}
         >
           VIEW COLLECTIONS
         </button>

@@ -9,51 +9,36 @@ const ProductCard = ({ product, url, key }) => {
     router.push(url);
   };
   return (
-    <div
-      className="rounded-lg overflow-hidden transition"
-      key={key}
-    >
-      <div className="relative" onClick={route}>
+    <div className="rounded-lg overflow-hidden transition" key={key}>
+      <div className="relative cursor-pointer" onClick={route}>
         <img
-          src={product.image}
-          alt={product.title}
+          src={product.varients?.[0]?.image[0]}
+          alt={product.name}
           className="w-full h-[320px] object-cover"
         />
-
-        {product.discount && (
-          <span className="absolute bottom-3 left-3 bg-red-500 text-white text-xs px-2 py-1 rounded">
-            {product.discount}
-          </span>
-        )}
       </div>
 
-  
       <div className="py-4 space-y-2">
-        <h3 className="font-serif text-lg text-stone-800">{product.title}</h3>
+        <h3 className="font-serif text-lg text-stone-800">{product.name}</h3>
 
-        <p className="text-sm text-stone-500">from {product.country}</p>
+        <p className="text-sm text-stone-500">from {product.origin}</p>
         <div className="flex items-center gap-1 text-yellow-500">
           {[...Array(5)].map((_, i) => (
-            <Star
-              key={i}
-              size={16}
-              fill={i < product.rating ? "#FACC15" : "none"}
-              stroke="#FACC15"
-            />
+            <Star key={i} size={16} fill={"#FACC15"} stroke="#FACC15" />
           ))}
           <span className="text-xs text-stone-500 ml-1">
-            ({product.reviews})
+            ({product.reviews || "58"})
           </span>
         </div>
 
         <div className="flex items-center gap-2">
           <span className="text-lg font-semibold text-stone-800">
-            ${product.price}
+            ${product.varients[0].selected?.[0]?.offerprice}
           </span>
 
-          {product.oldPrice && (
+          {product.varients[0].selected?.[0]?.price && (
             <span className="text-sm line-through text-stone-400">
-              ${product.oldPrice}
+              ${product.varients[0].selected?.[0]?.price}
             </span>
           )}
         </div>

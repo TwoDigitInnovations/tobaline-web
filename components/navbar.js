@@ -108,7 +108,7 @@ const Navbar = (props) => {
                         className="px-4 py-2 hover:bg-white/10 flex justify-between items-center cursor-pointer"
                         onClick={() => {
                           setShowHover(false);
-                          router.push("/Mybooking");
+                          router.push("/MyOrder");
                         }}
                       >
                         {t("My Order")}
@@ -118,7 +118,7 @@ const Navbar = (props) => {
                         className="px-4 py-2 hover:bg-white/10 flex justify-between items-center cursor-pointer"
                         onClick={() => {
                           setShowHover(false);
-                          router.push("/Myhistory");
+                          router.push("/MyHistory");
                         }}
                       >
                         {t("History")}
@@ -178,8 +178,8 @@ const Navbar = (props) => {
             >
               <ShoppingCart size={26} className="text-black" />
               {cartData.length > 0 && (
-                <span className="absolute -top-2 -right-2 bg-custom-green text-white text-[10px] rounded-full w-5 h-5 flex items-center justify-center">
-                  {cartlenth}
+                <span className="absolute -top-2 -right-2 bg-black text-white text-[10px] rounded-full w-5 h-5 flex items-center justify-center">
+                  {cartData.length}
                 </span>
               )}
             </div>
