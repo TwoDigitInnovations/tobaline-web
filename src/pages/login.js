@@ -6,6 +6,7 @@ import { Api } from "../../services/service";
 import { userContext } from "./_app";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
+import Head from "next/head";
 
 const Login = (props) => {
   const { t } = useTranslation();

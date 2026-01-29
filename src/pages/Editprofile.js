@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { userContext } from "./_app";
-
+import Head from "next/head";
 // Validation schemas
 const forgotPasswordEmailSchema = Yup.object().shape({
   name: Yup.string()

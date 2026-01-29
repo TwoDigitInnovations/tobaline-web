@@ -8,6 +8,7 @@ import { Api } from "../../services/service";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import Head from "next/head";
 
 const forgotPasswordEmailSchema = Yup.object().shape({
   email: Yup.string()

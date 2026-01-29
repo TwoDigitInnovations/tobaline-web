@@ -8,6 +8,7 @@ import { FaStar } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { FaPlus } from "react-icons/fa6";
 import { FaMinus } from "react-icons/fa6";
+import Head from "next/head";
 
 function ProductDetails(props) {
   const router = useRouter();

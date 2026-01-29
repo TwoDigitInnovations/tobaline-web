@@ -5,6 +5,7 @@ import { MapPin, Phone, Mail } from "lucide-react";
 import { toast } from "react-toastify";
 import { Api } from "../../services/service";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 function ContactUs(props) {
   const [formData, setFormData] = useState({
