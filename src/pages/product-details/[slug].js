@@ -12,7 +12,6 @@ import { FaMinus } from "react-icons/fa6";
 function ProductDetails(props) {
   const router = useRouter();
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [user, setUser] = useContext(userContext);
   const [productsId, setProductsId] = useState({});
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedSize, setSelectedSize] = useState("");
@@ -20,15 +19,10 @@ function ProductDetails(props) {
   const [selectedImage, setSelectedImage] = useState("");
   const [productReviews, setProductReviews] = useState([]);
   const [cartData, setCartData] = useContext(cartContext);
-  const [Favorite, setFavorite] = useContext(favoriteProductContext);
-  const [isFavorite, setIsFavorite] = useState(false);
   const [isInCart, setIsInCart] = useState(false);
   const [availableQty, setAvailableQty] = useState(1);
-  const [matchedSalePrice, setMatchedPrice] = useState("");
   const carouselRef = useRef();
   const [selectedAttributes, setSelectedAttributes] = useState({});
-  const [saleData, setSaleData] = useState([]);
-  const detailsRef = useRef(null);
 
   useEffect(() => {
     if (carouselRef.current) {
@@ -44,8 +38,8 @@ function ProductDetails(props) {
 
   useEffect(() => {
     if (productsId?.varients?.length > 0) {
-      const defaultColor = productsId.varients[0];
-      const defaultGroup = defaultColor.selected?.[0];
+      const defaultColor = productsId?.varients[0];
+      const defaultGroup = defaultColor?.selected?.[0];
 
       const mappedAttributes = {};
       defaultGroup?.attributes?.forEach((attr) => {
@@ -55,8 +49,8 @@ function ProductDetails(props) {
       setSelectedColor(defaultColor);
       setSelectedSize(defaultGroup);
       setSelectedAttributes(mappedAttributes);
-      setSelectedImageList(defaultColor.image || []);
-      setSelectedImage(defaultColor.image?.[0] || "");
+      setSelectedImageList(defaultColor?.image || []);
+      setSelectedImage(defaultColor?.image?.[0] || "");
     }
   }, [productsId]);
 
@@ -228,12 +222,6 @@ function ProductDetails(props) {
     );
   };
 
-  useEffect(() => {
-    const storedFavorites = localStorage.getItem("favorites");
-    if (storedFavorites) {
-      setFavorite(JSON.parse(storedFavorites));
-    }
-  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => props.loader(false), 2000);

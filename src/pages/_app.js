@@ -11,7 +11,6 @@ import { Toaster as SonnerToaster, toast } from "sonner";
 export const userContext = createContext();
 export const openCartContext = createContext();
 export const cartContext = createContext();
-export const favoriteProductContext = createContext();
 export const languageContext = createContext();
 
 function App({ Component, pageProps }) {
@@ -21,10 +20,7 @@ function App({ Component, pageProps }) {
   const [data, setData] = useState();
   const [openCart, setOpenCart] = useState(false);
   const [cartData, setCartData] = useState([]);
-  const [Favorite, setFavorite] = useState([]);
-  const [lang, setLang] = useState("vi");
-
-  const { t, i18n } = useTranslation();
+  const [lang, setLang] = useState("ar");
 
   const getUserdetail = () => {
     if (typeof window === "undefined") return;
@@ -34,9 +30,6 @@ function App({ Component, pageProps }) {
 
     const cart = localStorage.getItem("addCartDetail");
     if (cart) setCartData(JSON.parse(cart));
-
-    const favorites = localStorage.getItem("favoriteProducts");
-    if (favorites) setFavorite(JSON.parse(favorites));
 
     const storedLang = localStorage.getItem("LANGUAGE");
     if (storedLang) setLang(storedLang);

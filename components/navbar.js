@@ -294,7 +294,7 @@ const Navbar = (props) => {
               value={lang}
               onChange={(e) => handleClick(e.target.value)}
             >
-              <option value="vi">VI</option>
+              <option value="ar">AR</option>
               <option value="en">EN</option>
             </select>
 
