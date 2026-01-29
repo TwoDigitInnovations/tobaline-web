@@ -42,7 +42,7 @@ const Navbar = (props) => {
       const res = await Api("get", "category/getCategories", "", router);
       setCategories(res.data);
     } catch (err) {
-      props.toaster({ type: "error", message: err?.message });
+      // props.toaster({ type: "error", message: err?.message });
     } finally {
       props.loader(false);
     }
@@ -53,7 +53,7 @@ const Navbar = (props) => {
       const res = await Api("get", "clothtype/list", "", router);
       setClothTypes(res.data);
     } catch (err) {
-      props.toaster({ type: "error", message: err?.message });
+      // props.toaster({ type: "error", message: err?.message });
     } finally {
       props.loader(false);
     }

@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import "react-multi-carousel/lib/styles.css";
 import Head from "next/head";
 import { useContext } from "react";
-import { favoriteProductContext, userContext } from "./_app";
+import { userContext } from "./_app";
 import CustomerReviews from "../../components/Testimonials";
 import MindfulLuxury from "../../components/MindfulLuxury";
 import ProductCard from "../../components/ProductCard";
@@ -15,7 +15,6 @@ export default function Home(props) {
   const { t } = useTranslation();
   const [user] = useContext(userContext);
   const router = useRouter();
- 
 
   return (
     <>
