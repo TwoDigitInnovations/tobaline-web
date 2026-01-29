@@ -152,10 +152,10 @@ function EditProfile(props) {
           <div className="w-full max-w-[450px] mx-auto">
             <div className="mb-8">
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                My Profile
+                {t("My Profile")}
               </h1>
               <p className="text-gray-600 text-sm">
-                Edit your Credentials to update your profile
+                {t("Edit your Credentials to update your profile")}
               </p>
             </div>
             {loading && (
@@ -171,7 +171,7 @@ function EditProfile(props) {
                     className={`w-full px-4 py-2.5 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-sm pr-10 ${
                       !isEditing ? "bg-gray-50 cursor-not-allowed" : "bg-white"
                     }`}
-                    placeholder=" Name"
+                    placeholder={t("Name")}
                     type="text"
                     value={values.name}
                     name="name"
@@ -192,7 +192,7 @@ function EditProfile(props) {
                     className={`w-full px-4 py-2.5 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-sm pr-10 ${
                       !isEditing ? "bg-gray-50 cursor-not-allowed" : "bg-white"
                     }`}
-                    placeholder="Email"
+                    placeholder={t("Email")}
                     type="email"
                     value={values.email}
                     name="email"
@@ -213,7 +213,7 @@ function EditProfile(props) {
                     className={`w-full px-4 py-2.5 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-sm pr-10 rounded-t ${
                       !isEditing ? "bg-gray-50 cursor-not-allowed" : "bg-white"
                     }`}
-                    placeholder="Phone Number"
+                    placeholder={t("Phone Number")}
                     type="tel"
                     value={values.phoneNo}
                     name="phoneNo"
@@ -238,7 +238,7 @@ function EditProfile(props) {
                     type="button"
                     onClick={() => setIsEditing(true)}
                   >
-                    Edit Profile
+                    {t("Edit Profile")}
                   </button>
                 ) : (
                   <div className="space-y-2">
@@ -247,7 +247,7 @@ function EditProfile(props) {
                       type="submit"
                       disabled={loading}
                     >
-                      {loading ? "Saving..." : "Save Profile"}
+                      {loading ? "Saving..." : t("Save Profile")}
                     </button>
                     <button
                       className="w-full bg-gray-500 text-white text-[16px] font-semibold py-2 rounded hover:bg-gray-600 transition cursor-pointer"
@@ -258,7 +258,7 @@ function EditProfile(props) {
                       }}
                       disabled={loading}
                     >
-                      Cancel
+                      {t("Cancel")}
                     </button>
                   </div>
                 )}

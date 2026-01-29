@@ -173,14 +173,14 @@ function ContactUs(props) {
                   </p>
                 </div>
 
-                <button
+                {/* <button
                   onClick={() =>
                     window.open("https://maps.google.com", "_blank")
                   }
                   className="mt-8 w-full bg-black cursor-pointer text-white py-3 px-6 font-medium tracking-wide hover:bg-gray-800 transition-colors duration-200 cursor-pointer"
                 >
                   GET DIRECTION
-                </button>
+                </button> */}
               </div>
             </div>
           </div>

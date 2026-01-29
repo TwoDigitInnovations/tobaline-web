@@ -13,9 +13,12 @@ import { produce } from "immer";
 import Select from "react-select";
 import countryList from "react-select-country-list";
 import { X } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const Cart = (props) => {
   const router = useRouter();
+  const { t } = useTranslation();
+
   const [cartData, setCartData] = useContext(cartContext);
   const [cartTotal, setCartTotal] = useState(0);
   const [cartItem, setCartItem] = useState(0);
@@ -355,9 +358,7 @@ const Cart = (props) => {
       userId: user.id,
       name: value.name,
       phoneNo: value.phoneNo,
-      shippingAddress: {
-        
-      },
+      shippingAddress: {},
     };
 
     props.loader(true);
@@ -396,9 +397,7 @@ const Cart = (props) => {
     <>
       <div className="min-h-screen max-w-7xl mx-auto px-4 py-4">
         <h1 className="text-center text-2xl md:text-3xl font-normal mt-4 md:mt-0 text-gray-800">
-          {showPayment || showPaymentPayPal
-            ? "Complete Payment"
-            : "Shopping Cart"}
+          {t("Shopping Cart")}
         </h1>
         <div className="text-black/70 md:mb-4 text-center">
           <ol className="inline-flex space-x-1 items-center text-sm md:text-base justify-center">
@@ -406,7 +405,7 @@ const Cart = (props) => {
               className="text-black hover:underline cursor-pointer"
               onClick={() => router.push("/")}
             >
-              Home
+              {t("Home")}
             </li>
 
             <li>
@@ -414,11 +413,7 @@ const Cart = (props) => {
                 <IoIosArrowForward />
               </span>
             </li>
-            <li className="text-black">
-              {showPayment || showPaymentPayPal
-                ? "Payment"
-                : "Your Shopping Cart"}
-            </li>
+            <li className="text-black">{t("Your Shopping Cart")}</li>
           </ol>
         </div>
 
@@ -427,16 +422,16 @@ const Cart = (props) => {
             <div className="md:w-2/3 bg-white rounded-3xl shadow-xl p-4">
               <div className="grid md:grid-cols-13 grid-cols-5 border-t border-b border-black/20 py-4 text-base md:text-lg font-normal text-custom-black">
                 <div className="md:col-span-4 text-black col-span-2 font-semibold text-lg md:text-xl md:ms-0 ms-4">
-                  Product
+                  {t("Product")}
                 </div>
                 <div className="md:col-span-3 text-black  col-span-1 font-semibold text-lg md:text-xl">
-                  Price
+                  {t("Price")}
                 </div>
                 <div className="md:col-span-3 text-black  col-span-1 font-semibold text-lg md:text-xl">
-                  Quantity
+                  {t("Quantity")}
                 </div>
                 <div className="md:col-span-3 text-black col-span-1 font-semibold text-lg md:text-xl md:ms-0 ms-4">
-                  Total
+                  {t("Total")}
                 </div>
               </div>
 
@@ -460,7 +455,7 @@ const Cart = (props) => {
                       </div>
                       {product.selectedSize && (
                         <div className="md:text-[16px] text-black/50 mb-1">
-                          Size:{" "}
+                          {t("Size")}:{" "}
                           <span className="text-black/50">
                             {product.selectedSize || "Not found"}
                           </span>
@@ -559,11 +554,11 @@ const Cart = (props) => {
 
                   <div className="flex-1">
                     <h3 className="text-sm font-semibold text-gray-800">
-                      Delivery Address
+                      {t("Delivery Address")}
                     </h3>
                     <p className="text-sm text-gray-600 leading-relaxed">
-                      {/* Replace with dynamic address */}
-                      {user?.address || "No address selected"}
+                     
+                      {user?.address || t("No address selected")}
                     </p>
 
                     <button
@@ -573,18 +568,20 @@ const Cart = (props) => {
                         setOpen(true);
                       }}
                     >
-                      Change Address
+                      {t("Change Address")}
                     </button>
                   </div>
                 </div>
 
                 <div className="space-y-3">
                   <h2 className="text-xl font-semibold text-gray-800">
-                    Order Summary
+                    {t("Order Summary")}
                   </h2>
 
                   <div className="flex justify-between text-gray-600">
-                    <span>Subtotal ({cartItem} items)</span>
+                    <span>
+                      {t("Subtotal")} ({cartItem} {t("items")})
+                    </span>
                     <span>
                       {constant.currency}
                       {cartTotal}
@@ -592,12 +589,14 @@ const Cart = (props) => {
                   </div>
 
                   <div className="flex justify-between text-gray-600">
-                    <span>Shipping</span>
-                    <span className="text-green-600 font-semibold">Free</span>
+                    <span>{t("Shipping")}</span>
+                    <span className="text-green-600 font-semibold">
+                      {t("Free")}
+                    </span>
                   </div>
 
                   <div className="flex justify-between text-lg font-bold text-gray-900 border-t pt-3">
-                    <span>Total</span>
+                    <span>{t("Total")}</span>
                     <span>
                       {constant.currency}
                       {cartTotal}
@@ -609,13 +608,7 @@ const Cart = (props) => {
                   // onClick={handleCheckout}
                   onClick={createProductRequest}
                   disabled={loading}
-                  className="
-        w-full bg-black hover:bg-gray-800
-        text-white px-6 py-4 rounded-2xl
-        flex items-center justify-between
-        shadow-lg transition-all
-        disabled:opacity-70 cursor-pointer disabled:cursor-not-allowed
-      "
+                  className="w-full bg-black hover:bg-gray-800 text-white px-6 py-4 rounded-2xl flex items-center justify-between shadow-lg transition-all disabled:opacity-70 cursor-pointer disabled:cursor-not-allowed"
                 >
                   <div className="text-left">
                     <p className="text-lg font-semibold">
@@ -624,7 +617,7 @@ const Cart = (props) => {
                         : `Pay ${constant.currency}${cartTotal}`}
                     </p>
                     <p className="text-xs opacity-80">
-                      Secure checkout powered by Stripe
+                      {t("Secure checkout powered by Stripe")}
                     </p>
                   </div>
 
@@ -652,7 +645,7 @@ const Cart = (props) => {
                   onClick={() => router.push("/Collection?category=All")}
                   className="text-center text-sm font-semibold text-black underline cursor-pointer hover:opacity-80"
                 >
-                  Continue Shopping
+                  {t("Continue Shopping")}
                 </div>
               </div>
             </div>
@@ -668,29 +661,26 @@ const Cart = (props) => {
               }}
             />
             <p className="text-lg font-semibold text-gray-600 mb-2">
-              Your cart is empty.
+              {t("Your cart is empty")}.
             </p>
             <p className="text-sm text-gray-500 mb-6">
-              Add some items to get started!
+              {t("Add some items to get started!")}
             </p>
             <button
               className="mt-5 cursor-pointer px-6 py-3 text-white bg-black rounded transition duration-150 ease-in-out hover:bg-gray-800"
               onClick={() => router.push("/")}
             >
-              Browse Products
+              {t("Browse Products")}
             </button>
           </div>
         )}
 
         {open && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-            <div
-              className=" bg-white shadow-lg rounded-4xl p-4 lg:p-6 h-fit w-[350px] md:w-[550px] mx-auto relative
-    "
-            >
+            <div className=" bg-white shadow-lg rounded-4xl p-4 lg:p-6 h-fit w-[350px] md:w-[550px] mx-auto relative">
               <div className="flex justify-between items-center">
                 <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-5 md:mb-4">
-                  Shipping Address
+                  {t("Shipping Address")}
                 </h2>
                 <X
                   onClick={() => setOpen(!open)}
@@ -706,7 +696,7 @@ const Cart = (props) => {
                     name="Name"
                     value={formData.Name}
                     onChange={handleChange}
-                    placeholder="Name"
+                    placeholder={t("Name")}
                     className="w-full px-4 py-3 bg-[#F5F5F5] rounded-md text-gray-700 text-sm sm:text-base"
                   />
                   {errors.Name && (
@@ -720,7 +710,7 @@ const Cart = (props) => {
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    placeholder="Address*"
+                    placeholder={t("Address*")}
                     className="w-full px-4 py-3 bg-[#F5F5F5] rounded-md text-gray-700 text-sm sm:text-base"
                   />
                   {errors.address && (
@@ -736,7 +726,7 @@ const Cart = (props) => {
                     name="city"
                     value={formData.city}
                     onChange={handleChange}
-                    placeholder="Town/City*"
+                    placeholder={t("Town/City*")}
                     className="w-full px-4 py-3 bg-[#F5F5F5] rounded-md text-gray-700 text-sm sm:text-base"
                   />
                   {errors.city && (
@@ -749,7 +739,7 @@ const Cart = (props) => {
                     name="State"
                     value={formData.State}
                     onChange={handleChange}
-                    placeholder="State*"
+                    placeholder={t("State*")}
                     className="w-full px-4 py-3 bg-[#F5F5F5] rounded-md text-gray-700 text-sm sm:text-base"
                   />
                   {errors.State && (
@@ -763,7 +753,7 @@ const Cart = (props) => {
                     name="phoneNumber"
                     value={formData.phoneNumber}
                     onChange={handleChange}
-                    placeholder="Phone Number*"
+                    placeholder={t("Phone Number*")}
                     className="w-full px-4 py-3 bg-[#F5F5F5] rounded-md text-gray-700 text-sm sm:text-base"
                   />
                   {errors.phoneNumber && (
@@ -779,7 +769,7 @@ const Cart = (props) => {
                     name="pinCode"
                     value={formData.pinCode}
                     onChange={handleChange}
-                    placeholder="Postal Code*"
+                    placeholder={t("Postal Code*")}
                     className="w-full px-4 py-3 bg-[#F5F5F5] rounded-md text-gray-700 text-sm sm:text-base"
                   />
                   {errors.pinCode && (
@@ -792,7 +782,7 @@ const Cart = (props) => {
                 <div>
                   <Select
                     className="!min-h-[48px] bg-[#F5F5F5] text-black"
-                    placeholder="Select Country"
+                    placeholder={t("Select Country")}
                     options={countryoptions}
                     value={countryoptions.find(
                       (option) => option.value === formData?.country?.value,
@@ -823,7 +813,7 @@ const Cart = (props) => {
                   // onClick={}
                   className="bg-black text-white py-2 w-full rounded-md mt-4 "
                 >
-                  Update Address
+                  {t("Update Address")}
                 </button>
               </div>
             </div>

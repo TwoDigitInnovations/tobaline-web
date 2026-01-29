@@ -10,13 +10,15 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import namer from "color-namer";
 import constant from "../../services/constant";
+import { useTranslation } from "react-i18next";
+
 
 const MyOrder = (props) => {
-
   const [orderData, setOrderData] = useState([]);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-
+  const { t } = useTranslation();
+  
   useEffect(() => {
     getProductFromOrder();
   }, []);
@@ -76,7 +78,7 @@ const MyOrder = (props) => {
     <div className="bg-white min-h-screen">
       <main className="max-w-7xl mx-auto px-4 py-8">
         <h1 className="text-center text-black text-2xl md:text-4xl font-semibold mb-6">
-          My Orders
+          {t("My Orders")}
         </h1>
 
         <div className="space-y-4">
@@ -91,7 +93,7 @@ const MyOrder = (props) => {
                     <div className="flex flex-col md:flex-row md:items-center gap-1i md:gap-6">
                       <div>
                         <span className="text-[14px] font-semibold text-gray-600">
-                          Order ID:{" "}
+                          {t("Order ID")}:{" "}
                         </span>
                         <span className="font-semibold text-[16px] text-gray-800">
                           {order.orderId}
@@ -99,7 +101,7 @@ const MyOrder = (props) => {
                       </div>
                       <div>
                         <span className="font-semibold text-[14px] text-gray-600">
-                          Total:{" "}
+                          {t("Total")}:{" "}
                         </span>
                         <span className="font-semibold text-[16px] text-gray-800">
                           ${order.total}
@@ -107,7 +109,7 @@ const MyOrder = (props) => {
                       </div>
                       <div>
                         <span className="font-semibold text-[14px] text-gray-600">
-                          Order Date:{" "}
+                          {t("Order Date")}:{" "}
                         </span>
                         <span className="font-semibold text-[16px] text-gray-800">
                           {formatDate(order.createdAt)}
@@ -116,16 +118,16 @@ const MyOrder = (props) => {
                       <div className="mt-2">
                         <span
                           className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
-                            order.status
+                            order.status,
                           )}`}
                         >
-                          Order {order.status}
+                          {t("Order")} {order.status}
                         </span>
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-sm text-gray-600">
-                        {order.productDetail.length} item
+                        {order.productDetail.length} {t("item")}
                         {order.productDetail.length > 1 ? "s" : ""}
                       </span>
                       {order.productDetail.length > 1 && (
@@ -144,9 +146,7 @@ const MyOrder = (props) => {
                   </div>
                 </div>
 
-
                 <div>
-
                   <div className="grid grid-cols-1 md:grid-cols-6 border-b border-gray-200 py-4 px-4">
                     <div className="flex items-center gap-3 md:col-span-3">
                       <img
@@ -155,7 +155,7 @@ const MyOrder = (props) => {
                         src={order.productDetail[0]?.image[0]}
                         onClick={() => {
                           router.push(
-                            `/myorder/${order._id}?product_id=${order.productDetail[0]?._id}`
+                            `/myorder/${order._id}?product_id=${order.productDetail[0]?._id}`,
                           );
                         }}
                       />
@@ -164,35 +164,38 @@ const MyOrder = (props) => {
                           {order.productDetail[0]?.name}
                         </h3>
                         <p className="text-sm text-gray-600 mb-1">
-                          <strong> Qty :</strong> {order.productDetail[0]?.qty}
+                          <strong> {t("Qty")} :</strong>{" "}
+                          {order.productDetail[0]?.qty}
                         </p>
 
                         {order.productDetail[0]?.color && (
                           <p className="text-sm text-gray-600 mb-1">
-                            <strong>Color : </strong>{" "}
-                            {getColorName(
-                              order.productDetail[0]?.color
-                            )}
+                            <strong>{t("Color")} : </strong>{" "}
+                            {getColorName(order.productDetail[0]?.color)}
                           </p>
                         )}
 
-                        {order?.productDetail[0]?.attribute && (
+                        {order?.productDetail[0]?.attribute &&
                           Object.entries(order?.productDetail[0]?.attribute)
                             .filter(([key]) => key.toLowerCase() !== "color")
                             .map(([label, value], index) => (
-                              <div key={index} className="md:text-[16px] text-gray-600 mb-1 font-semibold">
-                                {label}: <span className="text-gray-600 font-normal">{value || "Not found"}</span>
+                              <div
+                                key={index}
+                                className="md:text-[16px] text-gray-600 mb-1 font-semibold"
+                              >
+                                {label}:{" "}
+                                <span className="text-gray-600 font-normal">
+                                  {value || "Not found"}
+                                </span>
                               </div>
-                            ))
-                        )}
-
+                            ))}
                       </div>
                     </div>
 
                     <div className="flex items-center md:col-span-1 mt-6 md:mt-0">
                       <div className="flex items-center gap-2">
                         <span className="font-semibold text-gray-900">
-                          Price: {constant.currency}
+                          {t("Price")}: {constant.currency}
                           {order.productDetail[0]?.price}
                         </span>
                       </div>
@@ -202,9 +205,13 @@ const MyOrder = (props) => {
                       <button
                         className="bg-black text-white text-sm font-medium rounded-lg px-4 py-2 hover:bg-gray-700 cursor-pointer transition-colors"
                         type="button"
-                        onClick={() => router.push(`/product-details/${order?.productDetail[0]?.product?.slug}`)}
+                        onClick={() =>
+                          router.push(
+                            `/product-details/${order?.productDetail[0]?.product?.slug}`,
+                          )
+                        }
                       >
-                        Order Again
+                        {t("Order Again")}
                       </button>
                     </div>
                   </div>
@@ -223,11 +230,12 @@ const MyOrder = (props) => {
                                   alt={product.name}
                                   className="w-18 h-18 object-cover rounded"
                                   src={
-                                    order.productDetail[productIndex + 1]?.image[0]
+                                    order.productDetail[productIndex + 1]
+                                      ?.image[0]
                                   }
                                   onClick={() => {
                                     router.push(
-                                      `/myorder/${order._id}?product_id=${order.productDetail[productIndex + 1]?._id}`
+                                      `/myorder/${order._id}?product_id=${order.productDetail[productIndex + 1]?._id}`,
                                     );
                                   }}
                                 />
@@ -236,26 +244,36 @@ const MyOrder = (props) => {
                                     {product.name}
                                   </h3>
                                   <p className="text-sm text-gray-600 mb-1">
-                                    <strong> Qty :</strong> {product?.qty}
+                                    <strong> {t("Qty")} :</strong>{" "}
+                                    {product?.qty}
                                   </p>
-
 
                                   {product?.color && (
                                     <p className="text-sm text-gray-600 mb-1">
-                                      <strong>Color : </strong>{" "}
-                                      {getColorName(product?.color || "Not Selected")}
+                                      <strong>{t("Color")} : </strong>{" "}
+                                      {getColorName(
+                                        product?.color || t("Not Selected"),
+                                      )}
                                     </p>
                                   )}
 
-                                  {product?.attribute && (
+                                  {product?.attribute &&
                                     Object.entries(product.attribute)
-                                      .filter(([key]) => key.toLowerCase() !== "color")
+                                      .filter(
+                                        ([key]) =>
+                                          key.toLowerCase() !== "color",
+                                      )
                                       .map(([label, value], index) => (
-                                        <div key={index} className="md:text-[16px] text-gray-600 mb-1 font-semibold">
-                                          {label}: <span className="text-gray-600 font-normal">{value || "Not found"}</span>
+                                        <div
+                                          key={index}
+                                          className="md:text-[16px] text-gray-600 mb-1 font-semibold"
+                                        >
+                                          {label}:{" "}
+                                          <span className="text-gray-600 font-normal">
+                                            {value || "Not found"}
+                                          </span>
                                         </div>
-                                      ))
-                                  )}
+                                      ))}
                                 </div>
                               </div>
 
@@ -274,7 +292,7 @@ const MyOrder = (props) => {
                                   type="button"
                                   onClick={() => router.push("/Collection")}
                                 >
-                                  Order Again
+                                  {t("Order Again")}
                                 </button>
                               </div>
                             </div>
@@ -287,14 +305,28 @@ const MyOrder = (props) => {
           ) : (
             <div className="flex flex-col items-center justify-center py-10 min-h-[500px]">
               <div className="animate-bounce text-6xl mb-4 text-gray-400">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-16 h-16">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 13h6m2 5H7a2 2 0 01-2-2V7a2 2 0 012-2h3l2-2h4l2 2h3a2 2 0 012 2v9a2 2 0 01-2 2z" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="currentColor"
+                  className="w-16 h-16"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 13h6m2 5H7a2 2 0 01-2-2V7a2 2 0 012-2h3l2-2h4l2 2h3a2 2 0 012 2v9a2 2 0 01-2 2z"
+                  />
                 </svg>
               </div>
-              <p className="text-xl font-semibold text-gray-600">No Orders Available</p>
-              <p className="text-lg text-gray-400 mt-2">Looks like you haven't placed any orders yet.</p>
+              <p className="text-xl font-semibold text-gray-600">
+                No Orders Available
+              </p>
+              <p className="text-lg text-gray-400 mt-2">
+                Looks like you haven't placed any orders yet.
+              </p>
             </div>
-
           )}
         </div>
       </main>

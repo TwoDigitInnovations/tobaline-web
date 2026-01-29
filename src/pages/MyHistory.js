@@ -13,6 +13,7 @@ import Box from "@mui/material/Box";
 import Rating from "@mui/material/Rating";
 import StarIcon from "@mui/icons-material/Star";
 import { RxCrossCircled } from "react-icons/rx";
+import { useTranslation } from "react-i18next";
 
 const MyHistory = (props) => {
   const [orderData, setOrderData] = useState([]);
@@ -24,7 +25,7 @@ const MyHistory = (props) => {
     description: "",
     reviews: 0,
   });
-
+const { t } = useTranslation();
   useEffect(() => {
     getProductFromOrder();
   }, []);
@@ -135,7 +136,7 @@ const MyHistory = (props) => {
       </header> */}
       <main className="max-w-7xl mx-auto px-4 py-8">
         <h1 className="text-center text-black text-2xl md:text-4xl font-semibold mb-6">
-          My History
+          {t("My History")}
         </h1>
 
         <div className="space-y-4">
@@ -152,7 +153,7 @@ const MyHistory = (props) => {
                     <div className="flex flex-col md:flex-row md:items-center gap-1i md:gap-6">
                       <div>
                         <span className="text-[14px] font-semibold text-gray-600">
-                          Order ID:{" "}
+                          {t("Order ID")}:{" "}
                         </span>
                         <span className="font-semibold text-[16px] text-gray-800">
                           {order.orderId}
@@ -160,7 +161,7 @@ const MyHistory = (props) => {
                       </div>
                       <div>
                         <span className="font-semibold text-[14px] text-gray-600">
-                          Total:{" "}
+                          {t("Total")}:{" "}
                         </span>
                         <span className="font-semibold text-[16px] text-gray-800">
                           ${order.total}
@@ -168,7 +169,7 @@ const MyHistory = (props) => {
                       </div>
                       <div>
                         <span className="font-semibold text-[14px] text-gray-600">
-                          Order Date:{" "}
+                          {t("Order Date")}:{" "}
                         </span>
                         <span className="font-semibold text-[16px] text-gray-800">
                           {formatDate(order.createdAt)}
@@ -180,7 +181,7 @@ const MyHistory = (props) => {
                             order.status
                           )}`}
                         >
-                          Order {order.status}
+                          {t("Order")} {order.status}
                         </span>
                       </div>
                     </div>
@@ -220,12 +221,12 @@ const MyHistory = (props) => {
                           {order.productDetail[0]?.name}
                         </h3>
                         <p className="text-sm text-gray-600 mb-1">
-                          <strong> Qty :</strong> {order.productDetail[0]?.qty}
+                          <strong> {t("Qty")} :</strong> {order.productDetail[0]?.qty}
                         </p>
 
                         {order.productDetail[0]?.color && (
                           <p className="text-sm text-gray-600 mb-1">
-                            <strong>Color : </strong>{" "}
+                            <strong>{t("Color")} : </strong>{" "}
                             {getColorName(
                               order.productDetail[0]?.color
                             )}
@@ -247,7 +248,7 @@ const MyHistory = (props) => {
                     <div className="flex items-center md:col-span-1 mt-6 md:mt-0">
                       <div className="flex items-center gap-2">
                         <span className="font-semibold text-gray-900">
-                          Price: {constant.currency}
+                          {t("Price")}: {constant.currency}
                           {order.productDetail[0]?.price}
                         </span>
                       </div>
@@ -263,7 +264,7 @@ const MyHistory = (props) => {
                           setShowReviews(true);
                         }}
                       >
-                        Add Review
+                        {t("Add Review")}
                       </button>
 
                     </div>
@@ -293,13 +294,13 @@ const MyHistory = (props) => {
                                     {product.name}
                                   </h3>
                                   <p className="text-sm text-gray-600 mb-1">
-                                    <strong> Qty :</strong> {product?.qty}
+                                    <strong> {t("Qty")} :</strong> {product?.qty}
                                   </p>
 
 
                                   {product?.color && (
                                     <p className="text-sm text-gray-600 mb-1">
-                                      <strong>Color : </strong>{" "}
+                                      <strong>{t("Color")} : </strong>{" "}
                                       {getColorName(product?.color || "Not Selected")}
                                     </p>
                                   )}
@@ -319,7 +320,7 @@ const MyHistory = (props) => {
                               <div className="flex items-center md:col-span-1 mt-6 md:mt-0">
                                 <div className="flex items-center gap-2">
                                   <span className="font-semibold text-gray-900">
-                                    Price: {constant.currency}
+                                    {t("Price")}: {constant.currency}
                                     {product.price}
                                   </span>
                                 </div>
@@ -335,7 +336,7 @@ const MyHistory = (props) => {
                                     setShowReviews(true);
                                   }}
                                 >
-                                  Add Review
+                                  {t("Add Review")}
                                 </button>
 
                               </div>
@@ -353,8 +354,8 @@ const MyHistory = (props) => {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 13h6m2 5H7a2 2 0 01-2-2V7a2 2 0 012-2h3l2-2h4l2 2h3a2 2 0 012 2v9a2 2 0 01-2 2z" />
                 </svg>
               </div>
-              <p className="text-xl font-semibold text-gray-600">No History Available</p>
-              <p className="text-lg text-gray-400 mt-2">Looks like you haven't placed any orders yet.</p>
+              <p className="text-xl font-semibold text-gray-600">{t("No History Available")}</p>
+              <p className="text-lg text-gray-400 mt-2">{t("Looks like you haven't placed any orders yet")}.</p>
             </div>
 
           )}
@@ -376,10 +377,10 @@ const MyHistory = (props) => {
 
             <form className="px-5 py-5" onSubmit={createProductRquest}>
               <p className="text-black font-semibold md:text-[24px] mb-3 mt-6 text-center">
-                {"Leave a Review for Tobaline"}
+                {t("Leave a Review for Tobaline")}
               </p>
               <p className="text-black md:text-[16px] mb-4 mt-6 text-center">
-                {"How would you rate experience at Tobaline?"}
+                {t("How would you rate experience at Tobaline?")}
               </p>
 
               <div className="flex flex-col justify-center items-center rounded-[10px] py-1 ">
@@ -411,7 +412,7 @@ const MyHistory = (props) => {
                 <textarea
                   className="bg-white md:w-full w-full px-5 py-2 border-b border-b-black font-normal text-base text-black outline-none md:my-5 my-3"
                   rows={4}
-                  placeholder={"Write a review...."}
+                  placeholder={t("Write a review....")}
                   value={reviewsData.description}
                   onChange={(e) => {
                     setReviewsData({
@@ -428,14 +429,14 @@ const MyHistory = (props) => {
                   className="bg-black w-full cursor-pointer md:h-[50px] h-[40px] rounded-[5px] text-white font-normal text-base"
                   type="submit"
                 >
-                  {"Submit Review"}
+                  {t("Submit Review")}
                 </button>
               </div>
 
               <p className="text-black md:text-[12px] mb-3 mt-2 ">
                 {
-                  "All reviews on Cool Co. Reviews are verified within 48 hours before posting to ensure authenticity and accuracy."
-                }
+                  t("All reviews on Cool Co. Reviews are verified within 48 hours before posting to ensure authenticity and accuracy")
+                }.
                 ?
               </p>
             </form>

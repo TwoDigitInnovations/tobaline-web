@@ -208,7 +208,7 @@ const Collection = (props) => {
     return (
       <div className="p-4 space-y-5">
         <div className="flex justify-between items-center">
-          <h2 className="text-xl font-semibold">Filters</h2>
+          <h2 className="text-xl font-semibold">{t("Filters")}</h2>
 
           <div className="flex items-center gap-2">
             <RiResetRightLine
@@ -223,7 +223,7 @@ const Collection = (props) => {
         </div>
 
         <div>
-          <h3 className="text-sm font-semibold mb-2">Availability</h3>
+          <h3 className="text-sm font-semibold mb-2">{t("Availability")}</h3>
 
           <label className="flex cursor-pointer items-center gap-2 text-[16px]">
             <input
@@ -235,7 +235,7 @@ const Collection = (props) => {
                 )
               }
             />
-            Availability ({availableCount})
+            {t("Availability")} ({availableCount})
           </label>
 
           <label className="flex cursor-pointer items-center gap-2 text-[16px]">
@@ -248,7 +248,7 @@ const Collection = (props) => {
                 )
               }
             />
-            Out of Stock ({outOfStockCount})
+            {t("Out of Stock")} ({outOfStockCount})
           </label>
         </div>
 
@@ -259,7 +259,7 @@ const Collection = (props) => {
             onClick={() => toggle("category")}
             className="w-full flex cursor-pointer justify-between items-center text-[16px]"
           >
-            Category
+            {t("Category")}
             {openSection === "category" ? <IoChevronUp /> : <IoChevronDown />}
           </button>
 
@@ -289,7 +289,7 @@ const Collection = (props) => {
             onClick={() => toggle("colors")}
             className="w-full flex cursor-pointer justify-between items-center text-[16px]"
           >
-            Colors
+            {t("Colors")}
             {openSection === "colors" ? <IoChevronUp /> : <IoChevronDown />}
           </button>
 
@@ -320,7 +320,7 @@ const Collection = (props) => {
             onClick={() => toggle("cloth")}
             className="w-full flex cursor-pointer justify-between items-center text-[16px]font-semibold"
           >
-            Cloth Type
+            {t("Cloth Type")}
             {openSection === "cloth" ? <IoChevronUp /> : <IoChevronDown />}
           </button>
 
@@ -354,7 +354,7 @@ const Collection = (props) => {
             onClick={() => toggle("rating")}
             className="w-full flex justify-between cursor-pointer items-center text-[16px] "
           >
-            Ratings
+            {t("Ratings")}
             {openSection === "rating" ? <IoChevronUp /> : <IoChevronDown />}
           </button>
 
@@ -390,7 +390,7 @@ const Collection = (props) => {
             onClick={handleOpenDrawer}
             className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center text-[18px] text-gray-800"
           >
-            <span className="md:inline hidden">Filters</span>
+            <span className="md:inline hidden">{t("Filters")}</span>
             <IoFilterSharp className="ml-2 text-[22px]" />
           </button>
         </div>
@@ -433,7 +433,7 @@ const Collection = (props) => {
                   className="md:w-[30vw] w-[60vw] mt-10"
                 />
                 <p className="text-gray-500 md:text-2xl text-xl">
-                  No products Available
+                  {t("No products Available")}
                 </p>
               </div>
             )}
