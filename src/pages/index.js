@@ -107,7 +107,7 @@ function BestSeller({ loader }) {
           className="md:text-[20px] bg-white border border-[#222222] text-stone-800 hover:bg-stone-800 hover:text-white transition-colors duration-300 px-8 py-3 mt-12 w-full flex items-center justify-center rounded-md cursor-pointer"
           onClick={() => router.push("/Collection")}
         >
-          VIEW COLLECTIONS
+          {t("VIEW COLLECTIONS")}
         </button>
       </div>
     </div>

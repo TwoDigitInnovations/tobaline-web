@@ -85,11 +85,11 @@ const Navbar = (props) => {
               className="text-[20px]  cursor-pointer hover:text-black transition"
               onClick={() => router.push("/")}
             >
-              Home
+              {t("Home")}
             </span>
             <div className="relative group">
               <span className="text-[20px] cursor-pointer hover:text-black transition">
-                Collection
+                {t("Collection")}
               </span>
 
               <div
@@ -122,7 +122,7 @@ const Navbar = (props) => {
                     className="px-6 py-4 flex items-center justify-between cursor-pointer
   hover:bg-gray-50 transition border-dashed border-t"
                   >
-                    <span className="text-gray-800">ALl Category</span>
+                    <span className="text-gray-800">{t("All Category")}</span>
                     <IoChevronForward className="text-gray-400" />
                   </li>
                 </ul>
@@ -133,12 +133,12 @@ const Navbar = (props) => {
               className="text-[20px] cursor-pointer hover:text-black transition"
               onClick={() => router.push("/Sustainability")}
             >
-              Sustainability
+              {t("Sustainability")}
             </span>
 
             <div className="relative group">
               <span className="text-[20px] cursor-pointer hover:text-black transition">
-                Shop
+                {t("Shop")}
               </span>
 
               <div
@@ -171,7 +171,7 @@ const Navbar = (props) => {
                     className="px-6 py-4 flex items-center justify-between cursor-pointer
   hover:bg-gray-50 transition border-dashed border-t"
                   >
-                    <span className="text-gray-800">All Cloth type</span>
+                    <span className="text-gray-800">{t("All Cloth type")}</span>
                     <IoChevronForward className="text-gray-400" />
                   </li>
                 </ul>
@@ -181,7 +181,7 @@ const Navbar = (props) => {
               className="text-[20px] cursor-pointer hover:text-black transition"
               onClick={() => router.push("/aboutus")}
             >
-              About
+              {t("About")}
             </span>
           </nav>
 
