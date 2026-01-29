@@ -3,21 +3,23 @@
 import React from "react";
 import Link from "next/link";
 import { FaInstagram, FaFacebookF } from "react-icons/fa";
+import { useTranslation } from "react-i18next";
 
 const Footer = () => {
+  const { t } = useTranslation();
   return (
     <footer className="bg-gradient-to-b from-[#1c1c1c] to-[#121212] text-gray-300">
       {/* Top Content */}
       <div className="max-w-7xl mx-auto px-6 py-14 grid grid-cols-1 md:grid-cols-4 gap-10 border-b border-gray-700">
         <div>
-          <h3 className="text-white font-semibold mb-4">Customer Care</h3>
+          <h3 className="text-white font-semibold mb-4">{t("Customer Care")}</h3>
           <p className="text-sm leading-relaxed mb-4">
-            Need help? Email us at <br />
-            <span className="text-white">contact@bachhoahouston.com</span>
+            {t("Need help? Email us at")} <br />
+            <span className="text-white">contact@tobaline.com</span>
             <br />
-            We’re here for you, and ready to answer your questions.
+            {t("We’re here for you, and ready to answer your questions")}.
           </p>
-          <p className="text-sm mb-4">24/7 Availability</p>
+          <p className="text-sm mb-4">{t("24/7 Availability")}</p>
 
           <div className="flex gap-4">
             <a className="hover:text-white" href="#" aria-label="Instagram">
@@ -31,51 +33,51 @@ const Footer = () => {
 
         {/* Customer Care Links */}
         <div>
-          <h3 className="text-white font-semibold mb-4">Product</h3>
+          <h3 className="text-white font-semibold mb-4">{t("Product")}</h3>
           <ul className="space-y-2 text-sm">
             <li>
-              <Link href="/MyOrder">My Order</Link>
+              <Link href="/MyOrder">{t("My Order")}</Link>
             </li>
             <li>
-              <Link href="/MyHistory">My History</Link>
+              <Link href="/MyHistory">{t("History")}</Link>
             </li>
             <li>
-              <Link href="/Faq">FAQ</Link>
+              <Link href="/Faq">{t("FAQ")}</Link>
             </li>
           </ul>
         </div>
 
         {/* Company */}
         <div>
-          <h3 className="text-white font-semibold mb-4">Policy</h3>
+          <h3 className="text-white font-semibold mb-4">{t("Policy")}</h3>
           <ul className="space-y-2 text-sm">
             <li>
-              <Link href="/termsConditions">Terms & Conditions</Link>
+              <Link href="/termsConditions">{t("Terms & Conditions")}</Link>
             </li>
             <li>
-              <Link href="/privacypolicy">Privacy Policy</Link>
+              <Link href="/privacypolicy">{t("Privacy Policy")}</Link>
             </li>
             <li>
-              <Link href="/shippingInfo">Shipping Information</Link>
+              <Link href="/shippingInfo">{t("Shipping Information")}</Link>
             </li>
             <li>
-              <Link href="/Returnsexchange">Returns & Exchanges</Link>
+              <Link href="/Returnsexchange">{t("Returns & Exchanges")}</Link>
             </li>
           </ul>
         </div>
 
         {/* About */}
         <div>
-          <h3 className="text-white font-semibold mb-4">About</h3>
+          <h3 className="text-white font-semibold mb-4">{t("About")}</h3>
           <ul className="space-y-2 text-sm">
             <li>
-              <Link href="/aboutus">About Us</Link>
+              <Link href="/aboutus">{t("About Us")}</Link>
             </li>
             <li>
-              <Link href="/Contactus">Contact us</Link>
+              <Link href="/Contactus">{t("Contact us")}</Link>
             </li>
             <li>
-              <Link href="/Sustainability">Sustainability</Link>
+              <Link href="/Sustainability">{t("Sustainability")}</Link>
             </li>
           </ul>
         </div>
@@ -83,10 +85,10 @@ const Footer = () => {
 
       {/* Bottom Bar */}
       <div className="bg-gray-700 flex gap-1 items-center justify-center py-4 text-sm text-gray-200">
-        <Link href="/termsConditions">Terms & Conditions |</Link>
+        <Link href="/termsConditions">{t("Terms & Conditions")} |</Link>
 
-        <Link href="/privacypolicy">Privacy Policy |</Link>
-        <Link href="/Returnsexchange">Returns & Exchanges</Link>
+        <Link href="/privacypolicy">{t("Privacy Policy")} |</Link>
+        <Link href="/Returnsexchange">{t("Returns & Exchanges")}</Link>
       </div>
     </footer>
   );

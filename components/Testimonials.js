@@ -1,5 +1,6 @@
 import React from "react";
 import { Star, User } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const ReviewCard = ({ name, date, rating, text }) => {
   return (
@@ -27,6 +28,7 @@ const ReviewCard = ({ name, date, rating, text }) => {
 };
 
 const CustomerReviews = () => {
+    const { t } = useTranslation();
   const reviews = [
     {
       name: "CYNTHIA CAROLINE",
@@ -52,7 +54,7 @@ const CustomerReviews = () => {
     <div className=" bg-[#F2F2F2] py-14 px-4">
       <div className="">
         <h1 className="text-4xl md:text-5xl font-serif text-center mb-12 text-gray-900">
-          Customer Reviews
+          {t("Customer Reviews")}
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {reviews.map((review, index) => (

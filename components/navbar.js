@@ -286,6 +286,21 @@ const Navbar = (props) => {
                 </span>
               )}
             </div>
+            <div className=" flex justify-end items-center gap-1">
+            <select
+              className="bg-white border border-gray-800 cursor-pointer text-sm px-1 py-2 rounded-md text-gray-700 focus:outline-none"
+              value={lang}
+              onChange={(e) => handleClick(e.target.value)}
+            >
+              <option value="ar">AR</option>
+              <option value="en">EN</option>
+            </select>
+
+            <div
+              className="relative cursor-pointer"
+              onClick={() => router.push("/Favourite")}
+            ></div>
+          </div>
           </div>
 
           <div className="md:hidden flex justify-end items-center gap-1">
