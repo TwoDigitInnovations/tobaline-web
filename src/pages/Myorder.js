@@ -200,7 +200,7 @@ const MyOrder = (props) => {
 
                     <div className="flex items-center justify-end gap-3 md:col-span-1 -mt-7 md:mt-0">
                       <button
-                        className="bg-green-600 text-white text-sm font-medium rounded-lg px-4 py-2 hover:bg-green-700 transition-colors"
+                        className="bg-black text-white text-sm font-medium rounded-lg px-4 py-2 hover:bg-gray-700 cursor-pointer transition-colors"
                         type="button"
                         onClick={() => router.push(`/product-details/${order?.productDetail[0]?.product?.slug}`)}
                       >
@@ -270,9 +270,9 @@ const MyOrder = (props) => {
 
                               <div className="flex items-center justify-end gap-3 md:col-span-1 -mt-7 md:mt-0">
                                 <button
-                                  className="bg-green-600 text-white text-sm font-medium rounded-lg px-4 py-2 hover:bg-green-700 transition-colors"
+                                  className="bg-black text-white text-sm font-medium rounded-lg px-4 py-2 hover:bg-gray-700 transition-colors"
                                   type="button"
-                                  onClick={() => router.push("/ShopNow")}
+                                  onClick={() => router.push("/Collection")}
                                 >
                                   Order Again
                                 </button>

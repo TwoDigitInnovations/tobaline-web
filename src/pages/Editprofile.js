@@ -28,8 +28,7 @@ const initialValueEmail = {
 
 function EditProfile(props) {
   const router = useRouter();
-  const [user] = useContext(userContext);
-  const [showEmail, setShowEmail] = useState(true);
+  const [user] = useContext(userContext)
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 

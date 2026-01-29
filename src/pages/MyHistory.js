@@ -255,7 +255,7 @@ const MyHistory = (props) => {
 
                     <div className="flex items-center justify-end gap-3 md:col-span-1 -mt-7 md:mt-0">
                       <button
-                        className="bg-green-600 text-white text-sm font-medium rounded-lg px-4 py-2 hover:bg-green-700 transition-colors"
+                        className="bg-black text-white text-sm font-medium rounded-lg px-4 py-2 hover:bg-gray-700 transition-colors"
                         type="button"
                         onClick={() => {
                           setProductId(order.productDetail[0]?.product);
@@ -327,7 +327,7 @@ const MyHistory = (props) => {
 
                               <div className="flex items-center justify-end gap-3 md:col-span-1 -mt-7 md:mt-0">
                                 <button
-                                  className="bg-green-600 text-white text-sm font-medium rounded-lg px-4 py-2 hover:bg-green-700 transition-colors"
+                                  className="bg-black text-white text-sm font-medium rounded-lg px-4 py-2 hover:bg-gray-700 transition-colors"
                                   type="button"
                                   onClick={() => {
                                     setProductId(product.product);
@@ -376,10 +376,10 @@ const MyHistory = (props) => {
 
             <form className="px-5 py-5" onSubmit={createProductRquest}>
               <p className="text-black font-semibold md:text-[24px] mb-3 mt-6 text-center">
-                {"Leave a Review for JASZ & CO"}
+                {"Leave a Review for Tobaline"}
               </p>
               <p className="text-black md:text-[16px] mb-4 mt-6 text-center">
-                {"How would you rate experience at JASZ & CO?"}
+                {"How would you rate experience at Tobaline?"}
               </p>
 
               <div className="flex flex-col justify-center items-center rounded-[10px] py-1 ">
@@ -425,7 +425,7 @@ const MyHistory = (props) => {
 
               <div className="flex md:justify-start justify-center">
                 <button
-                  className="bg-custom-green w-full md:h-[50px] h-[40px] rounded-[5px] text-white font-normal text-base"
+                  className="bg-black w-full cursor-pointer md:h-[50px] h-[40px] rounded-[5px] text-white font-normal text-base"
                   type="submit"
                 >
                   {"Submit Review"}

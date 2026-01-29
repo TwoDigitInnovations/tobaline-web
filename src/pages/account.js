@@ -58,7 +58,7 @@ function Account(props) {
       </button>
       
       <button
-        onClick={() => router.push("/Myhistory")}
+        onClick={() => router.push("/MyHistory")}
         className={`flex w-1/2 items-center justify-center gap-2 px-4 py-3 rounded-xl font-semibold transition-all ${activeTab === "history"
           ? "bg-black text-white shadow-lg"
           : "text-gray-600 hover:text-custom-green hover:bg-gray-50"
@@ -73,7 +73,7 @@ function Account(props) {
   return (
     <div className={`w-full  md:px-6 md:mt-8 mt-10 pb-8`}>
       <div className="max-w-6xl mx-auto">
-        {!user?.token ? (
+        {!user?.id ? (
           <div className="flex flex-col justify-center items-center w-full md:min-h-[550px] min-h-[680px] gap-6">
             <div className="flex flex-col items-center gap-6 text-gray-700 text-[18px] font-medium">
               <UserRound className="w-20 h-20 text-custom-green" />
@@ -97,12 +97,12 @@ function Account(props) {
                 <div className="flex items-center gap-4 mb-6">
                   <div className="bg-black h-16 w-16 rounded-full flex justify-center items-center shadow-lg">
                     <p className="font-bold text-white text-xl text-center capitalize">
-                      {user?.username?.charAt(0).toUpperCase()}
+                      {user?.name?.charAt(0).toUpperCase()}
                     </p>
                   </div>
                   <div>
                     <h2 className="font-bold text-xl text-gray-800 capitalize">
-                      {user?.username}
+                      {user?.name}
                     </h2>
                     <p className="text-gray-600 text-sm">{user?.email}</p>
                   </div>

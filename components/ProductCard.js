@@ -1,44 +1,137 @@
-import React from "react";
-import { Star } from "lucide-react";
-import { useRouter } from "next/router";
+"use client";
+import React, { useContext, useState } from "react";
+import { Plus, Minus, ShoppingCart, Star } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { cartContext } from "@/pages/_app";
 
-const ProductCard = ({ product, url, key }) => {
+const ProductCard = ({ product, url }) => {
   const router = useRouter();
+  const [openCart, setOpenCart] = useState(false);
+  const [cartData, setCartData] = useContext(cartContext);
 
-  const route = () => {
-    router.push(url);
+  const variant = product?.varients?.[0];
+  const selectedVariant = variant?.selected?.[0];
+
+  const price = selectedVariant?.price || 0;
+  const offerprice = selectedVariant?.offerprice || price;
+
+  const size =
+    selectedVariant?.attributes?.find((a) => a.label === "Size")?.value || "";
+
+  const route = () => router.push(url);
+
+  const cartItem = cartData.find(
+    (item) =>
+      item._id === product._id &&
+      item.selectedColor === variant.color &&
+      item.selectedSize === size,
+  );
+
+  const handleAddToCart = () => {
+    if (!product?._id) return;
+
+    if (selectedVariant?.qty <= 0) return;
+
+    if (cartItem) {
+      setOpenCart(true);
+      return;
+    }
+
+    const newItem = {
+      _id: product._id,
+      name: product.name,
+      selectedColor: variant.color,
+      selectedSize: size,
+      selectedImage: variant.image?.[0],
+      qty: 1,
+      price,
+      offerprice,
+      total: offerprice,
+    };
+
+    const updated = [...cartData, newItem];
+    setCartData(updated);
+    localStorage.setItem("addCartDetail", JSON.stringify(updated));
+    setOpenCart(true);
   };
+
+  // ➕➖ QTY HANDLERS
+  const increaseQty = () => {
+    const updated = cartData.map((item) =>
+      item === cartItem
+        ? {
+            ...item,
+            qty: item.qty + 1,
+            total: (item.qty + 1) * offerprice,
+          }
+        : item,
+    );
+    setCartData(updated);
+    localStorage.setItem("addCartDetail", JSON.stringify(updated));
+  };
+
+  const decreaseQty = () => {
+    if (cartItem.qty === 1) return;
+
+    const updated = cartData.map((item) =>
+      item === cartItem
+        ? {
+            ...item,
+            qty: item.qty - 1,
+            total: (item.qty - 1) * offerprice,
+          }
+        : item,
+    );
+    setCartData(updated);
+    localStorage.setItem("addCartDetail", JSON.stringify(updated));
+  };
+
   return (
-    <div className="rounded-lg overflow-hidden transition" key={key}>
+    <div className="rounded-lg overflow-hidden transition relative">
+      {/* IMAGE */}
       <div className="relative cursor-pointer" onClick={route}>
         <img
-          src={product.varients?.[0]?.image[0]}
+          src={variant?.image?.[0]}
           alt={product.name}
           className="w-full h-[320px] object-cover"
         />
+
+        <div
+          className="absolute right-2 bottom-2 bg-white p-1.5 cursor-pointer min-w-[32px] text-center"
+          onClick={(e) => {
+            e.stopPropagation();
+            cartItem ? router.push("/Cart"): handleAddToCart();
+          }}
+        >
+          {cartItem ? (
+            // <span className="text-black font-medium">{cartItem.qty}</span>
+            <ShoppingCart className="text-black" size={20} />
+          ) : (
+            <Plus className="text-black" size={20} />
+          )}
+        </div>
       </div>
 
       <div className="py-4 space-y-2">
-        <h3 className="font-serif text-lg text-stone-800">{product.name}</h3>
+        <h3 className="font-serif text-lg text-stone-800">{product?.name}</h3>
 
-        <p className="text-sm text-stone-500">from {product.origin}</p>
+        <p className="text-sm text-stone-500">from {product?.origin}</p>
+
         <div className="flex items-center gap-1 text-yellow-500">
           {[...Array(5)].map((_, i) => (
-            <Star key={i} size={16} fill={"#FACC15"} stroke="#FACC15" />
+            <Star key={i} size={16} fill="#FACC15" stroke="#FACC15" />
           ))}
-          <span className="text-xs text-stone-500 ml-1">
-            ({product.reviews || "58"})
-          </span>
+          <span className="text-xs text-stone-500 ml-1">(58)</span>
         </div>
 
         <div className="flex items-center gap-2">
           <span className="text-lg font-semibold text-stone-800">
-            ${product.varients[0].selected?.[0]?.offerprice}
+            ${offerprice}
           </span>
 
-          {product.varients[0].selected?.[0]?.price && (
+          {price > offerprice && (
             <span className="text-sm line-through text-stone-400">
-              ${product.varients[0].selected?.[0]?.price}
+              ${price}
             </span>
           )}
         </div>

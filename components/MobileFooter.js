@@ -6,13 +6,12 @@ import { FaFirstOrder } from "react-icons/fa6";
 import { useRouter } from "next/router";
 import { cartContext, openCartContext } from "../src/pages/_app";
 import { useTranslation } from "react-i18next";
-import { ListOrdered } from "lucide-react";
+import { LayoutList, ListOrdered } from "lucide-react";
 
 function MobileFooter() {
   const router = useRouter();
   const currentPath = router.pathname;
   const { t } = useTranslation();
-  const [openCart, setOpenCart] = useContext(openCartContext);
   const [cartData] = useContext(cartContext);
 
   const menuItems = [
@@ -22,14 +21,19 @@ function MobileFooter() {
       path: "/",
     },
     {
+      label: t("Collection"),
+      icon: LayoutList,
+      path: "/Collection?category=All",
+    },
+    {
       label: t("Orders"),
       icon: ListOrdered,
-      path: "/Myorder",
+      path: "/MyOrder",
     },
     {
       label: t("Cart"),
       icon: FiShoppingCart,
-      path: "/Cart", // Special case for cart toggle
+      path: "/Cart", 
       isCart: true,
     },
     {
@@ -39,18 +43,13 @@ function MobileFooter() {
     },
   ];
 
-  const cartlenth = cartData.reduce((total, item) => total + (item.qty || 0), 0)
-
   return (
-    <div className="bg-black w-full grid grid-cols-4 ">
+    <div className="bg-black w-full grid grid-cols-5 ">
       {menuItems.map((item, idx) => {
         const isActive = currentPath === item.path;
 
         return (
-          <div
-            key={idx}
-            className="flex justify-center items-center "
-          >
+          <div key={idx} className="flex justify-center items-center ">
             <div
               key={idx}
               className={`flex flex-col justify-center items-center transition 
@@ -60,13 +59,14 @@ function MobileFooter() {
               }}
             >
               <item.icon
-                className={`w-[20px] h-[20px] ${isActive ? "text-black" : "text-white"
-                  }`}
+                className={`w-[20px] h-[20px] ${
+                  isActive ? "text-black" : "text-white"
+                }`}
               />
 
               {item.label === t("Cart") && cartData.length > 0 && (
-                <div className="absolute bg-white text-custom-green rounded-full w-5 h-5 flex items-center justify-center text-[9px] top-6 right-36">
-                  {cartlenth}
+                <div className="absolute bg-white text-black rounded-full w-5 h-5 flex items-center justify-center text-[9px] top-2 right-26">
+                  {cartData.length}
                 </div>
               )}
 

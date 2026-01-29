@@ -8,16 +8,20 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useTranslation } from "react-i18next";
 import { languageContext } from "../src/pages/_app";
 import Image from "next/image";
+import { Api } from "../services/service";
+import { IoChevronForward } from "react-icons/io5";
 
 const Navbar = (props) => {
   const router = useRouter();
   const [showHover, setShowHover] = useState(false);
   const [user, setUser] = useContext(userContext);
   const [cartData, setCartData] = useContext(cartContext);
-
+  const [open, setOpen] = useState(false);
   const { lang, changeLang } = useContext(languageContext);
   const { i18n } = useTranslation();
   const { t } = useTranslation();
+  const [categories, setCategories] = useState([]);
+  const [clothTypes, setClothTypes] = useState([]);
 
   const handleClick = (language) => {
     try {
@@ -31,6 +35,33 @@ const Navbar = (props) => {
   useEffect(() => {
     i18n.changeLanguage(lang);
   }, [lang]);
+
+  const getAllCategories = async () => {
+    props.loader(true);
+    try {
+      const res = await Api("get", "category/getCategories", "", router);
+      setCategories(res.data);
+    } catch (err) {
+      toast({ type: "error", message: err?.message });
+    } finally {
+      props.loader(false);
+    }
+  };
+  const getAllClothTypes = async () => {
+    props.loader(true);
+    try {
+      const res = await Api("get", "clothtype/list", "", router);
+      setClothTypes(res.data);
+    } catch (err) {
+      props.toaster({ type: "error", message: err?.message });
+    } finally {
+      props.loader(false);
+    }
+  };
+  useEffect(() => {
+    getAllClothTypes();
+    getAllCategories();
+  }, []);
 
   return (
     <>
@@ -56,24 +87,96 @@ const Navbar = (props) => {
             >
               Home
             </span>
-            <span
-              className=" text-[20px] cursor-pointer hover:text-black transition"
-              onClick={() => router.push("/collection")}
-            >
-              Collection
-            </span>
+            <div className="relative group">
+              <span className="text-[20px] cursor-pointer hover:text-black transition">
+                Collection
+              </span>
+
+              <div
+                className="
+      absolute top-full left-0 mt-3 w-[260px]
+      bg-white border border-gray-200 shadow-lg z-50
+      opacity-0 invisible
+      group-hover:opacity-100 group-hover:visible
+      transition-all duration-200
+    "
+              >
+                <ul>
+                  {categories.slice(0, 5).map((cat, i) => (
+                    <li
+                      key={i}
+                      onClick={() =>
+                        router.push(`/Collection?category=${cat.name}`)
+                      }
+                      className={`px-6 py-4 flex items-center justify-between cursor-pointer
+  hover:bg-gray-50 transition border-dashed
+  ${i !== 0 ? "border-t" : ""}
+`}
+                    >
+                      <span className="text-gray-800">{cat.name}</span>
+                      <IoChevronForward className="text-gray-400" />
+                    </li>
+                  ))}
+                  <li
+                    onClick={() => router.push(`/Collection?category=All`)}
+                    className="px-6 py-4 flex items-center justify-between cursor-pointer
+  hover:bg-gray-50 transition border-dashed border-t"
+                  >
+                    <span className="text-gray-800">ALl Category</span>
+                    <IoChevronForward className="text-gray-400" />
+                  </li>
+                </ul>
+              </div>
+            </div>
+
             <span
               className="text-[20px] cursor-pointer hover:text-black transition"
               onClick={() => router.push("/Sustainability")}
             >
               Sustainability
             </span>
-            <span
-              className="text-[20px] cursor-pointer hover:text-black transition"
-              onClick={() => router.push("/shop")}
-            >
-              Shop
-            </span>
+
+            <div className="relative group">
+              <span className="text-[20px] cursor-pointer hover:text-black transition">
+                Shop
+              </span>
+
+              <div
+                className="
+      absolute top-full left-0 mt-3 w-[260px]
+      bg-white border border-gray-200 shadow-lg z-50
+      opacity-0 invisible
+      group-hover:opacity-100 group-hover:visible
+      transition-all duration-200
+    "
+              >
+                <ul>
+                  {clothTypes.slice(0, 5).map((cat, i) => (
+                    <li
+                      key={i}
+                      onClick={() =>
+                        router.push(`/Collection?type=${cat.name}`)
+                      }
+                      className={`px-6 py-4 flex items-center justify-between cursor-pointer
+  hover:bg-gray-50 transition border-dashed
+  ${i !== 0 ? "border-t" : ""}
+`}
+                    >
+                      <span className="text-gray-800">{cat.name}</span>
+                      <IoChevronForward className="text-gray-400" />
+                    </li>
+                  ))}
+                  <li
+                    onClick={() => router.push(`/Collection?type=All`)}
+                    className="px-6 py-4 flex items-center justify-between cursor-pointer
+  hover:bg-gray-50 transition border-dashed border-t"
+                  >
+                    <span className="text-gray-800">All Cloth type</span>
+                    <IoChevronForward className="text-gray-400" />
+                  </li>
+                </ul>
+              </div>
+            </div>
             <span
               className="text-[20px] cursor-pointer hover:text-black transition"
               onClick={() => router.push("/aboutus")}
