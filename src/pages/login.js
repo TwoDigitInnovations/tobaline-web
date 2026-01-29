@@ -67,6 +67,14 @@ const Login = (props) => {
 
   return (
     <>
+      <Head>
+        <title>Shop Everyday Essentials at Tobaline Today</title>
+        <meta
+          name="description"
+          content="Tobaline offers top-quality Clothes!"
+        />
+        <link rel="canonical" href="" />
+      </Head>
       <div className="md:min-h-screen min-h-[700px] flex max-w-7xl mx-auto">
         <div className="w-full lg:w-1/2 flex items-center md:p-0 p-8 justify-center bg-white">
           <div className="w-full max-w-md">

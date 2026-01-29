@@ -52,6 +52,15 @@ const Faq = () => {
 
   return (
     <>
+      <Head>
+        <title>Shop Everyday Essentials at Tobaline Today</title>
+        <meta
+          name="description"
+          content="Tobaline offers top-quality Clothes!"
+        />
+        <link rel="canonical" href="" />
+      </Head>
+
       <section className="md:mt-0 mt-14 w-full flex flex-col items-center justify-center min-h-[700px] px-4">
         <div className="w-full max-w-5xl">
           <div className="mb-10">

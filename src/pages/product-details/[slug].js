@@ -222,7 +222,6 @@ function ProductDetails(props) {
     );
   };
 
-
   useEffect(() => {
     const timer = setTimeout(() => props.loader(false), 2000);
     return () => clearTimeout(timer);
@@ -255,318 +254,338 @@ function ProductDetails(props) {
   }
 
   return (
-    <div className="bg-white w-full min-h-screen">
-      <main className="max-w-7xl mx-auto px-4 md:py-12 py-6 flex flex-col md:flex-row gap-8">
-        <section className="flex gap-4 w-full md:w-1/2">
-          <div className="flex flex-col items-start gap-2">
-            <div className="rounded relative">
-              <Carousel
-                ref={carouselRef}
-                className="md:w-[550px] w-[330px] h-[450px] md:h-[480px] object-fill md:object-contain"
-                responsive={responsive}
-                autoPlay={false}
-                // infinite={true}
-                arrows={true}
-                customTransition="all 0.3s"
-                additionalTransfrom={0}
-                ssr={true}
-                partialVisible={false}
-                itemClass="image-item"
-                beforeChange={(nextSlide) => setSelectedIndex(nextSlide)}
-                customSliderIndex={selectedIndex} // 🔥 This line syncs selected image
-              >
+    <>
+      <Head>
+        <title>Shop Everyday Essentials at Tobaline Today</title>
+        <meta
+          name="description"
+          content="Tobaline offers top-quality Clothes!"
+        />
+        <link rel="canonical" href="" />
+      </Head>
+
+      <div className="bg-white w-full min-h-screen">
+        <main className="max-w-7xl mx-auto px-4 md:py-12 py-6 flex flex-col md:flex-row gap-8">
+          <section className="flex gap-4 w-full md:w-1/2">
+            <div className="flex flex-col items-start gap-2">
+              <div className="rounded relative">
+                <Carousel
+                  ref={carouselRef}
+                  className="md:w-[550px] w-[330px] h-[450px] md:h-[480px] object-fill md:object-contain"
+                  responsive={responsive}
+                  autoPlay={false}
+                  // infinite={true}
+                  arrows={true}
+                  customTransition="all 0.3s"
+                  additionalTransfrom={0}
+                  ssr={true}
+                  partialVisible={false}
+                  itemClass="image-item"
+                  beforeChange={(nextSlide) => setSelectedIndex(nextSlide)}
+                  customSliderIndex={selectedIndex} // 🔥 This line syncs selected image
+                >
+                  {selectedImageList?.map((item, i) => (
+                    <div key={i} className="bg-white md:w-full h-[480px]">
+                      <img
+                        className="h-full w-full object-contain rounded"
+                        src={item}
+                        alt={`Product image ${i}`}
+                      />
+                    </div>
+                  ))}
+                </Carousel>
+              </div>
+              <div className="flex-col md:gap-4 md:flex hidden">
                 {selectedImageList?.map((item, i) => (
-                  <div key={i} className="bg-white md:w-full h-[480px]">
-                    <img
-                      className="h-full w-full object-contain rounded"
-                      src={item}
-                      alt={`Product image ${i}`}
-                    />
-                  </div>
+                  <img
+                    key={i}
+                    alt={`Thumbnail ${i + 1}`}
+                    className={`w-30 h-30 object-contain cursor-pointer border rounded-lg flex-shrink-0 ${
+                      selectedIndex === i
+                        ? "border-blue-500"
+                        : "border-gray-200"
+                    }`}
+                    src={item}
+                    onClick={() => {
+                      setSelectedIndex(i);
+                      carouselRef.current?.goToSlide(i); // go to exact image
+                    }}
+                  />
                 ))}
-              </Carousel>
+              </div>
             </div>
-            <div className="flex-col md:gap-4 md:flex hidden">
-              {selectedImageList?.map((item, i) => (
-                <img
-                  key={i}
-                  alt={`Thumbnail ${i + 1}`}
-                  className={`w-30 h-30 object-contain cursor-pointer border rounded-lg flex-shrink-0 ${
-                    selectedIndex === i ? "border-blue-500" : "border-gray-200"
+          </section>
+
+          <section className="flex-1 w-full md:w-1/2">
+            <div className="flex justify-between items-center gap-1 mb-2">
+              <p className="text-[#757575] text-2xl">
+                {productsId?.type || "Cotton dress"}{" "}
+              </p>
+              <div className="text-black text-sm flex items-center">
+                <FaStar />
+                <span className="text-xs text-gray-500">
+                  ({productReviews?.length || 4.5})
+                </span>
+              </div>
+            </div>
+            <div className="flex justify-between items-start mb-1">
+              <h1 className="text-gray-600 text-6xl">{productsId?.name}</h1>
+            </div>
+
+            <div className="flex flex-col items-start mb-2">
+              <div className="flex items-center justify-center gap-4">
+                <span
+                  className={`text-[32px] line-through   text-black ${
+                    isCombinationAvailable === false
+                      ? "blur-[2px] opacity-800"
+                      : ""
                   }`}
-                  src={item}
-                  onClick={() => {
-                    setSelectedIndex(i); 
-                    carouselRef.current?.goToSlide(i); // go to exact image
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-        </section>
+                >
+                  ${selectedSize?.price}
+                </span>
 
-        <section className="flex-1 w-full md:w-1/2">
-          <div className="flex justify-between items-center gap-1 mb-2">
-            <p className="text-[#757575] text-2xl">
-              {productsId?.type || "Cotton dress"}{" "}
-            </p>
-            <div className="text-black text-sm flex items-center">
-              <FaStar />
-              <span className="text-xs text-gray-500">
-                ({productReviews?.length || 4.5})
-              </span>
-            </div>
-          </div>
-          <div className="flex justify-between items-start mb-1">
-            <h1 className="text-gray-600 text-6xl">{productsId?.name}</h1>
-          </div>
-
-          <div className="flex flex-col items-start mb-2">
-            <div className="flex items-center justify-center gap-4">
+                {selectedSize?.price && (
+                  <>
+                    <span
+                      className={`bg-red-500 text-white text-[10px] font-semibold px-2 py-1.5 rounded-xl ${
+                        isCombinationAvailable === false
+                          ? "blur-[2px] opacity-800"
+                          : ""
+                      }`}
+                    >
+                      SAVE{" "}
+                      {Math.round(
+                        ((selectedSize?.price - selectedSize?.offerprice) /
+                          selectedSize?.price) *
+                          100,
+                      )}
+                      %
+                    </span>
+                  </>
+                )}
+              </div>
               <span
-                className={`text-[32px] line-through   text-black ${
+                className={` text-black font-semibold text-[32px] ${
                   isCombinationAvailable === false
                     ? "blur-[2px] opacity-800"
                     : ""
                 }`}
               >
-                ${selectedSize?.price}
+                ${selectedSize?.offerprice}
               </span>
-
-              {selectedSize?.price && (
-                <>
-                  <span
-                    className={`bg-red-500 text-white text-[10px] font-semibold px-2 py-1.5 rounded-xl ${
-                      isCombinationAvailable === false
-                        ? "blur-[2px] opacity-800"
-                        : ""
-                    }`}
-                  >
-                    SAVE{" "}
-                    {Math.round(
-                      ((selectedSize?.price - selectedSize?.offerprice) /
-                        selectedSize?.price) *
-                        100,
-                    )}
-                    %
-                  </span>
-                </>
+              {!isCombinationAvailable && (
+                <p className="text-red-500 font-semibold">Not available</p>
               )}
             </div>
-            <span
-              className={` text-black font-semibold text-[32px] ${
-                isCombinationAvailable === false ? "blur-[2px] opacity-800" : ""
-              }`}
-            >
-              ${selectedSize?.offerprice}
-            </span>
-            {!isCombinationAvailable && (
-              <p className="text-red-500 font-semibold">Not available</p>
-            )}
-          </div>
-          <div className="gap-4">
-            <div
-              className="text-gray-800"
-              dangerouslySetInnerHTML={{
-                __html: productsId?.long_description,
-              }}
-            />
-          </div>
-          {productsId?.varients?.length > 0 && (
-            <>
-              {(() => {
-                return (
-                  <>
-                    {productsId?.Attribute?.filter(
-                      (attr) => attr.name.toLowerCase() !== "color",
-                    ).map((attribute, index) => {
-                      const label = attribute.name;
-                      const options = Array.from(
-                        new Set(
-                          productsId.varients
-                            .filter(
-                              (variant) =>
-                                variant.color?.toLowerCase() ===
-                                selectedColor?.color?.toLowerCase(),
-                            )
-                            .flatMap((variant) =>
-                              variant.selected?.flatMap(
-                                (group) =>
-                                  group?.attributes?.find(
-                                    (attr) => attr.label === label,
-                                  )?.value,
-                              ),
-                            )
-                            .filter(Boolean),
-                        ),
-                      );
+            <div className="gap-4">
+              <div
+                className="text-gray-800"
+                dangerouslySetInnerHTML={{
+                  __html: productsId?.long_description,
+                }}
+              />
+            </div>
+            {productsId?.varients?.length > 0 && (
+              <>
+                {(() => {
+                  return (
+                    <>
+                      {productsId?.Attribute?.filter(
+                        (attr) => attr.name.toLowerCase() !== "color",
+                      ).map((attribute, index) => {
+                        const label = attribute.name;
+                        const options = Array.from(
+                          new Set(
+                            productsId.varients
+                              .filter(
+                                (variant) =>
+                                  variant.color?.toLowerCase() ===
+                                  selectedColor?.color?.toLowerCase(),
+                              )
+                              .flatMap((variant) =>
+                                variant.selected?.flatMap(
+                                  (group) =>
+                                    group?.attributes?.find(
+                                      (attr) => attr.label === label,
+                                    )?.value,
+                                ),
+                              )
+                              .filter(Boolean),
+                          ),
+                        );
 
-                      return (
-                        <div className="w-full mt-4" key={index}>
-                          <div className="flex flex-col justify-start items-start gap-3">
-                            <p className="text-black text-xl font-normal">
-                              {label}:
-                              <span className="font-normal text-[16px] px-2">
-                                {selectedAttributes[label] || "Not selected"}
-                              </span>
-                            </p>
+                        return (
+                          <div className="w-full mt-4" key={index}>
+                            <div className="flex flex-col justify-start items-start gap-3">
+                              <p className="text-black text-xl font-normal">
+                                {label}:
+                                <span className="font-normal text-[16px] px-2">
+                                  {selectedAttributes[label] || "Not selected"}
+                                </span>
+                              </p>
 
-                            <div className="flex justify-start items-center gap-3 flex-wrap">
-                              {options.map((option, j) => (
-                                <button
-                                  key={j}
-                                  onClick={() => {
-                                    setSelectedAttributes((prev) => ({
-                                      ...prev,
-                                      [label]: option,
-                                    }));
+                              <div className="flex justify-start items-center gap-3 flex-wrap">
+                                {options.map((option, j) => (
+                                  <button
+                                    key={j}
+                                    onClick={() => {
+                                      setSelectedAttributes((prev) => ({
+                                        ...prev,
+                                        [label]: option,
+                                      }));
 
-                                    const matchedVariant =
-                                      productsId.varients.find(
-                                        (variant) =>
-                                          variant.color?.toLowerCase() ===
-                                            selectedColor?.color?.toLowerCase() &&
-                                          variant.selected?.some((group) =>
-                                            group.attributes?.some(
-                                              (attr) =>
-                                                attr.label === label &&
-                                                attr.value === option,
+                                      const matchedVariant =
+                                        productsId.varients.find(
+                                          (variant) =>
+                                            variant.color?.toLowerCase() ===
+                                              selectedColor?.color?.toLowerCase() &&
+                                            variant.selected?.some((group) =>
+                                              group.attributes?.some(
+                                                (attr) =>
+                                                  attr.label === label &&
+                                                  attr.value === option,
+                                              ),
                                             ),
-                                          ),
+                                        );
+                                      setSelectedSize(
+                                        matchedVariant.selected[j],
                                       );
-                                    setSelectedSize(matchedVariant.selected[j]);
-                                    if (matchedVariant) {
-                                      setSelectedImageList(
-                                        matchedVariant.image || [],
-                                      );
-                                      setSelectedImage(
-                                        matchedVariant.image?.[0] || "",
-                                      );
-                                    }
-                                  }}
-                                  className={`rounded border border-[#00000050] flex justify-center items-center ${
-                                    selectedAttributes[label] === option
-                                      ? "bg-[#12344D] text-white"
-                                      : "bg-white text-[#12344d]"
-                                  }`}
-                                >
-                                  <p className="text-sm px-2 py-1.5 font-medium">
-                                    {option}
-                                  </p>
-                                </button>
-                              ))}
+                                      if (matchedVariant) {
+                                        setSelectedImageList(
+                                          matchedVariant.image || [],
+                                        );
+                                        setSelectedImage(
+                                          matchedVariant.image?.[0] || "",
+                                        );
+                                      }
+                                    }}
+                                    className={`rounded border border-[#00000050] flex justify-center items-center ${
+                                      selectedAttributes[label] === option
+                                        ? "bg-[#12344D] text-white"
+                                        : "bg-white text-[#12344d]"
+                                    }`}
+                                  >
+                                    <p className="text-sm px-2 py-1.5 font-medium">
+                                      {option}
+                                    </p>
+                                  </button>
+                                ))}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
 
-                    {productsId.varients.some((v) => v.color?.trim()) && (
-                      <div className="md:pt-5 pt-1 pb-5 flex justify-start items-center gap-5">
-                        <p className="text-black font-normal md:text-xl text-lg Inter">
-                          Colours:
+                      {productsId.varients.some((v) => v.color?.trim()) && (
+                        <div className="md:pt-5 pt-1 pb-5 flex justify-start items-center gap-5">
+                          <p className="text-black font-normal md:text-xl text-lg Inter">
+                            Colours:
+                          </p>
+                          <div className="flex gap-3">
+                            {productsId.varients
+                              .filter((variant) => variant.color?.trim() !== "")
+                              .map((variant, i) => (
+                                <button
+                                  key={i}
+                                  aria-label={`${variant.color} color option`}
+                                  className={`w-6 h-6 rounded-full border-1 p-2 ${
+                                    selectedColor === variant
+                                      ? "border-gray-800 p-1 border-2"
+                                      : "border-gray-400"
+                                  }`}
+                                  style={{
+                                    backgroundColor:
+                                      variant.color?.toLowerCase() || "#ccc",
+                                  }}
+                                  onClick={() => {
+                                    setSelectedColor(variant);
+                                    setSelectedImageList(variant.image || []);
+                                    setSelectedImage(variant.image?.[0] || "");
+
+                                    const defaultGroup = variant.selected?.[0];
+                                    const mappedAttributes = {};
+                                    defaultGroup?.attributes?.forEach(
+                                      (attr) => {
+                                        mappedAttributes[attr.label] =
+                                          attr.value;
+                                      },
+                                    );
+
+                                    setSelectedAttributes(mappedAttributes);
+                                    setSelectedSize(defaultGroup);
+                                  }}
+                                />
+                              ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {!isCombinationAvailable && (
+                        <p className="text-red-500 font-semibold mt-2">
+                          Not available in this option
                         </p>
-                        <div className="flex gap-3">
-                          {productsId.varients
-                            .filter((variant) => variant.color?.trim() !== "")
-                            .map((variant, i) => (
-                              <button
-                                key={i}
-                                aria-label={`${variant.color} color option`}
-                                className={`w-6 h-6 rounded-full border-1 p-2 ${
-                                  selectedColor === variant
-                                    ? "border-gray-800 p-1 border-2"
-                                    : "border-gray-400"
-                                }`}
-                                style={{
-                                  backgroundColor:
-                                    variant.color?.toLowerCase() || "#ccc",
-                                }}
-                                onClick={() => {
-                                  setSelectedColor(variant);
-                                  setSelectedImageList(variant.image || []);
-                                  setSelectedImage(variant.image?.[0] || "");
+                      )}
 
-                                  const defaultGroup = variant.selected?.[0];
-                                  const mappedAttributes = {};
-                                  defaultGroup?.attributes?.forEach((attr) => {
-                                    mappedAttributes[attr.label] = attr.value;
-                                  });
+                      <div className="mb-6 mt-4">
+                        <p className="text-[16px] text-gray-800 font-semibold mb-1">
+                          Quantity
+                        </p>
+                        <div className="flex items-center gap-3 max-w-full">
+                          <div className="w-[150px] py-3 rounded flex justify-evenly items-center border-[1px] border-gray-300">
+                            <button
+                              aria-label="Decrease quantity"
+                              className="rounded text-lg font-semibold text-gray-700"
+                              onClick={handleDecreaseQty}
+                            >
+                              <FaMinus />
+                            </button>
+                            <span className="rounded text-black font-semibold text-[20px] text-center">
+                              {availableQty}
+                            </span>
+                            <button
+                              aria-label="Increase quantity"
+                              className="rounded text-lg font-semibold text-gray-700"
+                              onClick={handleIncreaseQty}
+                            >
+                              <FaPlus />
+                            </button>
+                          </div>
 
-                                  setSelectedAttributes(mappedAttributes);
-                                  setSelectedSize(defaultGroup);
-                                }}
-                              />
-                            ))}
+                          {isAlreadyInCart ? (
+                            <button
+                              className="flex-1 cursor-pointer w-full  bg-black tracking-wider text-[20px] font-semibold rounded px-3 py-3 transition "
+                              onClick={() => router.push("/Cart")}
+                            >
+                              Go to Cart
+                            </button>
+                          ) : (
+                            <button
+                              className={`flex-1 w-full text-[20px] tracking-wider cursor-pointer font-semibold rounded px-3 py-3 transition ${
+                                isCombinationAvailable
+                                  ? " text-white bg-black"
+                                  : " text-red-500 cursor-not-allowed"
+                              }`}
+                              onClick={
+                                isCombinationAvailable
+                                  ? handleAddToCart
+                                  : undefined
+                              }
+                              disabled={!isCombinationAvailable}
+                            >
+                              Add to Cart
+                            </button>
+                          )}
                         </div>
                       </div>
-                    )}
-
-                    {!isCombinationAvailable && (
-                      <p className="text-red-500 font-semibold mt-2">
-                        Not available in this option
-                      </p>
-                    )}
-
-                    <div className="mb-6 mt-4">
-                      <p className="text-[16px] text-gray-800 font-semibold mb-1">
-                        Quantity
-                      </p>
-                      <div className="flex items-center gap-3 max-w-full">
-                        <div className="w-[150px] py-3 rounded flex justify-evenly items-center border-[1px] border-gray-300">
-                          <button
-                            aria-label="Decrease quantity"
-                            className="rounded text-lg font-semibold text-gray-700"
-                            onClick={handleDecreaseQty}
-                          >
-                            <FaMinus />
-                          </button>
-                          <span className="rounded text-black font-semibold text-[20px] text-center">
-                            {availableQty}
-                          </span>
-                          <button
-                            aria-label="Increase quantity"
-                            className="rounded text-lg font-semibold text-gray-700"
-                            onClick={handleIncreaseQty}
-                          >
-                            <FaPlus />
-                          </button>
-                        </div>
-
-                        {isAlreadyInCart ? (
-                          <button
-                            className="flex-1 cursor-pointer w-full  bg-black tracking-wider text-[20px] font-semibold rounded px-3 py-3 transition "
-                            onClick={() => router.push("/Cart")}
-                          >
-                            Go to Cart
-                          </button>
-                        ) : (
-                          <button
-                            className={`flex-1 w-full text-[20px] tracking-wider cursor-pointer font-semibold rounded px-3 py-3 transition ${
-                              isCombinationAvailable
-                                ? " text-white bg-black"
-                                : " text-red-500 cursor-not-allowed"
-                            }`}
-                            onClick={
-                              isCombinationAvailable
-                                ? handleAddToCart
-                                : undefined
-                            }
-                            disabled={!isCombinationAvailable}
-                          >
-                            Add to Cart
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  </>
-                );
-              })()}
-            </>
-          )}
-        </section>
-      </main>
-    </div>
+                    </>
+                  );
+                })()}
+              </>
+            )}
+          </section>
+        </main>
+      </div>
+    </>
   );
 }
 
