@@ -354,8 +354,10 @@ const Cart = (props) => {
     const data = {
       userId: user.id,
       name: value.name,
-      email: value.email,
       phoneNo: value.phoneNo,
+      shippingAddress: {
+        
+      },
     };
 
     props.loader(true);

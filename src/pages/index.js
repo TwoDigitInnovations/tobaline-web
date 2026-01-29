@@ -15,26 +15,7 @@ export default function Home(props) {
   const { t } = useTranslation();
   const [user] = useContext(userContext);
   const router = useRouter();
-  const [setFavorite] = useContext(favoriteProductContext);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
-    fetchFavorite();
-  }, []);
-
-  const fetchFavorite = async () => {
-    try {
-      const res = await Api("get", "getFavourite", null, router, {
-        id: user._id,
-      });
-      const favs = Array.isArray(res?.data) ? res.data : [];
-      setFavorite(favs);
-      localStorage.setItem("Favorite", JSON.stringify(favs));
-    } catch (err) {
-      props.loader(false);
-    }
-  };
+ 
 
   return (
     <>

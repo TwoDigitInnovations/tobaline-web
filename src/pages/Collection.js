@@ -83,20 +83,23 @@ const Collection = (props) => {
     } else {
       setselectedClothType(null);
     }
+    console.log("fgh",router.query?.category);
 
-    if (router?.query?.Category) {
-      setSelectedCategory(router.query.Category);
+    if (router?.query?.category) {
+      setSelectedCategory(router.query.category);
     } else {
       setSelectedCategory("All");
     }
   }, [router?.query]);
 
+  console.log(selectedCategory);
+  
   useEffect(() => {
     if (
-      selectedCategory === "All" ||
-      (selectedClothType && selectedClothType.length > 0) ||
-      (selectedPriceRange && selectedPriceRange.length > 0) ||
-      (selectedColor && selectedColor.length > 0)
+      selectedCategory === "All"
+       || (selectedClothType && selectedClothType.length > 0) 
+      //  || (selectedPriceRange && selectedPriceRange.length > 0) ||
+      // (selectedColor && selectedColor.length > 0)
     ) {
       getproductByCategory(1);
     }

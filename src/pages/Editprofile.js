@@ -53,7 +53,8 @@ function EditProfile(props) {
       userId: user.id,
       name: value.name,
       email: value.email,
-      phoneNo: value.phoneNo,
+      phone: value.phoneNo,
+     
     };
 
     props.loader(true);
@@ -111,7 +112,7 @@ function EditProfile(props) {
           setValues({
             name: fullName || "",
             email: data.email || "",
-            phone: data.phone || "",
+            phoneNo: data.phone || "",
           });
         } else {
           toast.error(res?.message || "Failed to fetch profile");

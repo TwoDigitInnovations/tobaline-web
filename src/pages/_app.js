@@ -60,29 +60,27 @@ function App({ Component, pageProps }) {
         <userContext.Provider value={[user, setUser]}>
           <openCartContext.Provider value={[openCart, setOpenCart]}>
             <cartContext.Provider value={[cartData, setCartData]}>
-              <favoriteProductContext.Provider value={[Favorite, setFavorite]}>
-                <Layout
-                  loader={setOpen}
-                  constant={data}
+              <Layout
+                loader={setOpen}
+                constant={data}
+                toaster={(t) => {
+                  if (t.type === "error") toast.error(t.message);
+                  else if (t.type === "success") toast.success(t.message);
+                  else toast(t.message);
+                }}
+              >
+                {open && <Loader open={open} />}
+                <Component
                   toaster={(t) => {
                     if (t.type === "error") toast.error(t.message);
                     else if (t.type === "success") toast.success(t.message);
                     else toast(t.message);
                   }}
-                >
-                  {open && <Loader open={open} />}
-                  <Component
-                    toaster={(t) => {
-                      if (t.type === "error") toast.error(t.message);
-                      else if (t.type === "success") toast.success(t.message);
-                      else toast(t.message);
-                    }}
-                    {...pageProps}
-                    loader={setOpen}
-                    user={user}
-                  />
-                </Layout>
-              </favoriteProductContext.Provider>
+                  {...pageProps}
+                  loader={setOpen}
+                  user={user}
+                />
+              </Layout>
             </cartContext.Provider>
           </openCartContext.Provider>
         </userContext.Provider>

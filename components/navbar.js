@@ -42,7 +42,7 @@ const Navbar = (props) => {
       const res = await Api("get", "category/getCategories", "", router);
       setCategories(res.data);
     } catch (err) {
-      toast({ type: "error", message: err?.message });
+      props.toaster({ type: "error", message: err?.message });
     } finally {
       props.loader(false);
     }
