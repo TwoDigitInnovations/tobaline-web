@@ -133,10 +133,10 @@ const SignUp = (props) => {
           <form onSubmit={submitSignUp} className="w-full max-w-md">
             <div className="mb-8">
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                Get Started Now
+                {t("Get Started Now")}
               </h1>
               <p className="text-gray-600 text-sm">
-                Enter your Credentials to Create your account
+                {t("Enter your Credentials to Create your account")}
               </p>
             </div>
 
@@ -144,12 +144,12 @@ const SignUp = (props) => {
               {/* Name */}
               <div>
                 <label className="block text-md font-medium text-gray-900 mb-1">
-                  Name
+                  {t("Name")}
                 </label>
                 <input
                   type="text"
                   name="name"
-                  placeholder="Enter your Name"
+                  placeholder={t("Enter your Name")}
                   value={userDetail.name}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -163,12 +163,12 @@ const SignUp = (props) => {
               {/* Email */}
               <div>
                 <label className="block text-md font-medium text-gray-900 mb-1">
-                  Email
+                  {t("Email")}
                 </label>
                 <input
                   type="email"
                   name="email"
-                  placeholder="Enter your email"
+                  placeholder={t("Enter your email")}
                   value={userDetail.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -182,13 +182,13 @@ const SignUp = (props) => {
               {/* Password */}
               <div>
                 <label className="block text-md font-medium text-gray-900 mb-1">
-                  Password
+                  {t("Password")}
                 </label>
                 <div className="relative">
                   <input
                     type={eyeIcon ? "text" : "password"}
                     name="password"
-                    placeholder="Enter your password"
+                    placeholder={t("Enter your password")}
                     value={userDetail.password}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -211,18 +211,18 @@ const SignUp = (props) => {
                 type="submit"
                 className="w-full mt-6 bg-black text-white py-3 rounded-md font-medium hover:bg-gray-800"
               >
-                Signup
+                {t("Signup")}
               </button>
             </div>
 
             <div className="mt-6 text-center flex  justify-center items-center gap-2">
-              <p className="text-sm text-gray-600 ">Have an account? </p>
+              <p className="text-sm text-gray-600 ">{t("Have an account?")} </p>
               <span
                 className="block font-semibold cursor-pointer text-gray-900 hover:underline"
                 onClick={() => router.push("/login")}
               >
                 {" "}
-                Sign In{" "}
+                {t("Sign In")}{" "}
               </span>
             </div>
           </form>

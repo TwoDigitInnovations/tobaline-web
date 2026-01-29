@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Head from "next/head";
+import { useTranslation } from "react-i18next";
 
 const forgotPasswordEmailSchema = Yup.object().shape({
   email: Yup.string()
@@ -57,7 +58,7 @@ function forgotPassword(props) {
   const [showOtp, setShowOtp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [token, setToken] = useState();
-
+  const { t } = useTranslation();
   const { values, handleSubmit, handleChange, handleBlur, errors } = useFormik({
     initialValues: showEmail
       ? initialValueEmail
@@ -204,22 +205,22 @@ function forgotPassword(props) {
             <div className="w-full  mx-auto">
               {showEmail && (
                 <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                  Forgot Password
+                  {t("Forgot Password")}
                 </h2>
               )}
               {showOtp && (
                 <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                  Enter Confirmation Code
+                  {t("Enter Confirmation Code")}
                 </h2>
               )}
               {showPassword && (
                 <h2 className="text-3xl font-bold text-gray-900 mb-2">
-                  Enter Your New Password
+                  {t("Enter Your New Password")}
                 </h2>
               )}
 
               <p className="text-gray-600 text-sm mb-4">
-                Secure your account in just a few steps
+                {t("Secure your account in just a few steps")}
               </p>
 
               {showEmail && (
@@ -227,7 +228,7 @@ function forgotPassword(props) {
                   <div className="mb-4 ">
                     <input
                       className="w-full px-4 py-2.5 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-sm pr-10"
-                      placeholder="Email"
+                      placeholder={t("Email")}
                       type="email"
                       value={values.email}
                       name="email"
@@ -246,15 +247,15 @@ function forgotPassword(props) {
                       className="w-full bg-black text-white text-[16px] font-semibold py-3 rounded mb-2 hover:bg-gray-800 transition cursor-pointer"
                       type="submit"
                     >
-                      Send Confirmation Code
+                      {t("Send Confirmation Code")}
                     </button>
                     <p className="text-[16px] text-black font-normal mt-4 w-full text-center">
-                      Already have an account?{" "}
+                      {t("Already have an account?")}{" "}
                       <span
                         className="font-bold text-custom-green cursor-pointer hover:underline"
-                        onClick={() => router.push("/signIn")}
+                        onClick={() => router.push("/login")}
                       >
-                        Login
+                        {t("Login")}
                       </span>
                     </p>
                   </div>
@@ -262,11 +263,11 @@ function forgotPassword(props) {
               )}
 
               {showOtp && (
-                <form className="md:w-md w-[350px] " onSubmit={handleSubmit}>
+                <form className="md:w-md w-[350px]" onSubmit={handleSubmit}>
                   <div className="mb-6">
                     <input
                       className="w-full px-4 py-2.5 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-sm pr-10"
-                      placeholder=" Confirmation Code"
+                      placeholder={t("Confirmation Code")}
                       type="text"
                       value={values.otp}
                       name="otp"
@@ -285,15 +286,15 @@ function forgotPassword(props) {
                       className="w-full bg-black text-white text-[16px] font-semibold py-3 rounded mb-2  transition cursor-pointer"
                       type="submit"
                     >
-                      Verify Account
+                      {t("Verify Account")}
                     </button>
                     <p className="text-[16px] text-black font-normal mt-4 w-full text-center">
-                      Didn’t receive Confirmation Code?{" "}
+                      {("Didn’t receive Confirmation Code?")}{" "}
                       <span
                         className="font-bold text-custom-green cursor-pointer hover:underline"
-                        // onClick={() => router.push('/')}
+                        onClick={handleSubmit}
                       >
-                        Resend Now
+                        {t("Resend Now")}
                       </span>
                     </p>
                   </div>
@@ -306,7 +307,7 @@ function forgotPassword(props) {
                   <div className="mb-4 relative">
                     <input
                       className="w-full px-4 py-2.5 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-sm pr-10"
-                      placeholder="New Password"
+                      placeholder={t("New Password")}
                       type={!eyeIcon ? "password" : "text"}
                       value={values.password}
                       name="password"
@@ -333,7 +334,7 @@ function forgotPassword(props) {
                   <div className="mb-4 relative">
                     <input
                       className="w-full px-4 py-2.5 border text-black border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent text-sm pr-10"
-                      placeholder="Confirm Password"
+                      placeholder={t("Confirm Password")}
                       type={!eyeIcons ? "password" : "text"}
                       value={values.confirmPassword}
                       name="confirmPassword"
@@ -361,7 +362,7 @@ function forgotPassword(props) {
                       className="w-full bg-black text-white text-[16px] font-semibold py-3 rounded mb-2 hover:bg-black transition cursor-pointer"
                       type="submit"
                     >
-                      Submit
+                      {t("Submit")}
                     </button>
                   </div>
                 </form>

@@ -46,7 +46,40 @@
   "Our fabrics are hand-selected from some of the world’s most revered textile artisans, chosen not only for their superior quality, but for their alignment with our values. Every material we use is ethically, environmentally, and socially responsible, allowing us to create with care and integrity. This is conscious luxury, where sustainability meets softness, and every thread tells a story of love":
   "يتم اختيار أقمشتنا يدويًا من نخبة الحرفيين الأكثر احترامًا في عالم النسيج، ليس فقط لجودتها الفائقة، بل لتوافقها مع قيمنا. كل مادة نستخدمها مسؤولة أخلاقيًا وبيئيًا واجتماعيًا، مما يتيح لنا الإبداع بعناية ونزاهة. هذه هي الفخامة الواعية، حيث تلتقي الاستدامة بالنعومة، وتحكي كل خيط قصة من الحب",
 
-  "Customer Reviews":""
+  "Customer Reviews": "آراء العملاء",
+  "Edit Profile": "تعديل الملف الشخصي",
+  "Welcome back!": "مرحبًا بعودتك!",
+  "Enter your Credentials to access your account": "أدخل بياناتك للوصول إلى حسابك",
+  "Email": "البريد الإلكتروني",
+  "Enter your email": "أدخل بريدك الإلكتروني",
+  "Password": "كلمة المرور",
+  "Enter your password": "أدخل كلمة المرور",
+  "Forgot password": "هل نسيت كلمة المرور؟",
+  "Login": "تسجيل الدخول",
+  "Don't have an account?": "ليس لديك حساب؟",
+  "Sign Up": "إنشاء حساب",
+  "Enter your Credentials to Create your account": "أدخل بياناتك لإنشاء حسابك",
+  "Get Started Now": "ابدأ الآن",
+  "Name": "الاسم",
+  "Enter your Name": "أدخل اسمك",
+  "Signup": "التسجيل",
+  "Have an account?": "هل لديك حساب؟",
+  "Sign In": "تسجيل الدخول",
+
+  "Forgot Password":"",
+  "Enter Confirmation Code":"",
+  "Enter Your New Password":"",
+  "Secure your account in just a few steps":"",
+  "Send Confirmation Code":"",
+  "Already have an account?":"",
+  "Verify Account":"",
+  "Didn’t receive Confirmation Code?":"",
+  "Resend Now":"",
+  "New Password":"",
+  "Confirm Password":"",
+  "Submit":"",
+  "Confirmation Code":""
+
 
 
 }

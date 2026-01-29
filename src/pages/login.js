@@ -81,21 +81,21 @@ const Login = (props) => {
           <div className="w-full max-w-md">
             <div className="mb-8">
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                Welcome back!
+                {t("Welcome back!")}
               </h1>
               <p className="text-gray-600 text-sm">
-                Enter your Credentials to access your account
+                {t("Enter your Credentials to access your account")}
               </p>
             </div>
 
             <div className="space-y-5">
               <div>
                 <label className="block text-md font-medium text-gray-900 mb-1">
-                  Email
+                  {t("Email")}
                 </label>
                 <input
                   type="email"
-                  placeholder="Enter your email"
+                  placeholder={t("Enter your email")}
                   value={userDetail.email}
                   onChange={(e) =>
                     setUserDetail({ ...userDetail, email: e.target.value })
@@ -104,24 +104,23 @@ const Login = (props) => {
                 />
               </div>
 
-              {/* Password Input */}
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <label className="block text-md font-medium text-gray-900">
-                    Password
+                    {t("Password")}
                   </label>
                   <button
                     type="button"
                     onClick={() => router.push("/forgotpasword")}
                     className="text-sm text-gray-600 hover:text-gray-900 cursor-pointer hover:underline"
                   >
-                    Forgot password
+                    {t("Forgot password")}
                   </button>
                 </div>
                 <div className="relative">
                   <input
                     type={eyeIcon ? "text" : "password"}
-                    placeholder="Enter your password"
+                    placeholder={t("Enter your password")}
                     value={userDetail.password}
                     onChange={(e) =>
                       setUserDetail({ ...userDetail, password: e.target.value })
@@ -146,18 +145,18 @@ const Login = (props) => {
                 onClick={submit}
                 className="w-full mt-6 bg-black text-white py-3 rounded-md font-medium hover:bg-gray-800 transition-colors cursor-pointer"
               >
-                Login
+                {t("Login")}
               </button>
             </div>
 
             <div className="mt-6 text-center">
               <p className="text-sm text-gray-600">
-                Don't have an account?{" "}
+                {t("Don't have an account?")}{" "}
                 <button
                   className="font-semibold cursor-pointer text-gray-900 hover:underline"
                   onClick={() => router.push("/singup")}
                 >
-                  Sign Up
+                  {t("Sign Up")}
                 </button>
               </p>
             </div>

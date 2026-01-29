@@ -20,7 +20,7 @@ function App({ Component, pageProps }) {
   const [data, setData] = useState();
   const [openCart, setOpenCart] = useState(false);
   const [cartData, setCartData] = useState([]);
-  const [lang, setLang] = useState("ar");
+  const [lang, setLang] = useState("en");
 
   const getUserdetail = () => {
     if (typeof window === "undefined") return;
