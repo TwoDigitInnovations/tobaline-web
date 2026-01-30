@@ -60,7 +60,7 @@ export default function HeroSection() {
           ].map((card, i) => (
             <div
               key={i}
-              className="bg-white h-[450px] rounded-lg  shadow-lg transform hover:scale-105 transition-transform duration-300 "
+              className="bg-white md:h-[450px] rounded-lg  shadow-lg transform hover:scale-105 transition-transform duration-300 "
             >
               <div
                 className={`relative bg-gradient-to-br ${card.bg} flex items-center justify-center`}
