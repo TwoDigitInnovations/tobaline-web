@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 export default function HeroSection() {
   const router = useRouter();
   const { t } = useTranslation();
-  
+
   return (
     <div className="min-h-screen ">
       <section className="relative flex flex-col items-center justify-center px-4 pt-20">
@@ -74,7 +74,6 @@ export default function HeroSection() {
                   />
                 </div>
 
-                
                 <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-center">
                   <h3 className="text-[20px] font-serif text-stone-800 mb-1">
                     {t(card.title)}
