@@ -12,23 +12,20 @@ import { toast } from "react-toastify";
 import { produce } from "immer";
 import Select from "react-select";
 import countryList from "react-select-country-list";
-import { X } from "lucide-react";
+import { CheckCircle, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 const Cart = (props) => {
   const router = useRouter();
   const { t } = useTranslation();
-
+  const [cancelPopup, setCancelPopup] = useState(false);
+  const [successPopup, setSuccessPopup] = useState(false);
   const [cartData, setCartData] = useContext(cartContext);
   const [cartTotal, setCartTotal] = useState(0);
   const [cartItem, setCartItem] = useState(0);
   const [user, setuser] = useContext(userContext);
   const [open, setOpen] = useState(false);
-  const [showPayment, setShowPayment] = useState(false);
-  const [showPaymentPayPal, setShowPaymentPaypal] = useState(false);
-  const [stripeLoading, setStripeLoading] = useState(false);
-  const { redirect_status } = router.query;
-  const [allowPayPal, setAllowPayPal] = useState(false);
+  const [orderId, setOrderId] = useState("");
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -152,25 +149,19 @@ const Cart = (props) => {
     setCartData(nextState);
     localStorage.setItem("addCartDetail", JSON.stringify(nextState));
   };
-
-  const { paymentSuccess, paymentCancelled } = router.query;
-
-  useEffect(() => {
-    console.log("Payment status:", paymentSuccess, paymentCancelled);
-    if (paymentSuccess) {
-      handlePaymentSuccess(); // ✅
-    } else if (paymentCancelled) {
-      toast.error("Payment cancelled");
-    }
-  }, [paymentSuccess, paymentCancelled]);
+  const { paymentSuccess, paymentCancelled, session_id } = router.query;
 
   useEffect(() => {
-    if (redirect_status === "succeeded") {
-      handlePaymentSuccess();
-    } else if (redirect_status === "failed") {
-      toast.error("erorr");
+    if (!router.isReady) return;
+
+    if (paymentSuccess === "true") {
+      createProductRequest();
     }
-  }, [redirect_status]);
+
+    if (paymentCancelled === "true") {
+      setCancelPopup(true);
+    }
+  }, [router.isReady, paymentSuccess, paymentCancelled]);
 
   const handleDecreaseQty = (item) => {
     const existingItem = cartData.find(
@@ -230,7 +221,7 @@ const Cart = (props) => {
       });
       return;
     }
-    // const billingData = JSON.parse(localStorage.getItem("billingFormData"));
+    const billingData = JSON.parse(localStorage.getItem("billingFormData"));
 
     let data = cartData.map((element) => ({
       product: element?._id,
@@ -251,6 +242,7 @@ const Cart = (props) => {
       total: cartTotal,
       user: user.id,
       Email: user.email,
+      session_id: session_id,
     };
 
     console.log("new Data", newData);
@@ -264,14 +256,17 @@ const Cart = (props) => {
           setCartTotal(0);
           setFormData([]);
           localStorage.removeItem("addCartDetail");
-          localStorage.removeItem("billingFormData");
-          router.push("/MyOrder");
+          setSuccessPopup(true);
+          router.push("/Cart");
+          const order = res?.data?.orders;
+          setOrderId(order?.orderId);
+          // router.push("/MyOrder");
 
-          props.toaster({
-            type: "sucess",
-            message:
-              "Thank you for your order! Your item will be processed shortly.",
-          });
+          // props.toaster({
+          //   type: "sucess",
+          //   message:
+          //     "Thank you for your order! Your item will be processed shortly.",
+          // });
         } else {
           props.toaster({
             type: "sucess",
@@ -294,7 +289,6 @@ const Cart = (props) => {
       type: "sucess",
       message: "Payment successful! Processing your order...",
     });
-    createProductRequest();
   };
 
   const validate = () => {
@@ -338,7 +332,7 @@ const Cart = (props) => {
         currency: constant.currencyName,
       };
 
-      const response = await Api("post", "poststripe", bodyData, router);
+      const response = await Api("post", "stripe/poststripe", bodyData, router);
 
       if (response?.url) {
         window.location.href = response.url;
@@ -557,7 +551,6 @@ const Cart = (props) => {
                       {t("Delivery Address")}
                     </h3>
                     <p className="text-sm text-gray-600 leading-relaxed">
-                     
                       {user?.address || t("No address selected")}
                     </p>
 
@@ -605,8 +598,8 @@ const Cart = (props) => {
                 </div>
 
                 <button
-                  // onClick={handleCheckout}
-                  onClick={createProductRequest}
+                  onClick={handleCheckout}
+                  // onClick={createProductRequest}
                   disabled={loading}
                   className="w-full bg-black hover:bg-gray-800 text-white px-6 py-4 rounded-2xl flex items-center justify-between shadow-lg transition-all disabled:opacity-70 cursor-pointer disabled:cursor-not-allowed"
                 >
@@ -814,6 +807,109 @@ const Cart = (props) => {
                   className="bg-black text-white py-2 w-full rounded-md mt-4 "
                 >
                   {t("Update Address")}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {cancelPopup && (
+          <div className="fixed inset-0 bg-black/80 bg-opacity-50 flex justify-center items-center z-[9999] px-4">
+            <div className="bg-white w-full max-w-md rounded-2xl shadow-lg p-6 relative animate-fadeIn">
+              <div className="flex justify-center mb-4">
+                <div className="bg-orange-100 text-black w-16 h-16 flex justify-center items-center rounded-full text-4xl">
+                  ⚠️
+                </div>
+              </div>
+
+              <h2 className="text-center text-2xl font-semibold text-gray-800">
+                Order Cancelled
+              </h2>
+
+              <p className="text-center text-gray-600 mt-2 text-sm">
+                You were redirected back from Stripe. Your order has been
+                cancelled successfully.
+              </p>
+
+              <div className="flex justify-between gap-4 mt-6">
+                <button
+                  onClick={() => {
+                    setCancelPopup(false);
+                    router.push("/");
+                  }}
+                  className="w-1/2 bg-gray-200 cursor-pointer hover:bg-gray-300 text-gray-800 py-2 rounded-lg font-medium"
+                >
+                  Home
+                </button>
+
+                <button
+                  onClick={() => {
+                    setCancelPopup(false);
+                    router.push("/Cart");
+                  }}
+                  className="w-1/2 bg-black cursor-pointer text-white py-2 rounded-lg font-medium shadow"
+                >
+                  Move to Cart
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        {successPopup && (
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center z-[9999] px-4">
+            <div className="bg-white w-full max-w-xl rounded-3xl shadow-2xl p-4 md:p-8 relative animate-fadeIn">
+              {/* Success Icon */}
+              <div className="flex justify-center mb-5">
+                <div className="bg-green-100 text-green-600 w-20 h-20 flex justify-center items-center rounded-full">
+                  <CheckCircle className="w-12 h-12" />
+                </div>
+              </div>
+
+              {/* Title */}
+              <h2 className="text-center text-2xl font-bold text-gray-800">
+                Payment Successful 🎉
+              </h2>
+
+              {/* Description */}
+              <p className="text-center text-gray-600 mt-3 text-md leading-relaxed px-4">
+                Payment completed successfully! Your order has been confirmed
+                and is now being processed.
+              </p>
+
+              {/* Order ID Box */}
+              <div className="mt-6 bg-gray-50 border border-dashed border-gray-300 rounded-xl p-4 text-center">
+                <p className="text-md text-gray-500">Your Order Number</p>
+                <p className="text-xl font-semibold text-gray-900 mt-1">
+                  #{orderId}
+                </p>
+              </div>
+
+              {/* Email Info */}
+              <p className="text-center text-gray-500 text-md mt-4 px-6">
+                A confirmation email with your order details will be sent to you
+                shortly.
+              </p>
+
+              {/* Actions */}
+              <div className="flex justify-between gap-4 mt-8">
+                <button
+                  onClick={() => {
+                    setSuccessPopup(false);
+                    router.push("/");
+                  }}
+                  className="w-1/2 bg-gray-200 cursor-pointer hover:bg-gray-300 text-gray-800 py-2.5 rounded-xl font-medium transition"
+                >
+                  Go to Home
+                </button>
+
+                <button
+                  onClick={() => {
+                    setSuccessPopup(false);
+                    router.push("/MyOrder");
+                  }}
+                  className="w-1/2 bg-black cursor-pointer hover:bg-gray-900 text-white py-2.5 rounded-xl font-medium shadow transition"
+                >
+                  View My Orders
                 </button>
               </div>
             </div>

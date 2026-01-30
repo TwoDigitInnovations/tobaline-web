@@ -6,7 +6,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { userContext } from "./_app";
 import Head from "next/head";
-// Validation schemas
+import { useTranslation } from "react-i18next";
+
 const forgotPasswordEmailSchema = Yup.object().shape({
   name: Yup.string()
     .min(2, "Name must be at least 2 characters")
@@ -31,7 +32,7 @@ function EditProfile(props) {
   const [user] = useContext(userContext);
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-
+  const { t } = useTranslation();
   const {
     values,
     handleSubmit,
