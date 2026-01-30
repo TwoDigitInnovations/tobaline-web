@@ -69,26 +69,26 @@ const SignUp = (props) => {
   const submitSignUp = (e) => {
     e.preventDefault();
 
-    // let formValid = true;
-    // const newErrors = {};
+    let formValid = true;
+    const newErrors = {};
 
-    // Object.keys(userDetail).forEach((key) => {
-    //   const error = validateField(key, userDetail[key]);
-    //   if (error) {
-    //     formValid = false;
-    //     newErrors[key] = error;
-    //   }
-    // });
+    Object.keys(userDetail).forEach((key) => {
+      const error = validateField(key, userDetail[key]);
+      if (error) {
+        formValid = false;
+        newErrors[key] = error;
+      }
+    });
 
-    // setErrors(newErrors);
+    setErrors(newErrors);
 
-    // if (!formValid) {
-    //   props?.toaster?.({
-    //     type: "error",
-    //     message: "Please fix the errors in the form",
-    //   });
-    //   return;
-    // }
+    if (!formValid) {
+      props?.toaster?.({
+        type: "error",
+        message: "Please fix the errors in the form",
+      });
+      return;
+    }
 
     props?.loader?.(true);
 

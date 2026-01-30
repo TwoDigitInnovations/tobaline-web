@@ -74,12 +74,12 @@ export default function HeroSection() {
                   />
                 </div>
 
-                {/* Text Overlay */}
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-center">
-                  <h3 className="text-2xl font-serif text-stone-800 mb-1">
+                
+                <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-center">
+                  <h3 className="text-[20px] font-serif text-stone-800 mb-1">
                     {t(card.title)}
                   </h3>
-                  <p className="text-stone-600">{t(card.subtitle)}</p>
+                  <p className="text-black">{t(card.subtitle)}</p>
                 </div>
               </div>
             </div>
@@ -87,10 +87,10 @@ export default function HeroSection() {
         </div>
 
         <div className="mt-10 relative z-10 flex flex-col items-center gap-2 animate-bounce">
-          <p className="text-stone-600 text-sm tracking-widest">
+          <p className="text-black text-sm tracking-widest">
             {t("SCROLL DOWN")}
           </p>
-          <ChevronDown className="text-stone-600" size={24} />
+          <ChevronDown className="text-black" size={24} />
         </div>
       </section>
     </div>
