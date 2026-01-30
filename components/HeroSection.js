@@ -24,7 +24,7 @@ export default function HeroSection() {
           <div className="flex flex-wrap gap-4 justify-center">
             <button
               onClick={() => router.push("/Collection")}
-              className="px-8 py-2 border-2 border-stone-800 text-stone-800 hover:bg-stone-800 hover:text-white cursor-pointer transition-colors duration-300"
+              className="px-8 py-2 bg-[#FFF6ED] border-2 border-stone-800 text-stone-800 hover:bg-stone-800 hover:text-white cursor-pointer transition-colors duration-300"
             >
               {t("Explore the Collection")}
             </button>

@@ -57,7 +57,7 @@ const SearchResult = (props) => {
         <div className="max-w-7xl mx-auto px-4 md:px-12  md:pt-0 pt-8 py-4">
           <div className="flex flex-col md:flex-row gap-4 items-center mx-auto max-w-[600px]">
             <div
-              className="flex w-[340px] md:w-[550px] items-center bg-white border-2 border-orange-200 rounded-lg overflow-hidden hover:border-orange-300 transition-colors"
+              className="flex w-[340px] md:w-[550px] items-center bg-white border-2 border-gray-200 rounded-lg overflow-hidden hover:border-gray-600 transition-colors"
               style={{ flexShrink: 0 }}
             >
               <input
@@ -127,7 +127,7 @@ const SearchResult = (props) => {
           </div>
         ) : (
           <div className="flex flex-col justify-center items-center h-[550px] text-gray-600">
-            <BiSearchAlt className="text-[80px] mb-4 text-orange-400" />
+            <BiSearchAlt className="text-[80px] mb-4 text-gray-700" />
             <h2 className="text-xl md:text-2xl font-semibold mb-2">
               {t("No Products Found")}
             </h2>

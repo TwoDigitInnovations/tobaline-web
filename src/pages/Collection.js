@@ -74,37 +74,22 @@ const Collection = (props) => {
     (product) => Number(product.pieces) === 0,
   ).length;
 
-  useEffect(() => {
-    getAllClothTypes();
-    getAllCategories();
-    getColors();
-
-    if (router?.query?.type) {
-      setselectedClothType(router.query.tyoe);
-    } else {
-      setselectedClothType(null);
-    }
-    console.log("fgh", router.query?.category);
-
-    if (router?.query?.category) {
-      setSelectedCategory(router.query.category);
-    } else {
-      setSelectedCategory("All");
-    }
-  }, [router?.query]);
-
-  console.log(selectedCategory);
+  const [filtersReady, setFiltersReady] = useState(false);
 
   useEffect(() => {
-    if (
-      selectedCategory === "All" ||
-      (selectedClothType && selectedClothType.length > 0)
-      //  || (selectedPriceRange && selectedPriceRange.length > 0) ||
-      // (selectedColor && selectedColor.length > 0)
-    ) {
-      getproductByCategory(1);
-    }
-  }, [selectedClothType, selectedPriceRange, selectedColor, selectedCategory]);
+    if (!router.isReady) return;
+
+    setselectedClothType(router.query.type || null);
+    setSelectedCategory(router.query.category || "All");
+
+    setFiltersReady(true);
+  }, [router.isReady]);
+
+  useEffect(() => {
+    if (!filtersReady) return;
+
+    getproductByCategory(1);
+  }, [filtersReady, selectedClothType, selectedColor, selectedCategory]);
 
   const getColors = async () => {
     props.loader(true);
@@ -134,14 +119,14 @@ const Collection = (props) => {
       params.size = selectedSize;
     }
 
-    if (selectedPriceRange) {
-      const [min, max] = selectedPriceRange
-        .replace(/\$/g, "")
-        .split(" - ")
-        .map(Number);
-      params.minPrice = min;
-      params.maxPrice = max;
-    }
+    // if (selectedPriceRange) {
+    //   const [min, max] = selectedPriceRange
+    //     .replace(/\$/g, "")
+    //     .split(" - ")
+    //     .map(Number);
+    //   params.minPrice = min;
+    //   params.maxPrice = max;
+    // }
 
     if (selectedColor) {
       params.colors = selectedColor;
@@ -155,9 +140,8 @@ const Collection = (props) => {
       const res = await Api(
         "get",
         "product/getProductBycategoryId",
-        "",
+         params ,
         router,
-        params,
       );
       props.loader(false);
 
@@ -191,6 +175,9 @@ const Collection = (props) => {
 
   const handleOpenDrawer = () => {
     setOpen(true);
+    getAllClothTypes();
+    getAllCategories();
+    getColors();
   };
 
   const resetFilter = () => {
