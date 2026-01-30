@@ -1,16 +1,15 @@
 import React from "react";
 import Head from "next/head";
+import SEO from "../../components/SEO";
 const TermsAndConditions = () => {
   return (
     <>
-      <Head>
-        <title>Shop Everyday Essentials at Tobaline Today</title>
-        <meta
-          name="description"
-          content="Tobaline offers top-quality Clothes!"
-        />
-        <link rel="canonical" href="" />
-      </Head>
+      <SEO
+        title="Terms & Conditions | Tobaline"
+        description="Review the terms and conditions governing the use of Tobaline’s website."
+        canonical="/termsConditions"
+      />
+
       <div className="min-h-screen bg-white text-black px-6 py-16">
         <div className="max-w-5xl mx-auto">
           <h1 className="text-4xl font-bold mb-6 border-b border-black pb-4">

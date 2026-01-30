@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import SEO from "../../components/SEO";
 
 function Sustainability() {
   const sustainabilityData = [
@@ -28,14 +29,11 @@ function Sustainability() {
 
   return (
     <>
-      <Head>
-        <title>Shop Everyday Essentials at Tobaline Today</title>
-        <meta
-          name="description"
-          content="Tobaline offers top-quality Clothes!"
-        />
-        <link rel="canonical" href="" />
-      </Head>
+      <SEO
+        title="Sustainability at Tobaline"
+        description="Discover how Tobaline is committed to sustainability and responsible practices."
+        canonical="/sustainability"
+      />
 
       <div className=" min-h-screen">
         <section className="pt-20 min-h-screen relative flex flex-col items-center justify-center px-4 ">

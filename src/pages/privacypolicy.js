@@ -1,31 +1,26 @@
 import React from "react";
-import Head from "next/head";
+
+import SEO from "../../components/SEO";
 const PrivacyPolicy = () => {
   return (
     <>
-      <Head>
-        <title>Shop Everyday Essentials at Tobaline Today</title>
-        <meta
-          name="description"
-          content="Tobaline offers top-quality Clothes!"
-        />
-        <link rel="canonical" href="" />
-      </Head>
+      <SEO
+        title="Privacy Policy | Tobaline"
+        description="Understand how Tobaline collects, uses, and protects your personal information."
+        canonical="/privacypolicy"
+      />
 
       <div className="min-h-screen bg-white text-black px-6 py-16">
         <div className="max-w-5xl mx-auto">
-          {/* Page Title */}
           <h1 className="text-4xl font-bold mb-6 border-b border-black pb-4">
             Privacy Policy
           </h1>
 
-          {/* Intro */}
           <p className="text-md mb-8 leading-relaxed">
             Your privacy is important to us. This Privacy Policy explains how we
             collect, use, and protect your information when you use our website.
           </p>
 
-          {/* Section */}
           <section className="mb-8">
             <h2 className="text-xl font-semibold mb-2">
               1. Information We Collect
