@@ -158,7 +158,14 @@ function ContactUs(props) {
                       <p className="text-sm font-semibold text-gray-700">
                         {t("Email")}:
                       </p>
-                      <p className="text-gray-600">contact@tobaline.com</p>
+                      <p className="text-gray-600">
+                        <a
+                          href="mailto:tobaline200@gmail.com"
+                          className="hover:underline"
+                        >
+                          tobaline200@gmail.com
+                        </a>
+                      </p>
                     </div>
                   </div>
                 </div>

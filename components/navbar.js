@@ -58,13 +58,14 @@ const Navbar = (props) => {
       props.loader(false);
     }
   };
-  useEffect(() => {
-    getAllClothTypes();
-  }, []);
+  const effectRan = useRef(false);
 
   useEffect(() => {
+    if (!router.isReady || effectRan.current) return;
     getAllCategories();
-  }, []);
+    getAllClothTypes();
+    effectRan.current = true;
+  }, [router.isReady]);
 
   return (
     <>

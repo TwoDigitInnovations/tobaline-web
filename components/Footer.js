@@ -12,10 +12,19 @@ const Footer = () => {
       {/* Top Content */}
       <div className="max-w-7xl mx-auto px-6 py-14 grid grid-cols-1 md:grid-cols-4 gap-10 border-b border-gray-700">
         <div>
-          <h3 className="text-white font-semibold mb-4">{t("Customer Care")}</h3>
+          <h3 className="text-white font-semibold mb-4">
+            {t("Customer Care")}
+          </h3>
           <p className="text-sm leading-relaxed mb-4">
             {t("Need help? Email us at")} <br />
-            <span className="text-white">contact@tobaline.com</span>
+            <p className="text-gray-100">
+              <a
+                href="mailto:tobaline200@gmail.com"
+                className="hover:underline"
+              >
+                tobaline200@gmail.com
+              </a>
+            </p>
             <br />
             {t("We’re here for you, and ready to answer your questions")}.
           </p>
