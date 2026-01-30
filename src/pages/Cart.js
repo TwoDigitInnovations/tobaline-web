@@ -62,16 +62,16 @@ const Cart = (props) => {
 
     Api("get", "auth/profile", "", router).then(
       (res) => {
-        if (res?.data?.shippingAddress) {
+        if (res?.data?.data) {
           const shipping = res.data.data;
           setFormData({
-            Name: shipping.Name || "",
-            address: shipping.address || "",
-            State: shipping.State || "",
-            city: shipping.city || "",
-            phoneNumber: shipping.phoneNumber || "",
-            pinCode: shipping.pinCode || "",
-            country: shipping.country || "",
+            Name: shipping.name || "",
+            address: shipping.shippingAddress?.address || "",
+            State: shipping?.shippingAddress?.State || "",
+            city: shipping.shippingAddress?.city || "",
+            phoneNumber: shipping.phone || "",
+            pinCode: shipping?.shippingAddress?.pinCode || "",
+            country: shipping?.shippingAddress?.country || "",
           });
         } else {
           console.log(res?.data?.message || "Something went wrong!");
@@ -82,6 +82,7 @@ const Cart = (props) => {
       },
     );
   };
+  console.log(formData);
 
   useEffect(() => {
     const sumWithInitial = cartData?.reduce(
@@ -284,24 +285,26 @@ const Cart = (props) => {
       },
     );
   };
-
-  const handlePaymentSuccess = () => {
-    props.toaster({
-      type: "sucess",
-      message: "Payment successful! Processing your order...",
-    });
-  };
-
   const validate = () => {
     let newErrors = {};
-    if (!formData.Name.trim()) newErrors.Name = "First name is required";
-    if (!formData.address.trim()) newErrors.address = "Address is required";
-    if (!formData.city.trim()) newErrors.city = "City is required";
-    if (!formData.State.trim()) newErrors.State = "State is required";
-    if (!formData.phoneNumber.trim())
+
+    if (!formData?.Name?.trim()) newErrors.Name = "Name is required";
+
+    if (!formData?.address?.trim()) newErrors.address = "Address is required";
+
+    if (!formData?.city?.trim()) newErrors.city = "City is required";
+
+    if (!formData?.State?.trim()) newErrors.State = "State is required";
+
+    if (!formData?.phoneNumber)
       newErrors.phoneNumber = "Phone number is required";
-    if (!formData.pinCode.trim()) newErrors.pinCode = "Pin code is required";
-    if (!formData.country) newErrors.country = "Country is required";
+    else if (String(formData.phoneNumber).length !== 10)
+      newErrors.phoneNumber = "Enter valid 10 digit phone number";
+
+    if (!formData?.pinCode?.trim()) newErrors.pinCode = "Pin code is required";
+
+    if (!formData?.country?.trim()) newErrors.country = "Country is required";
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -321,7 +324,7 @@ const Cart = (props) => {
   const handleCheckout = async () => {
     try {
       setLoading(true);
-
+      validate();
       const bodyData = {
         cartItems: cartData.map((item) => ({
           _id: item._id,
@@ -348,15 +351,23 @@ const Cart = (props) => {
     }
   };
 
-  const UpdateProfile = (value) => {
+  const UpdateProfile = () => {
+    validate();
     const data = {
       userId: user.id,
-      name: value.name,
-      phoneNo: value.phoneNo,
-      shippingAddress: {},
+      name: formData.Name,
+      phone: formData?.phoneNumber,
+      shippingAddress: {
+        address: formData?.address || "",
+        State: formData?.State || "",
+        city: formData?.city || "",
+        pinCode: formData?.pinCode || "",
+        country: formData?.country || "",
+      },
     };
 
     props.loader(true);
+    console.log(data);
 
     Api("post", "auth/updateprofile", data, router).then(
       (res) => {
@@ -368,6 +379,7 @@ const Cart = (props) => {
             message: res?.message || "Profile updated successfully!",
           });
           getProfile();
+          setOpen(false);
         } else {
           props.toaster({
             type: "error",
@@ -449,6 +461,9 @@ const Cart = (props) => {
                       onError={(e) => {
                         e.target.src = "/placeholder-image.jpg";
                       }}
+                      onClick={() =>
+                        router.push(`/product-details/${product?.slug}`)
+                      }
                     />
                     <div>
                       <div className="md:text-lg text-[14px] w-full md:w-[80%] font-semibold leading-tight text-gray-800 mb-3">
@@ -558,7 +573,29 @@ const Cart = (props) => {
                       {t("Delivery Address")}
                     </h3>
                     <p className="text-sm text-gray-600 leading-relaxed">
-                      {user?.address || t("No address selected")}
+                      <span className="block font-medium text-gray-800">
+                        {formData?.Name}
+                      </span>
+
+                      <span className="block">📞 {formData?.phoneNumber}</span>
+
+                      {formData?.address && (
+                        <span className="block">{formData?.address}</span>
+                      )}
+
+                      {(formData?.city || formData?.State) && (
+                        <span className="block">
+                          {formData?.city}
+                          {formData?.city && formData?.State ? ", " : ""}
+                          {formData?.State}
+                        </span>
+                      )}
+
+                      {(formData?.pinCode || formData?.country) && (
+                        <span className="block">
+                          {formData?.pinCode} {formData?.country}
+                        </span>
+                      )}
                     </p>
 
                     <button
@@ -810,7 +847,7 @@ const Cart = (props) => {
 
                 <button
                   type="submit"
-                  // onClick={}
+                  onClick={UpdateProfile}
                   className="bg-black text-white py-2 w-full rounded-md mt-4 "
                 >
                   {t("Update Address")}
