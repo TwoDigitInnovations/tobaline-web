@@ -42,7 +42,7 @@ function generateSiteMap(products, categories) {
     )
     .join("")}
 
- >
+ 
   ${products
     .map(
       (p) => `
@@ -55,7 +55,7 @@ function generateSiteMap(products, categories) {
     )
     .join("")}
 
-  <!-- Category Pages -->
+
   ${categories
     .map(
       (c) => `
