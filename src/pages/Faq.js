@@ -15,11 +15,7 @@ const Faq = () => {
       answer:
         "We offer a curated range of sustainable and handcrafted products made from natural fabrics like cotton, silk, and linen, including handwoven and embroidered pieces created by skilled artisans.",
     },
-    {
-      question: "Are your products handmade?",
-      answer:
-        "Yes, all our products are handmade or hand-finished by experienced artisans, ensuring uniqueness, quality, and attention to detail in every piece.",
-    },
+ 
     {
       question: "How do you ensure sustainability?",
       answer:
@@ -40,11 +36,7 @@ const Faq = () => {
       answer:
         "We recommend gentle hand wash or dry cleaning for most items, using mild detergents to maintain fabric quality and extend the life of your garments.",
     },
-    {
-      question: "Do you support artisans and local communities?",
-      answer:
-        "Yes, supporting artisan communities is at the heart of our brand. Every purchase helps preserve traditional crafts and provides sustainable livelihoods.",
-    },
+  
     {
       question: "Why choose sustainable handmade products?",
       answer:
@@ -72,7 +64,7 @@ const Faq = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-x-8 gap-y-4">
             {faqs.map((faq, index) => (
               <div
                 key={index}
