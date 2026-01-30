@@ -189,7 +189,11 @@ const Navbar = (props) => {
           </nav>
 
           <div className="hidden md:flex items-center gap-4">
-            <Search className="cursor-pointer text-black" size={28} />
+            <Search
+              className="cursor-pointer text-black"
+              size={28}
+              onClick={() => router.push("/SearchResult")}
+            />
             {user?.id === undefined ? (
               <User
                 className="cursor-pointer text-black"

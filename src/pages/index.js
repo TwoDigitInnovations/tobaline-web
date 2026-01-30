@@ -20,10 +20,10 @@ export default function Home(props) {
   return (
     <>
       <SEO
-  title="Tobaline | Everyday Essentials for Modern Living"
-  description="Shop everyday essentials, clothing, and lifestyle products at Tobaline. Quality products at affordable prices."
-  canonical="/"
-/>
+        title="Tobaline | Everyday Essentials for Modern Living"
+        description="Shop everyday essentials, clothing, and lifestyle products at Tobaline. Quality products at affordable prices."
+        canonical="/"
+      />
 
       <div className="">
         <HeroSection />
@@ -39,7 +39,7 @@ export default function Home(props) {
                 {t("Best Picks For You")}
               </h1>
 
-              <BestSeller loader={props.loader} />
+              <BestSeller loader={props.loader} toaster={props?.toaster}/>
             </div>
           </section>
         </div>
@@ -52,7 +52,7 @@ export default function Home(props) {
   );
 }
 
-function BestSeller({ loader }) {
+function BestSeller({ loader,toaster }) {
   const router = useRouter();
   const { t } = useTranslation();
 
@@ -91,6 +91,7 @@ function BestSeller({ loader }) {
             <ProductCard
               key={i}
               product={item}
+              toaster={toaster}
               url={`/product-details/${item?.slug}`}
             />
           ))

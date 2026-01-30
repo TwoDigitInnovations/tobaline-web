@@ -331,7 +331,7 @@ const Cart = (props) => {
           name: item.name,
           image: item.selectedColor?.image || item.selectedImage,
           quantity: item.qty,
-          price: item.price,
+          price: item.offerprice,
         })),
         currency: constant.currencyName,
       };
@@ -478,7 +478,7 @@ const Cart = (props) => {
                         </div>
                       )}
 
-                      {product?.attribute &&
+                      {/* {product?.attribute &&
                         Object.entries(product.attribute)
                           .filter(([key]) => key.toLowerCase() !== "color")
                           .map(([label, value], index) => (
@@ -491,7 +491,7 @@ const Cart = (props) => {
                                 {value || "Not found"}
                               </span>
                             </div>
-                          ))}
+                          ))} */}
 
                       {product.selectedColor && (
                         <div className="md:text-[16px] text-black/50 mb-3">
@@ -511,7 +511,7 @@ const Cart = (props) => {
                   </div>
                   <div className="col-span-5 md:col-span-3 text-gray-800 text-lg md:text-xl mt-2">
                     {constant.currency}
-                    {product.price || 0}
+                    {product.Offerprice || 0}
                   </div>
                   <div className="col-span-5 md:col-span-3 mt-2 mb-2">
                     <div className="flex items-center justify-between border-2 border-gray-300 rounded-sm md:w-28 w-full h-9 bg-white overflow-hidden">

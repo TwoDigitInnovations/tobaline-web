@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { FaPlus } from "react-icons/fa6";
 import { FaMinus } from "react-icons/fa6";
 import Head from "next/head";
+import SEO from "../../../components/SEO";
 
 function ProductDetails(props) {
   const router = useRouter();
@@ -160,7 +161,6 @@ function ProductDetails(props) {
       const updatedCart = [...cartData, newProduct];
       setCartData(updatedCart);
       localStorage.setItem("addCartDetail", JSON.stringify(updatedCart));
-      console.log("Product added to cart:", newProduct);
       toast.success("Item added to cart");
     } else {
       console.log(
@@ -256,14 +256,14 @@ function ProductDetails(props) {
 
   return (
     <>
-      <Head>
-        <title>Shop Everyday Essentials at Tobaline Today</title>
-        <meta
-          name="description"
-          content="Tobaline offers top-quality Clothes!"
-        />
-        <link rel="canonical" href="" />
-      </Head>
+      <SEO
+        title={productsId.metatitle || ""}
+        description={
+          productsId?.metadescreption ||
+          "Get in touch with Tobaline support for queries, feedback, or assistance."
+        }
+        canonical={`product-details/${productsId.slug}`}
+      />
 
       <div className="bg-white w-full min-h-screen">
         <main className="max-w-7xl mx-auto px-4 md:py-12 py-6 flex flex-col md:flex-row gap-8">
@@ -286,7 +286,7 @@ function ProductDetails(props) {
                   customSliderIndex={selectedIndex} // 🔥 This line syncs selected image
                 >
                   {selectedImageList?.map((item, i) => (
-                    <div key={i} className="bg-white md:w-full h-[480px]">
+                    <div key={i} className="bg-white md:w-full h-[550px]">
                       <img
                         className="h-full w-full object-contain rounded"
                         src={item}
@@ -322,9 +322,9 @@ function ProductDetails(props) {
               <p className="text-[#757575] text-2xl">
                 {productsId?.type || "Cotton dress"}{" "}
               </p>
-              <div className="text-black text-sm flex items-center">
+              <div className="text-black text-2xl flex items-center">
                 <FaStar />
-                <span className="text-xs text-gray-500">
+                <span className="text-2xl text-gray-800">
                   ({productReviews?.length || 4.5})
                 </span>
               </div>
@@ -333,8 +333,8 @@ function ProductDetails(props) {
               <h1 className="text-gray-600 text-6xl">{productsId?.name}</h1>
             </div>
 
-            <div className="flex flex-col items-start mb-2">
-              <div className="flex items-center justify-center gap-4">
+            <div className="flex flex-col items-start ">
+              <div className="flex items-center justify-center gap-2">
                 <span
                   className={`text-[32px] line-through   text-black ${
                     isCombinationAvailable === false
@@ -378,7 +378,7 @@ function ProductDetails(props) {
                 <p className="text-red-500 font-semibold">Not available</p>
               )}
             </div>
-            <div className="gap-4">
+            <div className="">
               <div
                 className="text-gray-800"
                 dangerouslySetInnerHTML={{

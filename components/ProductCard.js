@@ -4,7 +4,7 @@ import { Plus, Minus, ShoppingCart, Star } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cartContext } from "@/pages/_app";
 
-const ProductCard = ({ product, url }) => {
+const ProductCard = ({ product, url, toaster }) => {
   const router = useRouter();
   const [openCart, setOpenCart] = useState(false);
   const [cartData, setCartData] = useContext(cartContext);
@@ -22,37 +22,63 @@ const ProductCard = ({ product, url }) => {
 
   const cartItem = cartData.find(
     (item) =>
-      item._id === product._id &&
+      item._id === product?._id &&
       item.selectedColor === variant.color &&
       item.selectedSize === size,
   );
 
   const handleAddToCart = () => {
-    if (!product?._id) return;
+    if (!product?._id || !selectedVariant) return;
 
-    if (selectedVariant?.qty <= 0) return;
+    if (selectedVariant?.qty <= 0) {
+      // toast.info("Out of stock");
+      toaster({ type: "error", Message: "Out of Stock" });
+      return;
+    }
 
-    if (cartItem) {
+    const selectedPrice = {
+      price: selectedVariant?.price || 0,
+      offerprice: selectedVariant?.offerprice || selectedVariant?.price || 0,
+    };
+
+    const ourPrice = parseFloat(selectedPrice.offerprice);
+    const quantity = 1; // yahan qty selector nahi hai
+
+    const existingItem = cartData.find(
+      (f) =>
+        f._id === product._id &&
+        f.selectedColor === variant.color &&
+        f.selectedSize === size,
+    );
+
+    if (existingItem) {
+      toaster({
+        type: "error",
+        Message: "This exact item is already in your cart",
+      });
       setOpenCart(true);
       return;
     }
 
-    const newItem = {
-      _id: product._id,
-      name: product.name,
-      selectedColor: variant.color,
-      selectedSize: size,
-      selectedImage: variant.image?.[0],
-      qty: 1,
-      price,
-      offerprice,
-      total: offerprice,
+    const newProduct = {
+      ...product,
+      selectedColor: variant.color || "",
+      selectedSize: size || "",
+      selectedImage: variant?.image?.[0] || "",
+      qty: quantity,
+      attribute: selectedVariant?.attributes || [],
+      total: (ourPrice * quantity).toFixed(2),
+      Offerprice: ourPrice,
+      category: product.category,
+      price_slot: selectedPrice,
+      price: ourPrice,
     };
 
-    const updated = [...cartData, newItem];
+    const updated = [...cartData, newProduct];
     setCartData(updated);
     localStorage.setItem("addCartDetail", JSON.stringify(updated));
     setOpenCart(true);
+    toaster({ type: "error", Message: "product added to cart" });
   };
 
   // ➕➖ QTY HANDLERS
@@ -86,13 +112,14 @@ const ProductCard = ({ product, url }) => {
     localStorage.setItem("addCartDetail", JSON.stringify(updated));
   };
 
+
   return (
     <div className="rounded-lg overflow-hidden transition relative">
       {/* IMAGE */}
       <div className="relative cursor-pointer" onClick={route}>
         <img
           src={variant?.image?.[0]}
-          alt={product.name}
+          alt={product?.name}
           className="w-full h-[320px] object-cover"
         />
 
@@ -100,7 +127,7 @@ const ProductCard = ({ product, url }) => {
           className="absolute right-2 bottom-2 bg-white p-1.5 cursor-pointer min-w-[32px] text-center"
           onClick={(e) => {
             e.stopPropagation();
-            cartItem ? router.push("/Cart"): handleAddToCart();
+            cartItem ? router.push("/Cart") : handleAddToCart();
           }}
         >
           {cartItem ? (
