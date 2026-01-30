@@ -10,6 +10,7 @@ import { userContext } from "./_app";
 import CustomerReviews from "../../components/Testimonials";
 import MindfulLuxury from "../../components/MindfulLuxury";
 import ProductCard from "../../components/ProductCard";
+import SEO from "../../components/SEO";
 
 export default function Home(props) {
   const { t } = useTranslation();
@@ -18,14 +19,12 @@ export default function Home(props) {
 
   return (
     <>
-      <Head>
-        <title>Shop Everyday Essentials at Tobaline Today</title>
-        <meta
-          name="description"
-          content="Tobaline offers top-quality Clothes!"
-        />
-        <link rel="canonical" href="" />
-      </Head>
+      <SEO
+  title="Tobaline | Everyday Essentials for Modern Living"
+  description="Shop everyday essentials, clothing, and lifestyle products at Tobaline. Quality products at affordable prices."
+  canonical="/"
+/>
+
       <div className="">
         <HeroSection />
 

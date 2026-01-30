@@ -10,6 +10,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Head from "next/head";
 import { useTranslation } from "react-i18next";
+import SEO from "../../components/SEO";
 
 const forgotPasswordEmailSchema = Yup.object().shape({
   email: Yup.string()
@@ -191,14 +192,12 @@ function forgotPassword(props) {
 
   return (
     <>
-      <Head>
-        <title>Shop Everyday Essentials at Tobaline Today</title>
-        <meta
-          name="description"
-          content="Tobaline offers top-quality Clothes!"
-        />
-        <link rel="canonical" href="" />
-      </Head>
+      <SEO
+        title="Forgot Password | Tobaline"
+        description="Reset your Tobaline account password securely and regain access."
+        canonical="/forgotpassword"
+      />
+
       <div className="md:min-h-screen min-h-[700px] flex max-w-7xl mx-auto">
         <div className="w-full lg:w-1/2 flex md:p-0 p-8 items-center justify-center bg-white">
           <div className="p-4 ">
@@ -289,7 +288,7 @@ function forgotPassword(props) {
                       {t("Verify Account")}
                     </button>
                     <p className="text-[16px] text-black font-normal mt-4 w-full text-center">
-                      {("Didn’t receive Confirmation Code?")}{" "}
+                      {"Didn’t receive Confirmation Code?"}{" "}
                       <span
                         className="font-bold text-custom-green cursor-pointer hover:underline"
                         onClick={handleSubmit}

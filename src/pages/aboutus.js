@@ -1,17 +1,14 @@
 import React from "react";
-import Head from "next/head";
+import SEO from "../../components/SEO";
 
 export default function AboutUs() {
   return (
     <>
-      <Head>
-        <title>Shop Everyday Essentials at Tobaline Today</title>
-        <meta
-          name="description"
-          content="Tobaline offers top-quality Clothes!"
-        />
-        <link rel="canonical" href="" />
-      </Head>
+       <SEO
+        title="About Tobaline | Everyday Essentials You Can Trust"
+        description="Learn more about Tobaline, our mission, and our commitment to quality everyday essentials."
+        canonical="/aboutus"
+      />
 
       <div className="relative min-h-screen bg-white overflow-hidden">
         <div

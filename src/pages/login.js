@@ -7,6 +7,7 @@ import { userContext } from "./_app";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 import Head from "next/head";
+import SEO from "../../components/SEO";
 
 const Login = (props) => {
   const { t } = useTranslation();
@@ -68,14 +69,12 @@ const Login = (props) => {
 
   return (
     <>
-      <Head>
-        <title>Shop Everyday Essentials at Tobaline Today</title>
-        <meta
-          name="description"
-          content="Tobaline offers top-quality Clothes!"
-        />
-        <link rel="canonical" href="" />
-      </Head>
+      <SEO
+        title="Login to Your Account | Tobaline"
+        description="Log in to your Tobaline account to manage orders and personal details."
+        canonical="/login"
+      />
+
       <div className="md:min-h-screen min-h-[700px] flex max-w-7xl mx-auto">
         <div className="w-full lg:w-1/2 flex items-center md:p-0 p-8 justify-center bg-white">
           <div className="w-full max-w-md">

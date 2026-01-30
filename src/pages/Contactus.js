@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import { Api } from "../../services/service";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import { useTranslation } from "react-i18next";
+import SEO from "../../components/SEO";
 
 function ContactUs(props) {
   const [formData, setFormData] = useState({
@@ -15,6 +17,8 @@ function ContactUs(props) {
     subject: "",
     message: "",
   });
+  const { t } = useTranslation();
+
   const router = useRouter();
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -102,14 +106,11 @@ function ContactUs(props) {
 
   return (
     <>
-      <Head>
-        <title>Shop Everyday Essentials at Tobaline Today</title>
-        <meta
-          name="description"
-          content="Tobaline offers top-quality Clothes!"
-        />
-        <link rel="canonical" href="" />
-      </Head>
+      <SEO
+        title="Contact Us | Tobaline"
+        description="Get in touch with Tobaline support for queries, feedback, or assistance."
+        canonical="/contactus"
+      />
 
       <div className="min-h-screen bg-gray-50 md:py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
@@ -125,7 +126,7 @@ function ContactUs(props) {
 
               <div className="p-8 md:p-12 bg-white">
                 <h1 className="text-3xl font-serif font-bold text-gray-900 mb-6">
-                  ToBa Line
+                  {t("ToBa Line")}
                 </h1>
 
                 <div className="space-y-4 mb-8">
@@ -133,7 +134,7 @@ function ContactUs(props) {
                     <MapPin className="w-5 h-5 text-gray-600 mt-1 flex-shrink-0" />
                     <div>
                       <p className="text-sm font-semibold text-gray-700">
-                        Address:
+                        {t("Address:")}
                       </p>
                       <p className="text-gray-600">
                         123 Studio Street, Creative District
@@ -145,7 +146,7 @@ function ContactUs(props) {
                     <Phone className="w-5 h-5 text-gray-600 mt-1 flex-shrink-0" />
                     <div>
                       <p className="text-sm font-semibold text-gray-700">
-                        Phone:
+                        {t("Phone:")}
                       </p>
                       <p className="text-gray-600">+1 (555) 123-4567</p>
                     </div>
@@ -155,7 +156,7 @@ function ContactUs(props) {
                     <Mail className="w-5 h-5 text-gray-600 mt-1 flex-shrink-0" />
                     <div>
                       <p className="text-sm font-semibold text-gray-700">
-                        Email:
+                        {t("Email")}:
                       </p>
                       <p className="text-gray-600">contact@tobaline.com</p>
                     </div>
@@ -187,7 +188,7 @@ function ContactUs(props) {
 
           <div className="bg-white rounded-lg shadow-sm p-4 md:p-12">
             <h2 className="text-3xl font-serif font-bold text-center text-gray-900 mb-8">
-              Contact
+              {t("Contact")}
             </h2>
 
             <div className="max-w-5xl mx-auto">
@@ -196,7 +197,7 @@ function ContactUs(props) {
                   <input
                     type="text"
                     name="Name"
-                    placeholder="Name"
+                    placeholder={t("Name")}
                     value={formData.Name}
                     onChange={handleChange}
                     className={`w-full px-4 py-3 border ${errors.Name ? "border-red-500" : "border-gray-300"} text-black focus:outline-none focus:border-gray-900 transition-colors duration-200`}
@@ -210,7 +211,7 @@ function ContactUs(props) {
                   <input
                     type="email"
                     name="email"
-                    placeholder="E-mail"
+                    placeholder={t("Email")}
                     value={formData.email}
                     onChange={handleChange}
                     className={`w-full px-4 py-3 border ${errors.email ? "border-red-500" : "border-gray-300"} text-black focus:outline-none focus:border-gray-900 transition-colors duration-200`}
@@ -225,7 +226,7 @@ function ContactUs(props) {
                 <input
                   type="tel"
                   name="phoneNumber"
-                  placeholder="Phone Number"
+                  placeholder={t("Phone Number")}
                   value={formData.phoneNumber}
                   onChange={handleChange}
                   className="w-full px-4 py-3 text-black border border-gray-300 focus:outline-none focus:border-gray-900 transition-colors duration-200"
@@ -236,7 +237,7 @@ function ContactUs(props) {
                 <input
                   type="text"
                   name="subject"
-                  placeholder="Subject"
+                  placeholder={t("Subject")}
                   value={formData.subject}
                   onChange={handleChange}
                   className="w-full px-4 py-3 text-black border border-gray-300 focus:outline-none focus:border-gray-900 transition-colors duration-200"
@@ -246,7 +247,7 @@ function ContactUs(props) {
               <div className="mb-6">
                 <textarea
                   name="message"
-                  placeholder="Message"
+                  placeholder={t("Message")}
                   rows="6"
                   value={formData.message}
                   onChange={handleChange}
@@ -262,7 +263,7 @@ function ContactUs(props) {
                 disabled={isSubmitting}
                 className="w-full bg-black cursor-pointer text-white py-4 px-6 font-medium tracking-wide hover:bg-gray-800 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? "SENDING..." : "SEND MESSAGE"}
+                {isSubmitting ? "SENDING..." : t("SEND MESSAGE")}
               </button>
             </div>
           </div>

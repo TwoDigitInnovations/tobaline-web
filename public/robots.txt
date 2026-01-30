@@ -10,7 +10,7 @@ Disallow: /cache/
 Disallow: /cgi-bin/
 
 # Host
-Host: https://www.bachhoahouston.com/
+Host: https://www.tobaline.com/
 
 # Sitemaps
-Sitemap: https://www.bachhoahouston.com/sitemap.xml
+Sitemap: https://www.tobaline.com/sitemap.xml

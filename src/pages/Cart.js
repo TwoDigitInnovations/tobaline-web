@@ -14,6 +14,7 @@ import Select from "react-select";
 import countryList from "react-select-country-list";
 import { CheckCircle, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import SEO from "../../components/SEO";
 
 const Cart = (props) => {
   const router = useRouter();
@@ -389,6 +390,12 @@ const Cart = (props) => {
 
   return (
     <>
+      <SEO
+        title="Your Shopping Cart | Tobaline"
+        description="Review items in your cart and proceed securely to checkout at Tobaline."
+        canonical="/Cart"
+      />
+
       <div className="min-h-screen max-w-7xl mx-auto px-4 py-4">
         <h1 className="text-center text-2xl md:text-3xl font-normal mt-4 md:mt-0 text-gray-800">
           {t("Shopping Cart")}

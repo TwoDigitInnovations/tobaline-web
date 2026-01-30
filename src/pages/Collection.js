@@ -10,6 +10,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { IoChevronDown, IoChevronUp } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 import ProductCard from "../../components/ProductCard";
+import SEO from "../../components/SEO";
 
 const Collection = (props) => {
   const router = useRouter();
@@ -83,7 +84,7 @@ const Collection = (props) => {
     } else {
       setselectedClothType(null);
     }
-    console.log("fgh",router.query?.category);
+    console.log("fgh", router.query?.category);
 
     if (router?.query?.category) {
       setSelectedCategory(router.query.category);
@@ -93,11 +94,11 @@ const Collection = (props) => {
   }, [router?.query]);
 
   console.log(selectedCategory);
-  
+
   useEffect(() => {
     if (
-      selectedCategory === "All"
-       || (selectedClothType && selectedClothType.length > 0) 
+      selectedCategory === "All" ||
+      (selectedClothType && selectedClothType.length > 0)
       //  || (selectedPriceRange && selectedPriceRange.length > 0) ||
       // (selectedColor && selectedColor.length > 0)
     ) {
@@ -379,138 +380,146 @@ const Collection = (props) => {
   };
 
   return (
-    <div className="min-h-screen bg-white">
-      <header className="bg-white border-b border-gray-200 ">
-        <div className="relative max-w-7xl mx-auto md:0 mt-4 px-6 py-4 md:py-2 mb-2">
-          <h1 className="text-2xl md:text-4xl font-bold text-gray-900 text-center">
-            {t("All Collection")}
-          </h1>
+    <>
+      <SEO
+        title="Shop Collections | Tobaline"
+        description="Explore curated collections of everyday essentials and clothing at Tobaline."
+        canonical="/Collection"
+      />
 
-          <button
-            onClick={handleOpenDrawer}
-            className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center text-[18px] text-gray-800"
-          >
-            <span className="md:inline hidden">{t("Filters")}</span>
-            <IoFilterSharp className="ml-2 text-[22px]" />
-          </button>
-        </div>
-      </header>
+      <div className="min-h-screen bg-white">
+        <header className="bg-white border-b border-gray-200 ">
+          <div className="relative max-w-7xl mx-auto md:0 mt-4 px-6 py-4 md:py-2 mb-2">
+            <h1 className="text-2xl md:text-4xl font-bold text-gray-900 text-center">
+              {t("All Collection")}
+            </h1>
 
-      <div className="md:max-w-7xl mx-auto px-2 py-4 md:mb-4">
-        <div className="flex">
-          <Drawer
-            open={open}
-            onClose={handleClose}
-            anchor="right"
-            PaperProps={{
-              style: {
-                width: "450px",
-                maxWidth: "90vw",
-              },
-            }}
-          >
-            <div className="w-full">
-              <FilterContent />
-            </div>
-          </Drawer>
-
-          <div className="max-w-7xl mx-auto w-full">
-            {productList?.length > 0 ? (
-              <div className="grid md:grid-cols-4 lg:grid-cols-4 grid-cols-2 gap-4">
-                {productList.map((item, i) => (
-                  <ProductCard
-                    key={item?._id || i}
-                    product={item}
-                    url={`/product-details/${item?.slug}`}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="w-full flex flex-col justify-center items-center py-12 min-h-[550px]">
-                <img
-                  src="/market.jpg"
-                  alt="market"
-                  className="md:w-[30vw] w-[60vw] mt-10"
-                />
-                <p className="text-gray-500 md:text-2xl text-xl">
-                  {t("No products Available")}
-                </p>
-              </div>
-            )}
+            <button
+              onClick={handleOpenDrawer}
+              className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center text-[18px] text-gray-800"
+            >
+              <span className="md:inline hidden">{t("Filters")}</span>
+              <IoFilterSharp className="ml-2 text-[22px]" />
+            </button>
           </div>
-        </div>
+        </header>
 
-        <div className="col-span-6 w-full flex justify-center mt-8 mb-8">
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={() => handlePageChange(pagenation.currentPage - 1)}
-              disabled={pagenation.currentPage === 1}
-              className={`px-3.5 py-3 rounded-md ${
-                pagenation.currentPage === 1
-                  ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                  : "bg-black text-white"
-              }`}
+        <div className="md:max-w-7xl mx-auto px-2 py-4 md:mb-4">
+          <div className="flex">
+            <Drawer
+              open={open}
+              onClose={handleClose}
+              anchor="right"
+              PaperProps={{
+                style: {
+                  width: "450px",
+                  maxWidth: "90vw",
+                },
+              }}
             >
-              <FaChevronLeft />
-            </button>
+              <div className="w-full">
+                <FilterContent />
+              </div>
+            </Drawer>
 
-            {Array.from({ length: pagenation.totalPages }, (_, i) => i + 1)
-              .filter((page) => {
-                return (
-                  page <= 2 ||
-                  page > pagenation.totalPages - 2 ||
-                  Math.abs(page - pagenation.currentPage) <= 1
-                );
-              })
-              .reduce((acc, page, index, arr) => {
-                if (index > 0 && page - arr[index - 1] > 1) {
-                  acc.push("ellipsis");
-                }
-                acc.push(page);
-                return acc;
-              }, [])
-              .map((item, index) => {
-                if (item === "ellipsis") {
+            <div className="max-w-7xl mx-auto w-full">
+              {productList?.length > 0 ? (
+                <div className="grid md:grid-cols-4 lg:grid-cols-4 grid-cols-2 gap-4">
+                  {productList.map((item, i) => (
+                    <ProductCard
+                      key={item?._id || i}
+                      product={item}
+                      url={`/product-details/${item?.slug}`}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="w-full flex flex-col justify-center items-center py-12 min-h-[550px]">
+                  <img
+                    src="/market.jpg"
+                    alt="market"
+                    className="md:w-[30vw] w-[60vw] mt-10"
+                  />
+                  <p className="text-gray-500 md:text-2xl text-xl">
+                    {t("No products Available")}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="col-span-6 w-full flex justify-center mt-8 mb-8">
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={() => handlePageChange(pagenation.currentPage - 1)}
+                disabled={pagenation.currentPage === 1}
+                className={`px-3.5 py-3 rounded-md ${
+                  pagenation.currentPage === 1
+                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                    : "bg-black text-white"
+                }`}
+              >
+                <FaChevronLeft />
+              </button>
+
+              {Array.from({ length: pagenation.totalPages }, (_, i) => i + 1)
+                .filter((page) => {
                   return (
-                    <span
-                      key={`ellipsis-${index}`}
-                      className="px-2 text-gray-500"
-                    >
-                      ...
-                    </span>
+                    page <= 2 ||
+                    page > pagenation.totalPages - 2 ||
+                    Math.abs(page - pagenation.currentPage) <= 1
                   );
-                }
+                })
+                .reduce((acc, page, index, arr) => {
+                  if (index > 0 && page - arr[index - 1] > 1) {
+                    acc.push("ellipsis");
+                  }
+                  acc.push(page);
+                  return acc;
+                }, [])
+                .map((item, index) => {
+                  if (item === "ellipsis") {
+                    return (
+                      <span
+                        key={`ellipsis-${index}`}
+                        className="px-2 text-gray-500"
+                      >
+                        ...
+                      </span>
+                    );
+                  }
 
-                return (
-                  <button
-                    key={item}
-                    onClick={() => handlePageChange(item)}
-                    className={`w-10 h-10 flex items-center justify-center rounded-md ${
-                      item === pagenation.currentPage
-                        ? "bg-black text-white"
-                        : "text-black bg-gray-200"
-                    }`}
-                  >
-                    {item}
-                  </button>
-                );
-              })}
+                  return (
+                    <button
+                      key={item}
+                      onClick={() => handlePageChange(item)}
+                      className={`w-10 h-10 flex items-center justify-center rounded-md ${
+                        item === pagenation.currentPage
+                          ? "bg-black text-white"
+                          : "text-black bg-gray-200"
+                      }`}
+                    >
+                      {item}
+                    </button>
+                  );
+                })}
 
-            <button
-              onClick={() => handlePageChange(pagenation.currentPage + 1)}
-              disabled={pagenation.currentPage === pagenation.totalPages}
-              className={`px-3.5 py-3 rounded-md ${
-                pagenation.currentPage === pagenation.totalPages
-                  ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                  : "bg-black text-white"
-              }`}
-            >
-              <FaChevronRight />
-            </button>
+              <button
+                onClick={() => handlePageChange(pagenation.currentPage + 1)}
+                disabled={pagenation.currentPage === pagenation.totalPages}
+                className={`px-3.5 py-3 rounded-md ${
+                  pagenation.currentPage === pagenation.totalPages
+                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                    : "bg-black text-white"
+                }`}
+              >
+                <FaChevronRight />
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

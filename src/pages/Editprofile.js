@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import { userContext } from "./_app";
 import Head from "next/head";
 import { useTranslation } from "react-i18next";
+import SEO from "../../components/SEO";
 
 const forgotPasswordEmailSchema = Yup.object().shape({
   name: Yup.string()
@@ -139,14 +140,11 @@ function EditProfile(props) {
 
   return (
     <>
-      <Head>
-        <title>Shop Everyday Essentials at Tobaline Today</title>
-        <meta
-          name="description"
-          content="Tobaline offers top-quality Clothes!"
-        />
-        <link rel="canonical" href="" />
-      </Head>
+      <SEO
+        title="Edit Profile | Tobaline"
+        description="Update your personal information and account preferences at Tobaline."
+        canonical="/Editprofile"
+      />
 
       <div className="md:min-h-screen min-h-[700px] flex max-w-7xl mx-auto">
         <div className="w-full lg:w-1/2 flex md:p-0 p-4 items-center justify-center bg-white">

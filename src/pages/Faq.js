@@ -1,5 +1,6 @@
 import React from "react";
 import Head from "next/head";
+import SEO from "../../components/SEO";
 
 const Faq = () => {
   const [openIndex, setOpenIndex] = React.useState(null);
@@ -53,14 +54,11 @@ const Faq = () => {
 
   return (
     <>
-      <Head>
-        <title>Shop Everyday Essentials at Tobaline Today</title>
-        <meta
-          name="description"
-          content="Tobaline offers top-quality Clothes!"
-        />
-        <link rel="canonical" href="" />
-      </Head>
+      <SEO
+        title="Frequently Asked Questions | Tobaline"
+        description="Find answers to common questions about orders, payments, and shipping at Tobaline."
+        canonical="/Faq"
+      />
 
       <section className="md:mt-0 mt-14 w-full flex flex-col items-center justify-center min-h-[700px] px-4">
         <div className="w-full max-w-5xl">

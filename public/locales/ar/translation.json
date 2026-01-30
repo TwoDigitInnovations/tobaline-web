@@ -40,11 +40,9 @@
   "Pure Materials": "مواد نقية",
   "SCROLL DOWN": "مرر للأسفل",
   "Mindful Luxury": "فخامة بوعي",
-  "Sustainable, ethical, and designed to last. Our Toba line certified silk is free from harmful chemicals, our packaging is plastic-free, and we repurpose fabric offcuts to reduce waste. Indulge in comfort and sustainability without compromise": 
-  "مستدامة، أخلاقية، ومصممة لتدوم. حرير مجموعة توبا المعتمد خالٍ من المواد الكيميائية الضارة، وتغليفنا خالٍ من البلاستيك، كما نعيد استخدام بقايا الأقمشة للحد من الهدر. استمتع بالراحة والاستدامة دون أي تنازل",
+  "Sustainable, ethical, and designed to last. Our Toba line certified silk is free from harmful chemicals, our packaging is plastic-free, and we repurpose fabric offcuts to reduce waste. Indulge in comfort and sustainability without compromise": "مستدامة، أخلاقية، ومصممة لتدوم. حرير مجموعة توبا المعتمد خالٍ من المواد الكيميائية الضارة، وتغليفنا خالٍ من البلاستيك، كما نعيد استخدام بقايا الأقمشة للحد من الهدر. استمتع بالراحة والاستدامة دون أي تنازل",
 
-  "Our fabrics are hand-selected from some of the world’s most revered textile artisans, chosen not only for their superior quality, but for their alignment with our values. Every material we use is ethically, environmentally, and socially responsible, allowing us to create with care and integrity. This is conscious luxury, where sustainability meets softness, and every thread tells a story of love":
-  "يتم اختيار أقمشتنا يدويًا من نخبة الحرفيين الأكثر احترامًا في عالم النسيج، ليس فقط لجودتها الفائقة، بل لتوافقها مع قيمنا. كل مادة نستخدمها مسؤولة أخلاقيًا وبيئيًا واجتماعيًا، مما يتيح لنا الإبداع بعناية ونزاهة. هذه هي الفخامة الواعية، حيث تلتقي الاستدامة بالنعومة، وتحكي كل خيط قصة من الحب",
+  "Our fabrics are hand-selected from some of the world’s most revered textile artisans, chosen not only for their superior quality, but for their alignment with our values. Every material we use is ethically, environmentally, and socially responsible, allowing us to create with care and integrity. This is conscious luxury, where sustainability meets softness, and every thread tells a story of love": "يتم اختيار أقمشتنا يدويًا من نخبة الحرفيين الأكثر احترامًا في عالم النسيج، ليس فقط لجودتها الفائقة، بل لتوافقها مع قيمنا. كل مادة نستخدمها مسؤولة أخلاقيًا وبيئيًا واجتماعيًا، مما يتيح لنا الإبداع بعناية ونزاهة. هذه هي الفخامة الواعية، حيث تلتقي الاستدامة بالنعومة، وتحكي كل خيط قصة من الحب",
 
   "Customer Reviews": "آراء العملاء",
   "Edit Profile": "تعديل الملف الشخصي",
@@ -134,12 +132,18 @@
   "How would you rate experience at Tobaline": "كيف تقيم تجربتك مع توبالاين",
   "Write a review....": "اكتب تقييمك...",
   "Submit Review": "إرسال التقييم",
-  "All reviews on Cool Co. Reviews are verified within 48 hours before posting to ensure authenticity and accuracy":
-  "يتم التحقق من جميع التقييمات على مراجعات كول كو خلال 48 ساعة قبل النشر لضمان المصداقية والدقة",
+  "All reviews on Cool Co. Reviews are verified within 48 hours before posting to ensure authenticity and accuracy": "يتم التحقق من جميع التقييمات على مراجعات كول كو خلال 48 ساعة قبل النشر لضمان المصداقية والدقة",
 
-
-  "No History Available":""
-
-
+  "No History Available": "لا يوجد سجل متاح",
+  "Profile": "الملف الشخصي",
+  "You are not logged in. Please sign in to view your profile": "أنت غير مسجل الدخول. يرجى تسجيل الدخول لعرض ملفك الشخصي",
+  "Sign Out": "تسجيل الخروج",
+  "ToBa Line": "توبا لاين",
+  "Address:": "العنوان:",
+  "Phone:": "الهاتف:",
+  "Contact": "تواصل معنا",
+  "Subject": "الموضوع",
+  "Message": "الرسالة",
+  "SEND MESSAGE": "إرسال الرسالة"
 
 }

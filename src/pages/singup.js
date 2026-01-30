@@ -7,6 +7,7 @@ import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 import { userContext } from "./_app";
 import Head from "next/head";
+import SEO from "../../components/SEO";
 
 const SignUp = (props) => {
   const { t } = useTranslation();
@@ -119,14 +120,11 @@ const SignUp = (props) => {
 
   return (
     <>
-      <Head>
-        <title>Shop Everyday Essentials at Tobaline Today</title>
-        <meta
-          name="description"
-          content="Tobaline offers top-quality Clothes!"
-        />
-        <link rel="canonical" href="" />
-      </Head>
+      <SEO
+        title="Create an Account | Tobaline"
+        description="Sign up at Tobaline to shop faster, track orders, and enjoy exclusive benefits."
+        canonical="/signup"
+      />
 
       <div className="md:min-h-screen min-h-[700px] flex max-w-7xl mx-auto">
         <div className="w-full lg:w-1/2 flex md:p-0 p-8 items-center justify-center bg-white">
