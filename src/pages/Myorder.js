@@ -161,11 +161,11 @@ const myorder = (props) => {
                           src={
                             order.productDetail[0]?.image[0] || "/no-image.png"
                           }
-                          onClick={() => {
+                          onClick={() =>
                             router.push(
-                              `/myorder/${order._id}?product_id=${order.productDetail[0]?._id}`,
-                            );
-                          }}
+                              `/product-details/${order?.productDetail[0]?.product?.slug}`,
+                            )
+                          }
                         />
                         <div>
                           <h3 className="font-medium text-gray-900 text-sm md:text-base">
@@ -243,11 +243,11 @@ const myorder = (props) => {
                                       order.productDetail[productIndex + 1]
                                         ?.image[0]
                                     }
-                                    onClick={() => {
+                                    onClick={() =>
                                       router.push(
-                                        `/myorder/${order._id}?product_id=${order.productDetail[productIndex + 1]?._id}`,
-                                      );
-                                    }}
+                                        `/product-details/${order?.productDetail[productIndex+1]?.product?.slug}`,
+                                      )
+                                    }
                                   />
                                   <div>
                                     <h3 className="font-medium text-gray-900 text-sm md:text-base">
