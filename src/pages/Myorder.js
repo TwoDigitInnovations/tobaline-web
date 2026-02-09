@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useContext, useEffect, useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Api } from "../../services/service";
@@ -15,6 +17,8 @@ const myorder = (props) => {
   const [user, setUser] = useContext(userContext);
   const router = useRouter();
   const { t } = useTranslation();
+
+  if (!user) return null;
 
   useEffect(() => {
     if (user?.id) {
@@ -59,18 +63,14 @@ const myorder = (props) => {
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    });
+    if (!dateString) return "";
+    return new Date(dateString).toISOString().slice(0, 10);
   };
-
   const getColorName = (hex) => {
+    if (typeof window === "undefined") return "";
     if (!hex) return "No Selected Color";
-
     const names = namer(hex);
-    return names.basic[0].name; // e.g. 'blue', 'black', etc.
+    return names.basic[0].name;
   };
 
   return (
@@ -245,7 +245,7 @@ const myorder = (props) => {
                                     }
                                     onClick={() =>
                                       router.push(
-                                        `/product-details/${order?.productDetail[productIndex+1]?.product?.slug}`,
+                                        `/product-details/${order?.productDetail[productIndex + 1]?.product?.slug}`,
                                       )
                                     }
                                   />
