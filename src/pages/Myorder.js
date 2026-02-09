@@ -1,5 +1,3 @@
-
-
 import React, { useContext, useEffect, useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Api } from "../../services/service";
@@ -18,12 +16,11 @@ const myorder = (props) => {
   const router = useRouter();
   const { t } = useTranslation();
 
-useEffect(() => {
-  if (user?.id) {
-    getProductFromOrder();
-  }
-}, [user?.id]);
-
+  useEffect(() => {
+    if (user?.id) {
+      getProductFromOrder();
+    }
+  }, [user?.id]);
 
   const getProductFromOrder = async () => {
     props.loader(true);
@@ -161,7 +158,9 @@ useEffect(() => {
                         <img
                           alt={order.productDetail[0]?.name}
                           className="w-18 h-18 object-cover rounded"
-                          src={order.productDetail[0]?.image[0] || "/no-image.png"}
+                          src={
+                            order.productDetail[0]?.image[0] || "/no-image.png"
+                          }
                           onClick={() => {
                             router.push(
                               `/myorder/${order._id}?product_id=${order.productDetail[0]?._id}`,
@@ -185,16 +184,18 @@ useEffect(() => {
                           )}
 
                           {order?.productDetail[0]?.attribute &&
-                            Object.entries(order?.productDetail[0]?.attribute)
-                              .filter(([key]) => key.toLowerCase() !== "color")
-                              .map(([label, value], index) => (
+                            order.productDetail[0].attribute
+                              .filter(
+                                (item) => item.label.toLowerCase() !== "color",
+                              )
+                              .map((item, index) => (
                                 <div
                                   key={index}
                                   className="md:text-[16px] text-gray-600 mb-1 font-semibold"
                                 >
-                                  {label}:{" "}
+                                  {item.label}:{" "}
                                   <span className="text-gray-600 font-normal">
-                                    {value || "Not found"}
+                                    {item.value || "Not found"}
                                   </span>
                                 </div>
                               ))}
@@ -267,19 +268,20 @@ useEffect(() => {
                                     )}
 
                                     {product?.attribute &&
-                                      Object.entries(product.attribute)
+                                      product.attribute
                                         .filter(
-                                          ([key]) =>
-                                            key.toLowerCase() !== "color",
+                                          (item) =>
+                                            item.label.toLowerCase() !==
+                                            "color",
                                         )
-                                        .map(([label, value], index) => (
+                                        .map((item, index) => (
                                           <div
                                             key={index}
                                             className="md:text-[16px] text-gray-600 mb-1 font-semibold"
                                           >
-                                            {label}:{" "}
+                                            {item.label}:{" "}
                                             <span className="text-gray-600 font-normal">
-                                              {value || "Not found"}
+                                              {item.value || "Not found"}
                                             </span>
                                           </div>
                                         ))}
