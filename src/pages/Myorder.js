@@ -1,5 +1,4 @@
 
-"use client";
 
 import React, { useContext, useEffect, useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
@@ -19,11 +18,12 @@ const MyOrder = (props) => {
   const router = useRouter();
   const { t } = useTranslation();
 
-  useEffect(() => {
-    if (user.id) {
-      getProductFromOrder();
-    }
-  }, []);
+useEffect(() => {
+  if (user?.id) {
+    getProductFromOrder();
+  }
+}, [user?.id]);
+
 
   const getProductFromOrder = async () => {
     props.loader(true);
@@ -34,7 +34,7 @@ const MyOrder = (props) => {
       setLoading(false);
       console.log(res.data);
     } catch (err) {
-      toast({ type: "error", message: err?.message });
+      // toast({ type: "error", message: err?.message });
     } finally {
       props.loader(false);
     }
@@ -99,7 +99,7 @@ const MyOrder = (props) => {
                 >
                   <div className="bg-gray-50 p-4 border-b border-gray-200">
                     <div className="flex justify-between items-center">
-                      <div className="flex flex-col md:flex-row md:items-center gap-1i md:gap-6">
+                      <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-6">
                         <div>
                           <span className="text-[14px] font-semibold text-gray-600">
                             {t("Order ID")}:{" "}
@@ -161,7 +161,7 @@ const MyOrder = (props) => {
                         <img
                           alt={order.productDetail[0]?.name}
                           className="w-18 h-18 object-cover rounded"
-                          src={order.productDetail[0]?.image[0]}
+                          src={order.productDetail[0]?.image[0] || "/no-image.png"}
                           onClick={() => {
                             router.push(
                               `/myorder/${order._id}?product_id=${order.productDetail[0]?._id}`,
