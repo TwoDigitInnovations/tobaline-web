@@ -28,7 +28,7 @@ function MobileFooter() {
     {
       label: t("Orders"),
       icon: ListOrdered,
-      path: "/MyOrder",
+      path: "/myorder",
     },
     {
       label: t("Cart"),

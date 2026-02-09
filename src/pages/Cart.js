@@ -261,13 +261,7 @@ const Cart = (props) => {
           router.push("/Cart");
           const order = res?.data?.orders;
           setOrderId(order?.orderId);
-          // router.push("/MyOrder");
-
-          // props.toaster({
-          //   type: "sucess",
-          //   message:
-          //     "Thank you for your order! Your item will be processed shortly.",
-          // });
+       
         } else {
           props.toaster({
             type: "sucess",
@@ -971,7 +965,7 @@ const Cart = (props) => {
                 <button
                   onClick={() => {
                     setSuccessPopup(false);
-                    router.push("/MyOrder");
+                    router.push("/myorder");
                   }}
                   className="w-1/2 bg-black cursor-pointer hover:bg-gray-900 text-white py-2.5 rounded-xl font-medium shadow transition"
                 >

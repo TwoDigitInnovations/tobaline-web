@@ -219,7 +219,7 @@ const Navbar = (props) => {
                         className="px-4 py-2 hover:bg-white/10 flex justify-between items-center cursor-pointer"
                         onClick={() => {
                           setShowHover(false);
-                          router.push("/MyOrder");
+                          router.push("/myorder");
                         }}
                       >
                         {t("My Order")}

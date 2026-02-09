@@ -1,7 +1,7 @@
 # *
 User-agent: *
 Allow: /
-Disallow: /MyOrder
+Disallow: /myorder
 Disallow: /MyHistory
 Disallow: /editProfile
 Disallow: /payment

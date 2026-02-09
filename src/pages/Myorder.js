@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 import SEO from "../../components/SEO";
 import { userContext } from "./_app";
 
-const MyOrder = (props) => {
+const myorder = (props) => {
   const [orderData, setOrderData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useContext(userContext);
@@ -81,7 +81,7 @@ useEffect(() => {
       <SEO
         title="My Orders | Tobaline"
         description="View and track your orders placed on Tobaline."
-        canonical="/MyOrder"
+        canonical="/myorder"
       />
 
       <div className="bg-white min-h-screen">
@@ -344,4 +344,4 @@ useEffect(() => {
   );
 };
 
-export default MyOrder;
+export default myorder;

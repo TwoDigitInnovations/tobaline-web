@@ -114,9 +114,6 @@ const MyHistory = (props) => {
     });
   };
 
-  // if (loading) {
-  //   return <MyOrdersSkeleton />;
-  // }
 
   const getColorName = (hex) => {
     if (!hex) return "Default";

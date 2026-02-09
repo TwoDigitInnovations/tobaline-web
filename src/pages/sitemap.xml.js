@@ -19,7 +19,7 @@ const staticPages = [
   { url: `${DOMAIN}/forgotpassword`, priority: 0.3 },
   { url: `${DOMAIN}/account`, priority: 0.3 },
   { url: `${DOMAIN}/Editprofile`, priority: 0.3 },
-  { url: `${DOMAIN}/MyOrder`, priority: 0.3 },
+  { url: `${DOMAIN}/myorder`, priority: 0.3 },
   { url: `${DOMAIN}/MyHistory`, priority: 0.3 },
   { url: `${DOMAIN}/Cart`, priority: 0.2 },
 ];
