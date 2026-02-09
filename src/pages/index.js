@@ -1,3 +1,6 @@
+"use client";
+
+
 import { useEffect, useState } from "react";
 import HeroSection from "../../components/HeroSection";
 import { Api } from "../../services/service";

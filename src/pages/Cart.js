@@ -54,12 +54,12 @@ const Cart = (props) => {
   const countryoptions = useMemo(() => countryList().getData(), []);
 
   useEffect(() => {
-    getProfile();
+    if (user.id) {
+      getProfile();
+    }
   }, []);
 
   const getProfile = () => {
-    const requestData = { userId: user?.id };
-
     Api("get", "auth/profile", "", router).then(
       (res) => {
         if (res?.data?.data) {
@@ -82,7 +82,6 @@ const Cart = (props) => {
       },
     );
   };
-  console.log(formData);
 
   useEffect(() => {
     const sumWithInitial = cartData?.reduce(
@@ -324,14 +323,24 @@ const Cart = (props) => {
   const handleCheckout = async () => {
     try {
       setLoading(true);
-      validate();
+
+      const isValid = validate();
+      if (!isValid) {
+        setLoading(false);
+         props.toaster({
+          type: "success",
+          message: "Please Complete Address",
+        });
+        return;
+      }
+
       const bodyData = {
         cartItems: cartData.map((item) => ({
           _id: item._id,
           name: item.name,
           image: item.selectedColor?.image || item.selectedImage,
           quantity: item.qty,
-          price: item.offerprice,
+          price: item.price,
         })),
         currency: constant.currencyName,
       };
@@ -339,13 +348,22 @@ const Cart = (props) => {
       const response = await Api("post", "stripe/poststripe", bodyData, router);
 
       if (response?.url) {
+        props.toaster({
+          type: "success",
+          message: "Redirecting to payment...",
+        });
         window.location.href = response.url;
       } else {
-        toast.error("Failed to initialize checkout session");
+        props.toaster({
+          type: "error",
+          message: "Failed to initialize checkout session",
+        });
       }
     } catch (error) {
-      console.error("Checkout error:", error);
-      toast.error("Failed to initialize checkout session");
+      props.toaster({
+        type: "error",
+        message: "Checkout failed",
+      });
     } finally {
       setLoading(false);
     }
@@ -503,7 +521,7 @@ const Cart = (props) => {
                       )}
                       <button
                         onClick={() => cartClose(product, i)}
-                        className="mt-1 text-sm text-black/50 underline transition duration-150 ease-in-out hover:text-red-500"
+                        className="mt-1 text-sm text-black/50 underline transition duration-150 ease-in-out hover:text-red-500 cursor-pointer"
                       >
                         Remove
                       </button>
@@ -517,10 +535,10 @@ const Cart = (props) => {
                     <div className="flex items-center justify-between border-2 border-gray-300 rounded-sm md:w-28 w-full h-9 bg-white overflow-hidden">
                       <button
                         onClick={() => handleDecreaseQty(product)}
-                        className="border-r flex items-center justify-center w-8 h-full text-gray-600 hover:bg-gray-100 transition-colors -mt-2"
+                        className="border-r flex items-center justify-center w-8 h-full text-gray-600 hover:bg-gray-100 transition-colors "
                         aria-label="Decrease quantity"
                       >
-                        <MdOutlineMinimize className="text-lg" />
+                        <MdOutlineMinimize className="text-lg -mt-2" />
                       </button>
                       <input
                         type="number"
@@ -601,7 +619,10 @@ const Cart = (props) => {
                     <button
                       className="mt-1 text-xs font-semibold cursor-pointer text-black underline"
                       onClick={() => {
-                        getProfile();
+                        if (user.id) {
+                          getProfile();
+                        }
+
                         setOpen(true);
                       }}
                     >
@@ -714,7 +735,7 @@ const Cart = (props) => {
 
         {open && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-            <div className=" bg-white shadow-lg rounded-4xl p-4 lg:p-6 h-fit w-[350px] md:w-[550px] mx-auto relative">
+            <div className=" bg-white shadow-lg rounded-4xl p-4 lg:p-6 h-fit w-[350px] md:w-[550px] mx-auto relative h-[95vh] overflow-y-scroll scrollbar-hide overflow-scroll">
               <div className="flex justify-between items-center">
                 <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-5 md:mb-4">
                   {t("Shipping Address")}
@@ -899,6 +920,7 @@ const Cart = (props) => {
             </div>
           </div>
         )}
+
         {successPopup && (
           <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex justify-center items-center z-[9999] px-4">
             <div className="bg-white w-full max-w-xl rounded-3xl shadow-2xl p-4 md:p-8 relative animate-fadeIn">

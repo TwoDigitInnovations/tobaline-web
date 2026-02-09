@@ -266,7 +266,7 @@ function ProductDetails(props) {
       />
 
       <div className="bg-white w-full min-h-screen">
-        <main className="max-w-7xl mx-auto px-4 md:py-12 py-6 flex flex-col md:flex-row gap-8">
+        <main className="max-w-7xl mx-auto px-4 md:py-12 py-2 flex flex-col md:flex-row gap-8">
           <section className="flex gap-4 w-full md:w-1/2">
             <div className="flex flex-col items-start gap-2">
               <div className="rounded relative">
@@ -296,7 +296,7 @@ function ProductDetails(props) {
                   ))}
                 </Carousel>
               </div>
-              <div className="flex-col md:gap-4 md:flex hidden">
+              <div className="flex-col md:gap-4 ">
                 {selectedImageList?.map((item, i) => (
                   <img
                     key={i}

@@ -32,7 +32,8 @@ const ProductCard = ({ product, url, toaster }) => {
 
     if (selectedVariant?.qty <= 0) {
       // toast.info("Out of stock");
-      toaster({ type: "error", Message: "Out of Stock" });
+      toaster({ type: "error", message: "Out of Stock" });
+
       return;
     }
 
@@ -54,7 +55,7 @@ const ProductCard = ({ product, url, toaster }) => {
     if (existingItem) {
       toaster({
         type: "error",
-        Message: "This exact item is already in your cart",
+        message: "This exact item is already in your cart",
       });
       setOpenCart(true);
       return;
@@ -78,40 +79,8 @@ const ProductCard = ({ product, url, toaster }) => {
     setCartData(updated);
     localStorage.setItem("addCartDetail", JSON.stringify(updated));
     setOpenCart(true);
-    toaster({ type: "error", Message: "product added to cart" });
+    toaster({ type: "success", message: "product added to cart" });
   };
-
-  // ➕➖ QTY HANDLERS
-  const increaseQty = () => {
-    const updated = cartData.map((item) =>
-      item === cartItem
-        ? {
-            ...item,
-            qty: item.qty + 1,
-            total: (item.qty + 1) * offerprice,
-          }
-        : item,
-    );
-    setCartData(updated);
-    localStorage.setItem("addCartDetail", JSON.stringify(updated));
-  };
-
-  const decreaseQty = () => {
-    if (cartItem.qty === 1) return;
-
-    const updated = cartData.map((item) =>
-      item === cartItem
-        ? {
-            ...item,
-            qty: item.qty - 1,
-            total: (item.qty - 1) * offerprice,
-          }
-        : item,
-    );
-    setCartData(updated);
-    localStorage.setItem("addCartDetail", JSON.stringify(updated));
-  };
-
 
   return (
     <div className="rounded-lg overflow-hidden transition relative">

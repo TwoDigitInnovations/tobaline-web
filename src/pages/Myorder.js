@@ -1,26 +1,28 @@
-import React, { useEffect, useState } from "react";
 
-import { FaFacebook } from "react-icons/fa";
-import { FaTwitter } from "react-icons/fa";
-import { FaInstagram } from "react-icons/fa";
+"use client";
+
+import React, { useContext, useEffect, useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Api } from "../../services/service";
 import { useRouter } from "next/router";
-// import MyOrdersSkeleton from "@/components/MyOrderSkelton";
 import { toast } from "react-toastify";
 import namer from "color-namer";
 import constant from "../../services/constant";
 import { useTranslation } from "react-i18next";
 import SEO from "../../components/SEO";
+import { userContext } from "./_app";
 
 const MyOrder = (props) => {
   const [orderData, setOrderData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useContext(userContext);
   const router = useRouter();
   const { t } = useTranslation();
 
   useEffect(() => {
-    getProductFromOrder();
+    if (user.id) {
+      getProductFromOrder();
+    }
   }, []);
 
   const getProductFromOrder = async () => {

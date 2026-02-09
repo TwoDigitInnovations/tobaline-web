@@ -1,5 +1,6 @@
 const constant = {
-    currency: "$"
+    currency: "$",
+    currencyName:"USD"
 }
 
 export default constant

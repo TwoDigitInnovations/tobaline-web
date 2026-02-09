@@ -28,12 +28,23 @@ function Api(method, url, data = {}, router) {
             (status === 401 || status === 403) &&
             typeof window !== "undefined"
           ) {
+            const msg = message.toLowerCase();
+
             if (
-              message.toLowerCase().includes("jwt expired") ||
-              message.toLowerCase().includes("unauthorized")
+              msg.includes("jwt expired") ||
+              msg.includes("unauthorized") ||
+              msg.includes("no auth token") ||
+              msg.includes("token missing")
             ) {
-              // localStorage.clear();
-              // router?.push("/login");
+              
+              localStorage.removeItem("token");
+              localStorage.removeItem("userdetails");
+
+              if (router) {
+                router.push("/login");
+              } else {
+                window.location.href = "/login";
+              }
             }
           }
 
@@ -41,11 +52,10 @@ function Api(method, url, data = {}, router) {
         } else {
           reject(err);
         }
-      }
+      },
     );
   });
 }
-
 
 function ApiFormData(method, url, data, router) {
   return new Promise(function (resolve, reject) {
