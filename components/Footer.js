@@ -15,7 +15,7 @@ const Footer = () => {
           <h3 className="text-white font-semibold mb-4">
             {t("Customer Care")}
           </h3>
-          <p className="text-sm leading-relaxed mb-4">
+          <div className="text-sm leading-relaxed mb-4">
             {t("Need help? Email us at")} <br />
             <p className="text-gray-100">
               <a
@@ -27,7 +27,7 @@ const Footer = () => {
             </p>
             <br />
             {t("We’re here for you, and ready to answer your questions")}.
-          </p>
+          </div>
           <p className="text-sm mb-4">{t("24/7 Availability")}</p>
 
           <div className="flex gap-4">
