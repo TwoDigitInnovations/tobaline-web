@@ -51,8 +51,8 @@ const CustomerReviews = () => {
   ];
 
   return (
-    <div className=" bg-[#F2F2F2] py-14 px-4">
-      <div className="">
+    <div className=" bg-[#F2F2F2] py-14 px-4 ">
+      <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-serif text-center mb-12 text-gray-900">
           {t("Customer Reviews")}
         </h1>
