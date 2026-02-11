@@ -151,7 +151,10 @@
   "product": "منتج",
   "No Products Found": "لم يتم العثور على منتجات",
   "We couldn’t find any results for your search. Try checking for typos or using different keywords": "لم نتمكن من العثور على أي نتائج لبحثك. حاول التحقق من الأخطاء الإملائية أو استخدام كلمات مختلفة",
-  "Search for products...": "ابحث عن المنتجات..."
+  "Search for products...": "ابحث عن المنتجات...",
+
+  "No Orders Available": "لا توجد طلبات متاحة"
+
 
 
 }

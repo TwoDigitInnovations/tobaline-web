@@ -332,10 +332,10 @@ const myorder = (props) => {
                   </svg>
                 </div>
                 <p className="text-xl font-semibold text-gray-600">
-                  No Orders Available
+                  {t("No Orders Available")}
                 </p>
                 <p className="text-lg text-gray-400 mt-2">
-                  Looks like you haven't placed any orders yet.
+                  {t("Looks like you haven't placed any orders yet")}.
                 </p>
               </div>
             )}
