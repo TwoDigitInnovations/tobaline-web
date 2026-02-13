@@ -272,11 +272,11 @@ function ProductDetails(props) {
               <div className="rounded relative">
                 <Carousel
                   ref={carouselRef}
-                  className="md:w-[550px] w-[330px] h-[450px] md:h-[480px] object-fill md:object-contain"
+                  className="md:w-[550px] w-[330px] h-[370px] md:h-[500px] object-fill md:object-contain"
                   responsive={responsive}
                   autoPlay={false}
                   // infinite={true}
-                  arrows={true}
+                  // arrows={true}
                   customTransition="all 0.3s"
                   additionalTransfrom={0}
                   ssr={true}
@@ -296,7 +296,7 @@ function ProductDetails(props) {
                   ))}
                 </Carousel>
               </div>
-              <div className="flex-col md:gap-4 ">
+              <div className="grid grid-cols-3 md:grid-cols-4 gap-4 ">
                 {selectedImageList?.map((item, i) => (
                   <img
                     key={i}
@@ -323,7 +323,7 @@ function ProductDetails(props) {
                 {productsId?.type || "Cotton dress"}{" "}
               </p>
               <div className="text-black text-2xl flex items-center">
-                <FaStar />
+                <FaStar className="text-yellow-500" />
                 <span className="text-2xl text-gray-800">
                   ({productReviews?.length || 4.5})
                 </span>
@@ -378,14 +378,23 @@ function ProductDetails(props) {
                 <p className="text-red-500 font-semibold">Not available</p>
               )}
             </div>
-            <div className="">
-              <div
-                className="text-gray-800"
-                dangerouslySetInnerHTML={{
-                  __html: productsId?.long_description,
-                }}
-              />
-            </div>
+            <div
+              className="
+    text-gray-700 text-[18px] leading-7
+    [&_*]:!text-gray-700
+    [&_*]:!font-normal
+    [&_*]:!text-[18px]
+    [&_strong]:!font-semibold
+    [&_b]:!font-semibold
+    [&_h1]:!text-[22px]
+    [&_h2]:!text-[20px]
+    [&_h3]:!text-[18px]
+  "
+              dangerouslySetInnerHTML={{
+                __html: productsId?.long_description,
+              }}
+            />
+
             {productsId?.varients?.length > 0 && (
               <>
                 {(() => {
@@ -416,7 +425,7 @@ function ProductDetails(props) {
                         );
 
                         return (
-                          <div className="w-full mt-4" key={index}>
+                          <div className="w-full " key={index}>
                             <div className="flex flex-col justify-start items-start gap-3">
                               <p className="text-black text-xl font-normal">
                                 {label}:
@@ -532,7 +541,7 @@ function ProductDetails(props) {
                           Quantity
                         </p>
                         <div className="flex items-center gap-3 max-w-full">
-                          <div className="w-[150px] py-3 rounded flex justify-evenly items-center border-[1px] border-gray-300">
+                          <div className="w-[150px] py-2 rounded flex justify-evenly items-center border-[1px] border-gray-300">
                             <button
                               aria-label="Decrease quantity"
                               className="rounded text-lg font-semibold text-gray-700"
@@ -561,10 +570,10 @@ function ProductDetails(props) {
                             </button>
                           ) : (
                             <button
-                              className={`flex-1 w-full text-[20px] tracking-wider cursor-pointer font-semibold rounded px-3 py-3 transition ${
+                              className={`flex-1 w-full text-[20px] tracking-wider cursor-pointer font-semibold rounded px-3 py-2 transition ${
                                 isCombinationAvailable
                                   ? " text-white bg-black"
-                                  : " text-red-500 cursor-not-allowed"
+                                  : " text-red-500 border-2 cursor-not-allowed"
                               }`}
                               onClick={
                                 isCombinationAvailable
