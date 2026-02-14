@@ -10,6 +10,7 @@ import { FaPlus } from "react-icons/fa6";
 import { FaMinus } from "react-icons/fa6";
 import Head from "next/head";
 import SEO from "../../../components/SEO";
+import constant from "../../../services/constant";
 
 function ProductDetails(props) {
   const router = useRouter();
@@ -25,7 +26,19 @@ function ProductDetails(props) {
   const [availableQty, setAvailableQty] = useState(1);
   const carouselRef = useRef();
   const [selectedAttributes, setSelectedAttributes] = useState({});
+  const [showZoom, setShowZoom] = useState(false);
+  const [zoomPosition, setZoomPosition] = useState({ x: 50, y: 50 });
 
+
+  const handleMouseMove = (e) => {
+    const { left, top, width, height } =
+      e.currentTarget.getBoundingClientRect();
+
+    const x = ((e.clientX - left) / width) * 100;
+    const y = ((e.clientY - top) / height) * 100;
+
+    setZoomPosition({ x, y });
+  };
   useEffect(() => {
     if (carouselRef.current) {
       carouselRef.current.goToSlide(0);
@@ -267,53 +280,46 @@ function ProductDetails(props) {
 
       <div className="bg-white w-full min-h-screen">
         <main className="max-w-7xl mx-auto px-4 md:py-12 py-2 flex flex-col md:flex-row gap-8">
-          <section className="flex gap-4 w-full md:w-1/2">
-            <div className="flex flex-col items-start gap-2">
-              <div className="rounded relative">
-                <Carousel
-                  ref={carouselRef}
-                  className="md:w-[550px] w-[330px] h-[370px] md:h-[500px] object-fill md:object-contain"
-                  responsive={responsive}
-                  autoPlay={false}
-                  // infinite={true}
-                  // arrows={true}
-                  customTransition="all 0.3s"
-                  additionalTransfrom={0}
-                  ssr={true}
-                  partialVisible={false}
-                  itemClass="image-item"
-                  beforeChange={(nextSlide) => setSelectedIndex(nextSlide)}
-                  customSliderIndex={selectedIndex} // 🔥 This line syncs selected image
-                >
-                  {selectedImageList?.map((item, i) => (
-                    <div key={i} className="bg-white md:w-full h-[550px]">
-                      <img
-                        className="h-full w-full object-contain rounded"
-                        src={item}
-                        alt={`Product image ${i}`}
-                      />
-                    </div>
-                  ))}
-                </Carousel>
-              </div>
-              <div className="grid grid-cols-3 md:grid-cols-4 gap-4 ">
-                {selectedImageList?.map((item, i) => (
-                  <img
-                    key={i}
-                    alt={`Thumbnail ${i + 1}`}
-                    className={`w-30 h-30 object-contain cursor-pointer border rounded-lg flex-shrink-0 ${
-                      selectedIndex === i
-                        ? "border-blue-500"
-                        : "border-gray-200"
-                    }`}
-                    src={item}
-                    onClick={() => {
-                      setSelectedIndex(i);
-                      carouselRef.current?.goToSlide(i); // go to exact image
-                    }}
-                  />
-                ))}
-              </div>
+          <section className="w-full md:w-1/2">
+            {/* Main Image */}
+            <div
+              className="relative w-full max-h-[400ox] bg-white rounded overflow-hidden border"
+              onMouseEnter={() => setShowZoom(true)}
+              onMouseLeave={() => setShowZoom(false)}
+              onMouseMove={handleMouseMove}
+            >
+              <img
+                src={selectedImage}
+                alt="Product"
+                className="w-full h-full object-contain"
+              />
+
+              {showZoom && (
+                <div
+                  className="absolute top-0 left-0 w-full h-full cursor-pointer"
+                  style={{
+                    backgroundImage: `url(${selectedImage})`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundSize: "200%",
+                    backgroundPosition: `${zoomPosition.x}% ${zoomPosition.y}%`,
+                  }}
+                />
+              )}
+            </div>
+
+           
+            <div className="grid grid-cols-4 gap-3 mt-3">
+              {selectedImageList?.map((img, i) => (
+                <img
+                  key={i}
+                  src={img}
+                  alt={`Thumbnail ${i}`}
+                  className={` h-34 w-34 aspect-square object-contain border rounded cursor-pointer transition ${
+                    selectedImage === img ? "border-gray-600" : "border-gray-200"
+                  }`}
+                  onClick={() => setSelectedImage(img)}
+                />
+              ))}
             </div>
           </section>
 
@@ -330,19 +336,22 @@ function ProductDetails(props) {
               </div>
             </div>
             <div className="flex justify-between items-start mb-1">
-              <h1 className="text-gray-600 text-6xl">{productsId?.name}</h1>
+              <h1 className="text-gray-600 text-4xl md:text-6xl">
+                {productsId?.name}
+              </h1>
             </div>
 
             <div className="flex flex-col items-start ">
               <div className="flex items-center justify-center gap-2">
                 <span
-                  className={`text-[32px] line-through   text-black ${
+                  className={`text-2xl md:text-[32px] line-through   text-black ${
                     isCombinationAvailable === false
                       ? "blur-[2px] opacity-800"
                       : ""
                   }`}
                 >
-                  ${selectedSize?.price}
+                  {constant.currency}
+                  {selectedSize?.price}
                 </span>
 
                 {selectedSize?.price && (
@@ -366,13 +375,13 @@ function ProductDetails(props) {
                 )}
               </div>
               <span
-                className={` text-black font-semibold text-[32px] ${
+                className={` text-black font-semibold text-2xl md:text-[32px] ${
                   isCombinationAvailable === false
                     ? "blur-[2px] opacity-800"
                     : ""
                 }`}
               >
-                ${selectedSize?.offerprice}
+                {constant.currency} {selectedSize?.offerprice}
               </span>
               {!isCombinationAvailable && (
                 <p className="text-red-500 font-semibold">Not available</p>
@@ -380,10 +389,10 @@ function ProductDetails(props) {
             </div>
             <div
               className="
-    text-gray-700 text-[18px] leading-7
+    text-gray-700 text-[16px] md:text-[18px] leading-7
     [&_*]:!text-gray-700
     [&_*]:!font-normal
-    [&_*]:!text-[18px]
+    md:[&_*]:!text-[18px]   [&_*]:!text-[16px]
     [&_strong]:!font-semibold
     [&_b]:!font-semibold
     [&_h1]:!text-[22px]

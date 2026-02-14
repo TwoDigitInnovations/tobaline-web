@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import { Plus, Minus, ShoppingCart, Star } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cartContext } from "@/pages/_app";
+import constant from "../services/constant";
 
 const ProductCard = ({ product, url, toaster }) => {
   const router = useRouter();
@@ -89,7 +90,7 @@ const ProductCard = ({ product, url, toaster }) => {
         <img
           src={variant?.image?.[0]}
           alt={product?.name}
-          className="w-full h-[320px] object-cover"
+          className="w-full h-full object-cover"
         />
 
         <div
@@ -122,12 +123,12 @@ const ProductCard = ({ product, url, toaster }) => {
 
         <div className="flex items-center gap-2">
           <span className="text-lg font-semibold text-stone-800">
-            ${offerprice}
+            {constant.currency} {offerprice}
           </span>
 
           {price > offerprice && (
             <span className="text-sm line-through text-stone-400">
-              ${price}
+              {constant.currency} {price}
             </span>
           )}
         </div>

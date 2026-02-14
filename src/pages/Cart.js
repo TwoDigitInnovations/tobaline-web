@@ -261,7 +261,6 @@ const Cart = (props) => {
           router.push("/Cart");
           const order = res?.data?.orders;
           setOrderId(order?.orderId);
-       
         } else {
           props.toaster({
             type: "sucess",
@@ -321,7 +320,7 @@ const Cart = (props) => {
       const isValid = validate();
       if (!isValid) {
         setLoading(false);
-         props.toaster({
+        props.toaster({
           type: "success",
           message: "Please Complete Address",
         });
@@ -336,7 +335,8 @@ const Cart = (props) => {
           quantity: item.qty,
           price: item.price,
         })),
-        currency: constant.currencyName,
+        // currency: constant.currencyName,
+        currency: "USD",
       };
 
       const response = await Api("post", "stripe/poststripe", bodyData, router);
@@ -556,7 +556,7 @@ const Cart = (props) => {
                 </div>
               ))}
             </div>
-            <div className="md:w-1/3 w-full max-w-md ml-auto px-4">
+            <div className="md:w-1/3 w-full md:max-w-md ml-auto md:px-4">
               <div className="bg-white rounded-3xl shadow-xl p-6 space-y-6">
                 <div className="flex items-start gap-4 border-b pb-4">
                   <div className="p-3 rounded-full bg-gray-100">
@@ -729,7 +729,7 @@ const Cart = (props) => {
 
         {open && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80">
-            <div className=" bg-white shadow-lg rounded-4xl p-4 lg:p-6 h-fit w-[350px] md:w-[550px] mx-auto relative h-[95vh] overflow-y-scroll scrollbar-hide overflow-scroll">
+            <div className="bg-white shadow-lg md:rounded-3xl rounded-2xl p-4 lg:p-6 w-[400px] md:w-[550px] mx-auto relative max-h-[95vh] overflow-y-auto scrollbar-hide">
               <div className="flex justify-between items-center">
                 <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-5 md:mb-4">
                   {t("Shipping Address")}

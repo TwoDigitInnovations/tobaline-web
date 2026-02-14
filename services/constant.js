@@ -1,6 +1,7 @@
 const constant = {
-    currency: "$",
-    currencyName:"USD"
-}
+  currency: "KWD",
+  currencyName: "KWD",
+  stripeMultiplier: 1000
+};
 
-export default constant
+export default constant;

@@ -34,7 +34,7 @@ export default function Home(props) {
         <div className="bg-[#D9D9D92E] relative w-full py-8 md:py-16">
           <div className="absolute inset-0 bg-[url('/images/monotonoise.png')] opacity-[0.03]" />
           <section className=" w-full relative flex flex-col justify-center items-center">
-            <div className="container mx-auto px-2 md:px-0">
+            <div className="max-w-7xl mx-auto px-2 md:px-0">
               <h1 className="text-4xl md:text-6xl md:mb-3 mb-0 text-black">
                 {t("Our")}
               </h1>
@@ -87,8 +87,8 @@ function BestSeller({ loader,toaster }) {
   };
 
   return (
-    <div className="flex flex-col relative">
-      <div className="grid md:grid-cols-4 lg:grid-cols-4 grid-cols-2 gap-4 mx-auto w-full">
+    <div className="flex flex-col relative ">
+      <div className="grid md:grid-cols-4 lg:grid-cols-4 grid-cols-1 gap-4 mx-auto w-full">
         {productList.length > 0 ? (
           productList.map((item, i) => (
             <ProductCard

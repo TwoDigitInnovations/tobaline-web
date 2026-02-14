@@ -167,7 +167,7 @@ const MyHistory = (props) => {
                             {t("Total")}:{" "}
                           </span>
                           <span className="font-semibold text-[16px] text-gray-800">
-                            ${order.total}
+                            {constant.currency} {order.total}
                           </span>
                         </div>
                         <div>

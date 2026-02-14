@@ -112,7 +112,7 @@ function ApiGetPdf(url, data, router, params) {
         const fileURL = window.URL.createObjectURL(file);
         const link = document.createElement("a");
         link.href = fileURL;
-        link.setAttribute("download", `bachhoahouston-invoice-${data.id}`);
+        link.setAttribute("download", `tobaline-invoice-${data.id}`);
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
