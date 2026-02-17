@@ -119,9 +119,13 @@ const ProductCard = ({ product, url, toaster }) => {
             {product?.name}
           </h3>
 
-          <p className="md:flex hidden md:text-[12px] text-[10px] text-[#3E3E40]">{product?.short_description.slice(0,80) + "..."}</p>
+          <p className="md:flex hidden md:text-[12px] text-[10px] text-[#3E3E40]">
+            {product?.short_description.slice(0, 80) + "..."}
+          </p>
 
-            <p className="flex md:hidden md:text-[12px] text-[10px] text-[#3E3E40]">{product?.short_description.slice(0,30) + "..."}</p>
+          <p className="flex md:hidden md:text-[12px] text-[10px] text-[#3E3E40]">
+            {product?.short_description.slice(0, 30) + "..."}
+          </p>
 
           <div className="flex items-center gap-1 text-yellow-400">
             {[...Array(5)].map((_, i) => (

@@ -321,7 +321,7 @@ const Cart = (props) => {
       if (!isValid) {
         setLoading(false);
         props.toaster({
-          type: "success",
+          type: "error",
           message: "Please Complete Address",
         });
         return;
