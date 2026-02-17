@@ -48,8 +48,6 @@ function MobileFooter() {
       {menuItems.map((item, idx) => {
         const isActive = router.pathname === item.path.split("?")[0];
 
-        console.log(isActive);
-        console.log(currentPath);
 
         return (
           <div key={idx} className="flex justify-center items-center ">

@@ -444,7 +444,7 @@ const Cart = (props) => {
 
         {cartData && cartData.length > 0 ? (
           <div className="w-full flex md:flex-row flex-col md:gap-0 gap-4">
-            <div className="md:w-2/3 bg-white rounded-3xl shadow-xl p-4">
+            <div className="md:w-2/3 bg-white rounded-3xl border-t  shadow-xl p-4">
               <div className="grid md:grid-cols-13 grid-cols-5 border-t border-b border-black/20 py-4 text-base md:text-lg font-normal text-custom-black">
                 <div className="md:col-span-4 text-black col-span-2 font-semibold text-lg md:text-xl md:ms-0 ms-4">
                   {t("Product")}
@@ -481,29 +481,47 @@ const Cart = (props) => {
                       <div className="md:text-lg text-[14px] w-full md:w-[80%] font-semibold leading-tight text-gray-800 mb-3">
                         {product.name || "Product Name"}
                       </div>
-                      {product.selectedSize && (
+                      {/* {product.selectedSize && (
                         <div className="md:text-[16px] text-black/50 mb-1">
                           {t("Size")}:{" "}
                           <span className="text-black/50">
                             {product.selectedSize || "Not found"}
                           </span>
                         </div>
-                      )}
+                      )} */}
 
-                      {/* {product?.attribute &&
-                        Object.entries(product.attribute)
-                          .filter(([key]) => key.toLowerCase() !== "color")
-                          .map(([label, value], index) => (
-                            <div
-                              key={index}
-                              className="md:text-[16px] text-black/50 mb-1"
-                            >
-                              {label}:{" "}
-                              <span className="text-black/50">
-                                {value || "Not found"}
-                              </span>
-                            </div>
-                          ))} */}
+                      {product?.attribute &&
+                        (Array.isArray(product.attribute)
+                          ? 
+                            product.attribute
+                              .filter(
+                                (attr) => attr.label.toLowerCase() !== "color",
+                              )
+                              .map((attr, index) => (
+                                <div
+                                  key={index}
+                                  className="md:text-[16px] text-black/50 mb-1"
+                                >
+                                  {attr.label}:{" "}
+                                  <span className="text-black">
+                                    {attr.value || "Not found"}
+                                  </span>
+                                </div>
+                              ))
+                          : 
+                            Object.entries(product.attribute)
+                              .filter(([key]) => key.toLowerCase() !== "color")
+                              .map(([key, value], index) => (
+                                <div
+                                  key={index}
+                                  className="md:text-[16px] text-black/50 mb-1"
+                                >
+                                  {key}:{" "}
+                                  <span className="text-black">
+                                    {value || "Not found"}
+                                  </span>
+                                </div>
+                              )))}
 
                       {product.selectedColor && (
                         <div className="md:text-[16px] text-black/50 mb-3">
@@ -557,7 +575,7 @@ const Cart = (props) => {
               ))}
             </div>
             <div className="md:w-1/3 w-full md:max-w-md ml-auto md:px-4">
-              <div className="bg-white rounded-3xl shadow-xl p-6 space-y-6">
+              <div className="bg-white rounded-3xl border-t shadow-xl p-6 space-y-6">
                 <div className="flex items-start gap-4 border-b pb-4">
                   <div className="p-3 rounded-full bg-gray-100">
                     <svg

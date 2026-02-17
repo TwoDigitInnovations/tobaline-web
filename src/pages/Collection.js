@@ -29,7 +29,7 @@ const Collection = (props) => {
   const [pagenation, setPagenation] = useState({
     currentPage: 1,
     totalPages: 1,
-    limit: 4,
+    limit: 24,
     mainLength: 0,
     dataLength: 0,
   });

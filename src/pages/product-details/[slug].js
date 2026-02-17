@@ -29,7 +29,6 @@ function ProductDetails(props) {
   const [showZoom, setShowZoom] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 50, y: 50 });
 
-
   const handleMouseMove = (e) => {
     const { left, top, width, height } =
       e.currentTarget.getBoundingClientRect();
@@ -68,29 +67,6 @@ function ProductDetails(props) {
       setSelectedImage(defaultColor?.image?.[0] || "");
     }
   }, [productsId]);
-
-  const htmlContent = productsId?.long_description || "";
-  const plainText = htmlContent.replace(/<[^>]+>/g, "");
-  const words = plainText.split(/\s+/);
-
-  const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
-      items: 1,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 1,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-    },
-  };
 
   const [cartLoaded, setCartLoaded] = useState(false);
 
@@ -134,7 +110,7 @@ function ProductDetails(props) {
       return;
     }
 
-    if (productsId.Quantity <= 0) {
+    if (productsId.pieces <= 0) {
       toast.info(
         "This item is currently out of stock. Please choose a different item.",
       );
@@ -154,6 +130,22 @@ function ProductDetails(props) {
         f.selectedColor === selectedColor?.color,
     );
 
+    console.log(
+      "jo size select hai uski bachi hui qty hai ye ---",
+      selectedSize.qty,
+      "jo add kr rha hu mai uski qty hai ye ",
+      availableQty,
+    );
+
+    if (availableQty > selectedSize.qty) {
+      props.toaster({
+        type: "error",
+        message:
+          "This Size is currently out of stock. Please choose a different size or Color.",
+      });
+      return;
+    }
+
     let ourPrice = parseFloat(selectedPrice?.offerprice);
 
     if (!existingItem) {
@@ -169,6 +161,7 @@ function ProductDetails(props) {
         category: productsId.category,
         price_slot: selectedPrice,
         price: ourPrice,
+        selectedVarients:selectedSize
       };
 
       const updatedCart = [...cartData, newProduct];
@@ -278,12 +271,29 @@ function ProductDetails(props) {
         canonical={`product-details/${productsId.slug}`}
       />
 
-      <div className="bg-white w-full min-h-screen">
-        <main className="max-w-7xl mx-auto px-4 md:py-12 py-2 flex flex-col md:flex-row gap-8">
-          <section className="w-full md:w-1/2">
-            {/* Main Image */}
+      <div className="bg-white w-full min-h-screen max-w-7xl mx-auto px-4 md:py-12 py-6">
+        <main className=" flex flex-col md:flex-row md:gap-12 gap-4">
+          <section className="md:w-[40%] flex flex-col md:flex-row w-full md:gap-0 gap-2">
+            <div className="md:w-[100px] w-full md:h-[500px] overflow-y-auto">
+              <div className="flex md:flex-col flex-row gap-3">
+                {selectedImageList?.map((img, i) => (
+                  <img
+                    key={i}
+                    src={img}
+                    alt={`Thumbnail ${i}`}
+                    className={`h-26 w-20 md:h-[120px] md:w-[80px] object-cover border rounded cursor-pointer transition flex-shrink-0 ${
+                      selectedImage === img
+                        ? "border-gray-600"
+                        : "border-gray-200"
+                    }`}
+                    onClick={() => setSelectedImage(img)}
+                  />
+                ))}
+              </div>
+            </div>
+
             <div
-              className="relative w-full max-h-[400ox] bg-white rounded overflow-hidden border"
+              className="relative flex-1 max-h-[600px] bg-white rounded overflow-hidden flex items-center justify-center"
               onMouseEnter={() => setShowZoom(true)}
               onMouseLeave={() => setShowZoom(false)}
               onMouseMove={handleMouseMove}
@@ -291,7 +301,7 @@ function ProductDetails(props) {
               <img
                 src={selectedImage}
                 alt="Product"
-                className="w-full h-full object-contain"
+                className="max-h-[600px] w-auto object-contain"
               />
 
               {showZoom && (
@@ -306,27 +316,12 @@ function ProductDetails(props) {
                 />
               )}
             </div>
-
-           
-            <div className="grid grid-cols-4 gap-3 mt-3">
-              {selectedImageList?.map((img, i) => (
-                <img
-                  key={i}
-                  src={img}
-                  alt={`Thumbnail ${i}`}
-                  className={` h-34 w-34 aspect-square object-contain border rounded cursor-pointer transition ${
-                    selectedImage === img ? "border-gray-600" : "border-gray-200"
-                  }`}
-                  onClick={() => setSelectedImage(img)}
-                />
-              ))}
-            </div>
           </section>
 
-          <section className="flex-1 w-full md:w-1/2">
+          <section className="flex-1 w-full md:w-[55%]">
             <div className="flex justify-between items-center gap-1 mb-2">
               <p className="text-[#757575] text-2xl">
-                {productsId?.type || "Cotton dress"}{" "}
+                {productsId?.clothTypeName || "Cotton dress"}{" "}
               </p>
               <div className="text-black text-2xl flex items-center">
                 <FaStar className="text-yellow-500" />
@@ -341,7 +336,7 @@ function ProductDetails(props) {
               </h1>
             </div>
 
-            <div className="flex flex-col items-start ">
+            <div className="flex flex-col items-start mt-8">
               <div className="flex items-center justify-center gap-2">
                 <span
                   className={`text-2xl md:text-[32px] line-through   text-black ${
@@ -387,22 +382,6 @@ function ProductDetails(props) {
                 <p className="text-red-500 font-semibold">Not available</p>
               )}
             </div>
-            <div
-              className="
-    text-gray-700 text-[16px] md:text-[18px] leading-7
-    [&_*]:!text-gray-700
-    [&_*]:!font-normal
-    md:[&_*]:!text-[18px]   [&_*]:!text-[16px]
-    [&_strong]:!font-semibold
-    [&_b]:!font-semibold
-    [&_h1]:!text-[22px]
-    [&_h2]:!text-[20px]
-    [&_h3]:!text-[18px]
-  "
-              dangerouslySetInnerHTML={{
-                __html: productsId?.long_description,
-              }}
-            />
 
             {productsId?.varients?.length > 0 && (
               <>
@@ -603,6 +582,24 @@ function ProductDetails(props) {
             )}
           </section>
         </main>
+        <div className="mt-8">
+          <div
+            className="
+    text-gray-700 text-[16px] md:text-[18px] leading-7
+    [&_*]:!text-gray-700
+    [&_*]:!font-normal
+    md:[&_*]:!text-[18px]   [&_*]:!text-[16px]
+    [&_strong]:!font-semibold
+    [&_b]:!font-semibold
+    [&_h1]:!text-[22px]
+    [&_h2]:!text-[20px]
+    [&_h3]:!text-[18px]
+  "
+            dangerouslySetInnerHTML={{
+              __html: productsId?.long_description,
+            }}
+          />
+        </div>
       </div>
     </>
   );

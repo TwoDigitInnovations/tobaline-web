@@ -85,7 +85,6 @@ const ProductCard = ({ product, url, toaster }) => {
 
   return (
     <div className="rounded-lg overflow-hidden transition relative">
-      {/* IMAGE */}
       <div className="relative cursor-pointer" onClick={route}>
         <img
           src={variant?.image?.[0]}
@@ -94,43 +93,54 @@ const ProductCard = ({ product, url, toaster }) => {
         />
 
         <div
-          className="absolute right-2 bottom-2 bg-white p-1.5 cursor-pointer min-w-[32px] text-center"
+          className="absolute right-2 top-2 bg-white p-1.5 cursor-pointer min-w-[32px] text-center"
           onClick={(e) => {
             e.stopPropagation();
             cartItem ? router.push("/Cart") : handleAddToCart();
           }}
         >
           {cartItem ? (
-            // <span className="text-black font-medium">{cartItem.qty}</span>
             <ShoppingCart className="text-black" size={20} />
           ) : (
             <Plus className="text-black" size={20} />
           )}
         </div>
-      </div>
 
-      <div className="py-4 space-y-2">
-        <h3 className="font-serif text-lg text-stone-800">{product?.name}</h3>
+        {/* Bottom Blur + Gradient Mask */}
+        <div
+          className="absolute bottom-0 left-0 w-full h-36 
+      bg-gradient-to-t from-white/10 via-white/60 to-transparent 
+      backdrop-blur-sm md:h-[120px] h-[80px]"
+        />
 
-        <p className="text-sm text-stone-500">from {product?.origin}</p>
+        {/* Text Content */}
+        <div className="absolute bottom-0 left-0 w-full p-1.5 md:p-3 space-y-[0.5]">
+          <h3 className="md:text-lg text-sm text-stone-800 md:h-fit h-5">
+            {product?.name}
+          </h3>
 
-        <div className="flex items-center gap-1 text-yellow-500">
-          {[...Array(5)].map((_, i) => (
-            <Star key={i} size={16} fill="#FACC15" stroke="#FACC15" />
-          ))}
-          <span className="text-xs text-stone-500 ml-1">(58)</span>
-        </div>
+          <p className="md:flex hidden md:text-[12px] text-[10px] text-[#3E3E40]">{product?.short_description.slice(0,80) + "..."}</p>
 
-        <div className="flex items-center gap-2">
-          <span className="text-lg font-semibold text-stone-800">
-            {constant.currency} {offerprice}
-          </span>
+            <p className="flex md:hidden md:text-[12px] text-[10px] text-[#3E3E40]">{product?.short_description.slice(0,30) + "..."}</p>
 
-          {price > offerprice && (
-            <span className="text-sm line-through text-stone-400">
-              {constant.currency} {price}
+          <div className="flex items-center gap-1 text-yellow-400">
+            {[...Array(5)].map((_, i) => (
+              <Star key={i} size={14} fill="#FACC15" stroke="#FACC15" />
+            ))}
+            <span className="text-xs text-stone-500 ml-1">(58)</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="text-sm md:text-lg font-semibold text-stone-800">
+              {constant.currency} {offerprice}
             </span>
-          )}
+
+            {price > offerprice && (
+              <span className="text-[12px] md:text-sm line-through text-[#3E3E40]">
+                {constant.currency} {price}
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </div>
