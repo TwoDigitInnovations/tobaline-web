@@ -161,19 +161,23 @@ function ProductDetails(props) {
         category: productsId.category,
         price_slot: selectedPrice,
         price: ourPrice,
-        selectedVarients:selectedSize
+        selectedVarients: selectedSize,
       };
 
       const updatedCart = [...cartData, newProduct];
       setCartData(updatedCart);
       localStorage.setItem("addCartDetail", JSON.stringify(updatedCart));
-      toast.success("Item added to cart");
+      props.toaster({ type: "success", message: "product added to cart" });
     } else {
       console.log(
         "Product already in cart with this exact variant:",
         existingItem,
       );
-      toast.info("This exact item is already in your cart");
+
+      props.toaster({
+        type: "error",
+        message: "This exact item is already in your cart",
+      });
     }
   };
 
