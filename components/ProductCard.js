@@ -115,7 +115,7 @@ const ProductCard = ({ product, url, toaster }) => {
 
         {/* Text Content */}
         <div className="absolute bottom-0 left-0 w-full p-1.5 md:p-3 space-y-[0.5]">
-          <h3 className="md:text-lg text-sm text-stone-800 md:h-fit h-5">
+          <h3 className="md:text-lg text-sm text-black font-bold md:h-fit h-5">
             {product?.name}
           </h3>
 
