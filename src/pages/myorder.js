@@ -19,23 +19,21 @@ const myorder = (props) => {
   const [expandedOrders, setExpandedOrders] = useState({});
   const [isUserChecked, setIsUserChecked] = useState(false);
 
-  useEffect(() => {
-    if (user === undefined) return;
+  // useEffect(() => {
+  //   if (user === undefined) return;
 
-    if (!user || Object.keys(user).length === 0) {
-      router.push("/login");
-    } else {
-      setIsUserChecked(true);
-    }
-  }, [user]);
+  //   if (!user || Object.keys(user).length === 0) {
+  //     router.push("/login");
+  //   } else {
+  //     setIsUserChecked(true);
+  //   }
+  // }, [user]);
 
   useEffect(() => {
-    if (isUserChecked) {
-      getProductFromOrder();
-    }
-  }, [isUserChecked]);
-  
-  if (!isUserChecked) return null;
+    getProductFromOrder();
+  }, []);
+
+  if (!user) return null;
 
   const getProductFromOrder = async () => {
     props.loader(true);

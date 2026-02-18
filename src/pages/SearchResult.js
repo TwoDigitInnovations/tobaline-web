@@ -129,7 +129,7 @@ const SearchResult = (props) => {
       </div>
 
       {/* ================= Products Section ================= */}
-      <div className="max-w-7xl mx-auto px-4 md:px-12 py-4">
+      <div className="max-w-7xl mx-auto px-4 md:px-0 py-4">
 
         {/* Title */}
         {productList.length > 0 && (
