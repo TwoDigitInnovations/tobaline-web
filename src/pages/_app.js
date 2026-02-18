@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { appWithI18Next } from "ni18n";
 import { ni18nConfig } from "../../ni18n.config.js";
 import { Toaster as SonnerToaster, toast } from "sonner";
+import { CurrencyProvider } from "../context/CurrencyContext";
 
 export const userContext = createContext();
 export const openCartContext = createContext();
@@ -15,7 +16,8 @@ export const languageContext = createContext();
 
 function App({ Component, pageProps }) {
   const router = useRouter();
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
+
   const [open, setOpen] = useState(false);
   const [data, setData] = useState();
   const [openCart, setOpenCart] = useState(false);
@@ -51,31 +53,33 @@ function App({ Component, pageProps }) {
       <SonnerToaster position="top-center" richColors closeButton />
       <languageContext.Provider value={{ lang, changeLang }}>
         <userContext.Provider value={[user, setUser]}>
-          <openCartContext.Provider value={[openCart, setOpenCart]}>
-            <cartContext.Provider value={[cartData, setCartData]}>
-              <Layout
-                loader={setOpen}
-                constant={data}
-                toaster={(t) => {
-                  if (t.type === "error") toast.error(t.message);
-                  else if (t.type === "success") toast.success(t.message);
-                  else toast(t.message);
-                }}
-              >
-                {open && <Loader open={open} />}
-                <Component
+          <CurrencyProvider>
+            <openCartContext.Provider value={[openCart, setOpenCart]}>
+              <cartContext.Provider value={[cartData, setCartData]}>
+                <Layout
+                  loader={setOpen}
+                  constant={data}
                   toaster={(t) => {
                     if (t.type === "error") toast.error(t.message);
                     else if (t.type === "success") toast.success(t.message);
                     else toast(t.message);
                   }}
-                  {...pageProps}
-                  loader={setOpen}
-                  user={user}
-                />
-              </Layout>
-            </cartContext.Provider>
-          </openCartContext.Provider>
+                >
+                  {open && <Loader open={open} />}
+                  <Component
+                    toaster={(t) => {
+                      if (t.type === "error") toast.error(t.message);
+                      else if (t.type === "success") toast.success(t.message);
+                      else toast(t.message);
+                    }}
+                    {...pageProps}
+                    loader={setOpen}
+                    user={user}
+                  />
+                </Layout>
+              </cartContext.Provider>
+            </openCartContext.Provider>
+          </CurrencyProvider>
         </userContext.Provider>
       </languageContext.Provider>
     </div>

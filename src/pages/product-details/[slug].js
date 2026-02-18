@@ -11,6 +11,7 @@ import { FaMinus } from "react-icons/fa6";
 import Head from "next/head";
 import SEO from "../../../components/SEO";
 import constant from "../../../services/constant";
+import Price from "../../../components/Price";
 
 function ProductDetails(props) {
   const router = useRouter();
@@ -28,6 +29,8 @@ function ProductDetails(props) {
   const [selectedAttributes, setSelectedAttributes] = useState({});
   const [showZoom, setShowZoom] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 50, y: 50 });
+  const [productLoading, setProductLoading] = useState(false);
+
 
   const handleMouseMove = (e) => {
     const { left, top, width, height } =
@@ -224,6 +227,7 @@ function ProductDetails(props) {
         setSelectedImageList(res.data?.varients[0].image);
         setSelectedImage(res.data?.varients[0].image[0]);
         setProductReviews(res.data?.reviews || []);
+        setProductLoading(true);
       },
       (err) => {
         props.loader(false);
@@ -263,7 +267,73 @@ function ProductDetails(props) {
       });
     });
   }
+  const ProductDetailSkeleton = () => {
+    return (
+      <div className="max-w-7xl mx-auto p-4 md:p-8 animate-pulse">
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="flex gap-4">
+            <div className="flex flex-col gap-3">
+              {[1, 2, 3].map((item) => (
+                <div key={item} className="w-16 h-20 bg-gray-200 rounded-md" />
+              ))}
+            </div>
 
+            <div className="flex-1">
+              <div className="w-full h-[500px] bg-gray-200 rounded-lg" />
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <div className="h-4 w-40 bg-gray-200 rounded" />
+
+            {/* Title */}
+            <div className="space-y-2">
+              <div className="h-8 w-3/4 bg-gray-200 rounded" />
+              <div className="h-8 w-1/2 bg-gray-200 rounded" />
+            </div>
+
+            {/* Price */}
+            <div className="flex items-center gap-4">
+              <div className="h-6 w-24 bg-gray-200 rounded" />
+              <div className="h-6 w-16 bg-gray-200 rounded" />
+            </div>
+
+            {/* Size */}
+            <div>
+              <div className="h-4 w-20 bg-gray-200 rounded mb-2" />
+              <div className="flex gap-3">
+                {[1, 2, 3, 4].map((item) => (
+                  <div
+                    key={item}
+                    className="w-10 h-10 bg-gray-200 rounded-md"
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Colors */}
+            <div>
+              <div className="h-4 w-24 bg-gray-200 rounded mb-2" />
+              <div className="w-8 h-8 bg-gray-200 rounded-full" />
+            </div>
+
+            {/* Quantity */}
+            <div>
+              <div className="h-4 w-24 bg-gray-200 rounded mb-2" />
+              <div className="h-12 w-40 bg-gray-200 rounded-lg" />
+            </div>
+
+            {/* Button */}
+            <div className="h-14 w-full bg-gray-300 rounded-2xl" />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+
+  console.log(productLoading);
+  
   return (
     <>
       <SEO
@@ -276,319 +346,335 @@ function ProductDetails(props) {
       />
 
       <div className="bg-white w-full min-h-screen max-w-7xl mx-auto px-4 md:py-12 py-6">
-        <main className=" flex flex-col md:flex-row md:gap-12 gap-4">
-          <section className="md:w-[40%] flex flex-col md:flex-row w-full md:gap-0 gap-2">
-            <div className="md:w-[100px] w-full md:h-[500px] overflow-y-auto">
-              <div className="flex md:flex-col flex-row gap-3">
-                {selectedImageList?.map((img, i) => (
-                  <img
-                    key={i}
-                    src={img}
-                    alt={`Thumbnail ${i}`}
-                    className={`h-26 w-20 md:h-[120px] md:w-[80px] object-cover border rounded cursor-pointer transition flex-shrink-0 ${
-                      selectedImage === img
-                        ? "border-gray-600"
-                        : "border-gray-200"
-                    }`}
-                    onClick={() => setSelectedImage(img)}
-                  />
-                ))}
-              </div>
-            </div>
+        {!productLoading ? (
+          <ProductDetailSkeleton />
+        ) : (
+          <>
+            <main className=" flex flex-col md:flex-row md:gap-12 gap-4">
+              <section className="md:w-[40%] flex flex-col md:flex-row w-full md:gap-0 gap-2">
+                <div className="md:w-[100px] w-full md:h-[500px] overflow-y-auto">
+                  <div className="flex md:flex-col flex-row gap-3">
+                    {selectedImageList?.map((img, i) => (
+                      <img
+                        key={i}
+                        src={img}
+                        alt={`Thumbnail ${i}`}
+                        className={`h-26 w-20 md:h-[120px] md:w-[80px] object-cover border rounded cursor-pointer transition flex-shrink-0 ${
+                          selectedImage === img
+                            ? "border-gray-600"
+                            : "border-gray-200"
+                        }`}
+                        onClick={() => setSelectedImage(img)}
+                      />
+                    ))}
+                  </div>
+                </div>
 
-            <div
-              className="relative flex-1 max-h-[600px] bg-white rounded overflow-hidden flex items-center justify-center"
-              onMouseEnter={() => setShowZoom(true)}
-              onMouseLeave={() => setShowZoom(false)}
-              onMouseMove={handleMouseMove}
-            >
-              <img
-                src={selectedImage}
-                alt="Product"
-                className="max-h-[600px] w-auto object-contain"
-              />
-
-              {showZoom && (
                 <div
-                  className="absolute top-0 left-0 w-full h-full cursor-pointer"
-                  style={{
-                    backgroundImage: `url(${selectedImage})`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundSize: "200%",
-                    backgroundPosition: `${zoomPosition.x}% ${zoomPosition.y}%`,
-                  }}
-                />
-              )}
-            </div>
-          </section>
-
-          <section className="flex-1 w-full md:w-[55%]">
-            <div className="flex justify-between items-center gap-1 mb-2">
-              <p className="text-[#757575] text-2xl">
-                {productsId?.clothTypeName || "Cotton dress"}{" "}
-              </p>
-              <div className="text-black text-2xl flex items-center">
-                <FaStar className="text-yellow-500" />
-                <span className="text-2xl text-gray-800">
-                  ({productReviews?.length || 4.5})
-                </span>
-              </div>
-            </div>
-            <div className="flex justify-between items-start mb-1">
-              <h1 className="text-gray-600 text-4xl md:text-6xl">
-                {productsId?.name}
-              </h1>
-            </div>
-
-            <div className="flex flex-col items-start mt-8">
-              <div className="flex items-center justify-center gap-2">
-                <span
-                  className={`text-2xl md:text-[32px] line-through   text-black ${
-                    isCombinationAvailable === false
-                      ? "blur-[2px] opacity-800"
-                      : ""
-                  }`}
+                  className="relative flex-1 max-h-[600px] bg-white rounded overflow-hidden flex items-center justify-center"
+                  onMouseEnter={() => setShowZoom(true)}
+                  onMouseLeave={() => setShowZoom(false)}
+                  onMouseMove={handleMouseMove}
                 >
-                  {constant.currency}
-                  {selectedSize?.price}
-                </span>
+                  <img
+                    src={selectedImage}
+                    alt="Product"
+                    className="max-h-[600px] w-auto object-contain"
+                  />
 
-                {selectedSize?.price && (
-                  <>
+                  {showZoom && (
+                    <div
+                      className="absolute top-0 left-0 w-full h-full cursor-pointer"
+                      style={{
+                        backgroundImage: `url(${selectedImage})`,
+                        backgroundRepeat: "no-repeat",
+                        backgroundSize: "200%",
+                        backgroundPosition: `${zoomPosition.x}% ${zoomPosition.y}%`,
+                      }}
+                    />
+                  )}
+                </div>
+              </section>
+
+              <section className="flex-1 w-full md:w-[55%]">
+                <div className="flex justify-between items-center gap-1 mb-2">
+                  <p className="text-[#757575] text-2xl">
+                    {productsId?.clothTypeName || "Cotton dress"}{" "}
+                  </p>
+                  <div className="text-black text-2xl flex items-center">
+                    <FaStar className="text-yellow-500" />
+                    <span className="text-2xl text-gray-800">
+                      ({productReviews?.length || 4.5})
+                    </span>
+                  </div>
+                </div>
+                <div className="flex justify-between items-start mb-1">
+                  <h1 className="text-gray-600 text-4xl md:text-6xl">
+                    {productsId?.name}
+                  </h1>
+                </div>
+
+                <div className="flex flex-col items-start mt-8">
+                  <div className="flex items-center justify-center gap-2">
                     <span
-                      className={`bg-red-500 text-white text-[10px] font-semibold px-2 py-1.5 rounded-xl ${
+                      className={`text-2xl md:text-[32px] line-through   text-black ${
                         isCombinationAvailable === false
                           ? "blur-[2px] opacity-800"
                           : ""
                       }`}
                     >
-                      SAVE{" "}
-                      {Math.round(
-                        ((selectedSize?.price - selectedSize?.offerprice) /
-                          selectedSize?.price) *
-                          100,
-                      )}
-                      %
+                      {/* {constant.currency}
+                      {selectedSize?.price} */}
+                       <Price amountUSD={selectedSize?.price} />
                     </span>
-                  </>
-                )}
-              </div>
-              <span
-                className={` text-black font-semibold text-2xl md:text-[32px] ${
-                  isCombinationAvailable === false
-                    ? "blur-[2px] opacity-800"
-                    : ""
-                }`}
-              >
-                {constant.currency} {selectedSize?.offerprice}
-              </span>
-              {!isCombinationAvailable && (
-                <p className="text-red-500 font-semibold">Not available</p>
-              )}
-            </div>
 
-            {productsId?.varients?.length > 0 && (
-              <>
-                {(() => {
-                  return (
-                    <>
-                      {productsId?.Attribute?.filter(
-                        (attr) => attr.name.toLowerCase() !== "color",
-                      ).map((attribute, index) => {
-                        const label = attribute.name;
-                        const options = Array.from(
-                          new Set(
-                            productsId.varients
-                              .filter(
-                                (variant) =>
-                                  variant.color?.toLowerCase() ===
-                                  selectedColor?.color?.toLowerCase(),
-                              )
-                              .flatMap((variant) =>
-                                variant.selected?.flatMap(
-                                  (group) =>
-                                    group?.attributes?.find(
-                                      (attr) => attr.label === label,
-                                    )?.value,
-                                ),
-                              )
-                              .filter(Boolean),
-                          ),
-                        );
+                    {selectedSize?.price && (
+                      <>
+                        <span
+                          className={`bg-red-500 text-white text-[10px] font-semibold px-2 py-1.5 rounded-xl ${
+                            isCombinationAvailable === false
+                              ? "blur-[2px] opacity-800"
+                              : ""
+                          }`}
+                        >
+                          SAVE{" "}
+                          {Math.round(
+                            ((selectedSize?.price - selectedSize?.offerprice) /
+                              selectedSize?.price) *
+                              100,
+                          )}
+                          %
+                        </span>
+                      </>
+                    )}
+                  </div>
+                  <span
+                    className={` text-black font-semibold text-2xl md:text-[32px] ${
+                      isCombinationAvailable === false
+                        ? "blur-[2px] opacity-800"
+                        : ""
+                    }`}
+                  >
+                    {/* {constant.currency} {selectedSize?.offerprice} */}
+                     <Price amountUSD={selectedSize?.offerprice} />
+                  </span>
+                  {!isCombinationAvailable && (
+                    <p className="text-red-500 font-semibold">Not available</p>
+                  )}
+                </div>
 
-                        return (
-                          <div className="w-full " key={index}>
-                            <div className="flex flex-col justify-start items-start gap-3">
-                              <p className="text-black text-xl font-normal">
-                                {label}:
-                                <span className="font-normal text-[16px] px-2">
-                                  {selectedAttributes[label] || "Not selected"}
-                                </span>
+                {productsId?.varients?.length > 0 && (
+                  <>
+                    {(() => {
+                      return (
+                        <>
+                          {productsId?.Attribute?.filter(
+                            (attr) => attr.name.toLowerCase() !== "color",
+                          ).map((attribute, index) => {
+                            const label = attribute.name;
+                            const options = Array.from(
+                              new Set(
+                                productsId.varients
+                                  .filter(
+                                    (variant) =>
+                                      variant.color?.toLowerCase() ===
+                                      selectedColor?.color?.toLowerCase(),
+                                  )
+                                  .flatMap((variant) =>
+                                    variant.selected?.flatMap(
+                                      (group) =>
+                                        group?.attributes?.find(
+                                          (attr) => attr.label === label,
+                                        )?.value,
+                                    ),
+                                  )
+                                  .filter(Boolean),
+                              ),
+                            );
+
+                            return (
+                              <div className="w-full " key={index}>
+                                <div className="flex flex-col justify-start items-start gap-3">
+                                  <p className="text-black text-xl font-normal">
+                                    {label}:
+                                    <span className="font-normal text-[16px] px-2">
+                                      {selectedAttributes[label] ||
+                                        "Not selected"}
+                                    </span>
+                                  </p>
+
+                                  <div className="flex justify-start items-center gap-3 flex-wrap">
+                                    {options.map((option, j) => (
+                                      <button
+                                        key={j}
+                                        onClick={() => {
+                                          setSelectedAttributes((prev) => ({
+                                            ...prev,
+                                            [label]: option,
+                                          }));
+
+                                          const matchedVariant =
+                                            productsId.varients.find(
+                                              (variant) =>
+                                                variant.color?.toLowerCase() ===
+                                                  selectedColor?.color?.toLowerCase() &&
+                                                variant.selected?.some(
+                                                  (group) =>
+                                                    group.attributes?.some(
+                                                      (attr) =>
+                                                        attr.label === label &&
+                                                        attr.value === option,
+                                                    ),
+                                                ),
+                                            );
+                                          setSelectedSize(
+                                            matchedVariant.selected[j],
+                                          );
+                                          if (matchedVariant) {
+                                            setSelectedImageList(
+                                              matchedVariant.image || [],
+                                            );
+                                            setSelectedImage(
+                                              matchedVariant.image?.[0] || "",
+                                            );
+                                          }
+                                        }}
+                                        className={`rounded border border-[#00000050] flex justify-center items-center ${
+                                          selectedAttributes[label] === option
+                                            ? "bg-[#12344D] text-white"
+                                            : "bg-white text-[#12344d]"
+                                        }`}
+                                      >
+                                        <p className="text-sm px-2 py-1.5 font-medium">
+                                          {option}
+                                        </p>
+                                      </button>
+                                    ))}
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
+
+                          {productsId.varients.some((v) => v.color?.trim()) && (
+                            <div className="md:pt-5 pt-1 pb-5 flex justify-start items-center gap-5">
+                              <p className="text-black font-normal md:text-xl text-lg Inter">
+                                Colours:
                               </p>
-
-                              <div className="flex justify-start items-center gap-3 flex-wrap">
-                                {options.map((option, j) => (
-                                  <button
-                                    key={j}
-                                    onClick={() => {
-                                      setSelectedAttributes((prev) => ({
-                                        ...prev,
-                                        [label]: option,
-                                      }));
-
-                                      const matchedVariant =
-                                        productsId.varients.find(
-                                          (variant) =>
-                                            variant.color?.toLowerCase() ===
-                                              selectedColor?.color?.toLowerCase() &&
-                                            variant.selected?.some((group) =>
-                                              group.attributes?.some(
-                                                (attr) =>
-                                                  attr.label === label &&
-                                                  attr.value === option,
-                                              ),
-                                            ),
-                                        );
-                                      setSelectedSize(
-                                        matchedVariant.selected[j],
-                                      );
-                                      if (matchedVariant) {
+                              <div className="flex gap-3">
+                                {productsId.varients
+                                  .filter(
+                                    (variant) => variant.color?.trim() !== "",
+                                  )
+                                  .map((variant, i) => (
+                                    <button
+                                      key={i}
+                                      aria-label={`${variant.color} color option`}
+                                      className={`w-6 h-6 rounded-full border-1 p-2 ${
+                                        selectedColor === variant
+                                          ? "border-gray-800 p-1 border-2"
+                                          : "border-gray-400"
+                                      }`}
+                                      style={{
+                                        backgroundColor:
+                                          variant.color?.toLowerCase() ||
+                                          "#ccc",
+                                      }}
+                                      onClick={() => {
+                                        setSelectedColor(variant);
                                         setSelectedImageList(
-                                          matchedVariant.image || [],
+                                          variant.image || [],
                                         );
                                         setSelectedImage(
-                                          matchedVariant.image?.[0] || "",
+                                          variant.image?.[0] || "",
                                         );
-                                      }
-                                    }}
-                                    className={`rounded border border-[#00000050] flex justify-center items-center ${
-                                      selectedAttributes[label] === option
-                                        ? "bg-[#12344D] text-white"
-                                        : "bg-white text-[#12344d]"
-                                    }`}
-                                  >
-                                    <p className="text-sm px-2 py-1.5 font-medium">
-                                      {option}
-                                    </p>
-                                  </button>
-                                ))}
+
+                                        const defaultGroup =
+                                          variant.selected?.[0];
+                                        const mappedAttributes = {};
+                                        defaultGroup?.attributes?.forEach(
+                                          (attr) => {
+                                            mappedAttributes[attr.label] =
+                                              attr.value;
+                                          },
+                                        );
+
+                                        setSelectedAttributes(mappedAttributes);
+                                        setSelectedSize(defaultGroup);
+                                      }}
+                                    />
+                                  ))}
                               </div>
                             </div>
-                          </div>
-                        );
-                      })}
-
-                      {productsId.varients.some((v) => v.color?.trim()) && (
-                        <div className="md:pt-5 pt-1 pb-5 flex justify-start items-center gap-5">
-                          <p className="text-black font-normal md:text-xl text-lg Inter">
-                            Colours:
-                          </p>
-                          <div className="flex gap-3">
-                            {productsId.varients
-                              .filter((variant) => variant.color?.trim() !== "")
-                              .map((variant, i) => (
-                                <button
-                                  key={i}
-                                  aria-label={`${variant.color} color option`}
-                                  className={`w-6 h-6 rounded-full border-1 p-2 ${
-                                    selectedColor === variant
-                                      ? "border-gray-800 p-1 border-2"
-                                      : "border-gray-400"
-                                  }`}
-                                  style={{
-                                    backgroundColor:
-                                      variant.color?.toLowerCase() || "#ccc",
-                                  }}
-                                  onClick={() => {
-                                    setSelectedColor(variant);
-                                    setSelectedImageList(variant.image || []);
-                                    setSelectedImage(variant.image?.[0] || "");
-
-                                    const defaultGroup = variant.selected?.[0];
-                                    const mappedAttributes = {};
-                                    defaultGroup?.attributes?.forEach(
-                                      (attr) => {
-                                        mappedAttributes[attr.label] =
-                                          attr.value;
-                                      },
-                                    );
-
-                                    setSelectedAttributes(mappedAttributes);
-                                    setSelectedSize(defaultGroup);
-                                  }}
-                                />
-                              ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {!isCombinationAvailable && (
-                        <p className="text-red-500 font-semibold mt-2">
-                          Not available in this option
-                        </p>
-                      )}
-
-                      <div className="mb-6 mt-4">
-                        <p className="text-[16px] text-gray-800 font-semibold mb-1">
-                          Quantity
-                        </p>
-                        <div className="flex items-center gap-3 max-w-full">
-                          <div className="w-[150px] py-2 rounded flex justify-evenly items-center border-[1px] border-gray-300">
-                            <button
-                              aria-label="Decrease quantity"
-                              className="rounded text-lg font-semibold text-gray-700"
-                              onClick={handleDecreaseQty}
-                            >
-                              <FaMinus />
-                            </button>
-                            <span className="rounded text-black font-semibold text-[20px] text-center">
-                              {availableQty}
-                            </span>
-                            <button
-                              aria-label="Increase quantity"
-                              className="rounded text-lg font-semibold text-gray-700"
-                              onClick={handleIncreaseQty}
-                            >
-                              <FaPlus />
-                            </button>
-                          </div>
-
-                          {isAlreadyInCart ? (
-                            <button
-                              className="flex-1 cursor-pointer w-full  bg-black tracking-wider text-[20px] font-semibold rounded px-3 py-3 transition "
-                              onClick={() => router.push("/Cart")}
-                            >
-                              Go to Cart
-                            </button>
-                          ) : (
-                            <button
-                              className={`flex-1 w-full text-[20px] tracking-wider cursor-pointer font-semibold rounded px-3 py-2 transition ${
-                                isCombinationAvailable
-                                  ? " text-white bg-black"
-                                  : " text-red-500 border-2 cursor-not-allowed"
-                              }`}
-                              onClick={
-                                isCombinationAvailable
-                                  ? handleAddToCart
-                                  : undefined
-                              }
-                              disabled={!isCombinationAvailable}
-                            >
-                              Add to Cart
-                            </button>
                           )}
-                        </div>
-                      </div>
-                    </>
-                  );
-                })()}
-              </>
-            )}
-          </section>
-        </main>
-        <div className="mt-8">
-          <div
-            className="
+
+                          {!isCombinationAvailable && (
+                            <p className="text-red-500 font-semibold mt-2">
+                              Not available in this option
+                            </p>
+                          )}
+
+                          <div className="mb-6 mt-4">
+                            <p className="text-[16px] text-gray-800 font-semibold mb-1">
+                              Quantity
+                            </p>
+                            <div className="flex items-center gap-3 max-w-full">
+                              <div className="w-[150px] py-2 rounded flex justify-evenly items-center border-[1px] border-gray-300">
+                                <button
+                                  aria-label="Decrease quantity"
+                                  className="rounded text-lg font-semibold text-gray-700"
+                                  onClick={handleDecreaseQty}
+                                >
+                                  <FaMinus />
+                                </button>
+                                <span className="rounded text-black font-semibold text-[20px] text-center">
+                                  {availableQty}
+                                </span>
+                                <button
+                                  aria-label="Increase quantity"
+                                  className="rounded text-lg font-semibold text-gray-700"
+                                  onClick={handleIncreaseQty}
+                                >
+                                  <FaPlus />
+                                </button>
+                              </div>
+
+                              {isAlreadyInCart ? (
+                                <button
+                                  className="flex-1 cursor-pointer w-full  bg-black tracking-wider text-[20px] font-semibold rounded px-3 py-2 transition "
+                                  onClick={() => router.push("/Cart")}
+                                >
+                                  Go to Cart
+                                </button>
+                              ) : (
+                                <button
+                                  className={`flex-1 w-full text-[20px] tracking-wider cursor-pointer font-semibold rounded px-3 py-2 transition ${
+                                    isCombinationAvailable
+                                      ? " text-white bg-black"
+                                      : " text-red-500 border-2 cursor-not-allowed"
+                                  }`}
+                                  onClick={
+                                    isCombinationAvailable
+                                      ? handleAddToCart
+                                      : undefined
+                                  }
+                                  disabled={!isCombinationAvailable}
+                                >
+                                  Add to Cart
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        </>
+                      );
+                    })()}
+                  </>
+                )}
+              </section>
+            </main>
+            <div className="mt-8">
+              <div
+                className="
     text-gray-700 text-[16px] md:text-[18px] leading-7
     [&_*]:!text-gray-700
     [&_*]:!font-normal
@@ -599,11 +685,13 @@ function ProductDetails(props) {
     [&_h2]:!text-[20px]
     [&_h3]:!text-[18px]
   "
-            dangerouslySetInnerHTML={{
-              __html: productsId?.long_description,
-            }}
-          />
-        </div>
+                dangerouslySetInnerHTML={{
+                  __html: productsId?.long_description,
+                }}
+              />
+            </div>
+          </>
+        )}
       </div>
     </>
   );

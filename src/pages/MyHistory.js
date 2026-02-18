@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { FaFacebookF } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
@@ -15,11 +15,13 @@ import StarIcon from "@mui/icons-material/Star";
 import { RxCrossCircled } from "react-icons/rx";
 import { useTranslation } from "react-i18next";
 import SEO from "../../components/SEO";
+import { userContext } from "./_app";
 
 const MyHistory = (props) => {
   const [orderData, setOrderData] = useState([]);
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+   const [user, setUser] = useContext(userContext);
   const [showReviews, setShowReviews] = useState(false);
   const [productId, setProductId] = useState("");
   const [reviewsData, setReviewsData] = useState({
@@ -27,6 +29,13 @@ const MyHistory = (props) => {
     reviews: 0,
   });
   const { t } = useTranslation();
+
+  useEffect(() => {
+    if (!user || Object.keys(user).length === 0) {
+      router.push("/login");
+    }
+  }, [user]);
+
   useEffect(() => {
     getProductFromOrder();
   }, []);
@@ -113,7 +122,6 @@ const MyHistory = (props) => {
       day: "numeric",
     });
   };
-
 
   const getColorName = (hex) => {
     if (!hex) return "Default";

@@ -13,14 +13,22 @@ const Layout = ({ children, loader, toaster }) => {
       setIsMobile(window.innerWidth < 768);
     };
 
-    handleResize(); // initial check
+    handleResize();
     window.addEventListener("resize", handleResize);
-
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex flex-col bg-white relative overflow-hidden">
+    
+      <div className="fixed inset-0 -z-10 pointer-events-none">
+        <img
+          src="/images/EffectImage.png"
+          alt="smoke-effect"
+          className="w-full h-full object-cover"
+        />
+      </div>
+
       {/* Navbar */}
       <div className="fixed top-0 w-full z-50 bg-white">
         <Navbar
@@ -31,7 +39,9 @@ const Layout = ({ children, loader, toaster }) => {
         />
       </div>
 
-      <main className="flex-1 md:pt-20 pt-14 overflow-x-hidden">{children}</main>
+      <main className="flex-1 md:pt-20 pt-14 overflow-x-hidden">
+        {children}
+      </main>
 
       {!isMobile && <Footer loader={loader} toaster={toaster} />}
 

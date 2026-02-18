@@ -4,6 +4,7 @@ import { Plus, Minus, ShoppingCart, Star } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cartContext } from "@/pages/_app";
 import constant from "../services/constant";
+import Price from "./Price";
 
 const ProductCard = ({ product, url, toaster }) => {
   const router = useRouter();
@@ -115,16 +116,16 @@ const ProductCard = ({ product, url, toaster }) => {
 
         {/* Text Content */}
         <div className="absolute bottom-0 left-0 w-full p-1.5 md:p-3 space-y-[0.5]">
-          <h3 className="md:text-lg text-sm text-black font-bold md:h-fit h-5">
+          <h3 className="md:text-lg text-sm text-black font-bold md:h-fit h-5 overflow-hidden">
             {product?.name}
           </h3>
 
           <p className="md:flex hidden md:text-[12px] text-[10px] text-[#3E3E40]">
-            {product?.short_description.slice(0, 80) + "..."}
+            {product?.short_description.slice(0, 100) + "..."}
           </p>
 
           <p className="flex md:hidden md:text-[12px] text-[10px] text-[#3E3E40]">
-            {product?.short_description.slice(0, 30) + "..."}
+            {product?.short_description.slice(0, 35) + "..."}
           </p>
 
           <div className="flex items-center gap-1 text-yellow-400">
@@ -136,12 +137,13 @@ const ProductCard = ({ product, url, toaster }) => {
 
           <div className="flex items-center gap-2">
             <span className="text-sm md:text-lg font-semibold text-stone-800">
-              {constant.currency} {offerprice}
+              {/* {constant.currency} {offerprice} */}
+              <Price amountUSD={offerprice} />
             </span>
 
             {price > offerprice && (
               <span className="text-[12px] md:text-sm line-through text-[#3E3E40]">
-                {constant.currency} {price}
+                <Price amountUSD={price} />
               </span>
             )}
           </div>

@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useContext, useEffect, useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Api } from "../../services/service";
@@ -12,19 +10,32 @@ import SEO from "../../components/SEO";
 import { userContext } from "./_app";
 
 const myorder = (props) => {
-  const [orderData, setOrderData] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [user, setUser] = useContext(userContext);
   const router = useRouter();
   const { t } = useTranslation();
 
-  if (!user) return null;
+  const [orderData, setOrderData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [expandedOrders, setExpandedOrders] = useState({});
+  const [isUserChecked, setIsUserChecked] = useState(false);
 
   useEffect(() => {
-    if (user?.id) {
+    if (user === undefined) return;
+
+    if (!user || Object.keys(user).length === 0) {
+      router.push("/login");
+    } else {
+      setIsUserChecked(true);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (isUserChecked) {
       getProductFromOrder();
     }
-  }, [user?.id]);
+  }, [isUserChecked]);
+  
+  if (!isUserChecked) return null;
 
   const getProductFromOrder = async () => {
     props.loader(true);
@@ -40,7 +51,6 @@ const myorder = (props) => {
       props.loader(false);
     }
   };
-  const [expandedOrders, setExpandedOrders] = useState({});
 
   const toggleOrderExpansion = (orderId) => {
     setExpandedOrders((prev) => ({

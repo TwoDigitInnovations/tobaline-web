@@ -15,6 +15,7 @@ import countryList from "react-select-country-list";
 import { CheckCircle, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import SEO from "../../components/SEO";
+import Price from "../../components/Price";
 
 const Cart = (props) => {
   const router = useRouter();
@@ -54,7 +55,7 @@ const Cart = (props) => {
   const countryoptions = useMemo(() => countryList().getData(), []);
 
   useEffect(() => {
-    if (user.id) {
+    if (user?.id) {
       getProfile();
     }
   }, []);
@@ -121,12 +122,13 @@ const Cart = (props) => {
     );
 
     if (!existingItem) return;
+    console.log(existingItem);
 
-    if (existingItem.qty + 1 > item.Quantity) {
+    if (existingItem.qty >= existingItem?.selectedVarients.qty) {
       props.toaster({
         type: "error",
         message:
-          "Item is not available in this quantity in stock. Please choose a different item.",
+          "This Size is currently out of stock. Please choose a different size or Color.",
       });
       return;
     }
@@ -192,7 +194,6 @@ const Cart = (props) => {
           const index = draft.indexOf(itemToUpdate);
           if (index > -1) {
             draft.splice(index, 1);
-            toast.info("Item removed from cart");
           }
         }
       }
@@ -324,6 +325,10 @@ const Cart = (props) => {
           type: "error",
           message: "Please Complete Address",
         });
+        if (user.id) {
+          getProfile();
+        }
+        setOpen(true);
         return;
       }
 
@@ -333,10 +338,10 @@ const Cart = (props) => {
           name: item.name,
           image: item.selectedColor?.image || item.selectedImage,
           quantity: item.qty,
-          price: item.price,
+          price: item.price * 1000,
         })),
         // currency: constant.currencyName,
-        currency: "USD",
+        currency: "kwd",
       };
 
       const response = await Api("post", "stripe/poststripe", bodyData, router);
@@ -492,8 +497,7 @@ const Cart = (props) => {
 
                       {product?.attribute &&
                         (Array.isArray(product.attribute)
-                          ? 
-                            product.attribute
+                          ? product.attribute
                               .filter(
                                 (attr) => attr.label.toLowerCase() !== "color",
                               )
@@ -508,8 +512,7 @@ const Cart = (props) => {
                                   </span>
                                 </div>
                               ))
-                          : 
-                            Object.entries(product.attribute)
+                          : Object.entries(product.attribute)
                               .filter(([key]) => key.toLowerCase() !== "color")
                               .map(([key, value], index) => (
                                 <div
@@ -540,8 +543,9 @@ const Cart = (props) => {
                     </div>
                   </div>
                   <div className="col-span-5 md:col-span-3 text-gray-800 text-lg md:text-xl mt-2">
-                    {constant.currency}
-                    {product.Offerprice || 0}
+                    {/* {constant.currency}
+                    {product.Offerprice || 0} */}
+                    <Price amountUSD={product?.Offerprice} />
                   </div>
                   <div className="col-span-5 md:col-span-3 mt-2 mb-2">
                     <div className="flex items-center justify-between border-2 border-gray-300 rounded-sm md:w-28 w-full h-9 bg-white overflow-hidden">
@@ -569,7 +573,8 @@ const Cart = (props) => {
                     </div>
                   </div>
                   <div className="col-span-5 md:col-span-3 text-lg md:text-xl text-gray-800">
-                    {constant.currency} {product.total || 0}
+                    {/* {constant.currency} {product.total || 0} */}
+                    <Price amountUSD={product.total} />
                   </div>
                 </div>
               ))}
@@ -606,8 +611,11 @@ const Cart = (props) => {
                       <span className="block font-medium text-gray-800">
                         {formData?.Name}
                       </span>
-
-                      <span className="block">📞 {formData?.phoneNumber}</span>
+                      {formData?.phoneNumber && (
+                        <span className="block">
+                          📞 {formData?.phoneNumber}
+                        </span>
+                      )}
 
                       {formData?.address && (
                         <span className="block">{formData?.address}</span>
@@ -627,19 +635,28 @@ const Cart = (props) => {
                         </span>
                       )}
                     </p>
-
-                    <button
-                      className="mt-1 text-xs font-semibold cursor-pointer text-black underline"
-                      onClick={() => {
-                        if (user.id) {
-                          getProfile();
-                        }
-
-                        setOpen(true);
-                      }}
-                    >
-                      {t("Change Address")}
-                    </button>
+                    {user.id ? (
+                      <button
+                        className="mt-1 text-xs font-semibold cursor-pointer text-black underline"
+                        onClick={() => {
+                          if (user.id) {
+                            getProfile();
+                          }
+                          setOpen(true);
+                        }}
+                      >
+                        {t("Change Address")}
+                      </button>
+                    ) : (
+                      <button
+                        className="mt-1 text-xs font-semibold cursor-pointer text-black underline"
+                        onClick={() => {
+                          router.push("/login");
+                        }}
+                      >
+                        {t("Login to Change Address")}
+                      </button>
+                    )}
                   </div>
                 </div>
 
@@ -653,8 +670,9 @@ const Cart = (props) => {
                       {t("Subtotal")} ({cartItem} {t("items")})
                     </span>
                     <span>
-                      {constant.currency}
-                      {cartTotal}
+                      {/* {constant.currency}
+                      {cartTotal} */}
+                      <Price amountUSD={cartTotal} />
                     </span>
                   </div>
 
@@ -668,48 +686,65 @@ const Cart = (props) => {
                   <div className="flex justify-between text-lg font-bold text-gray-900 border-t pt-3">
                     <span>{t("Total")}</span>
                     <span>
-                      {constant.currency}
-                      {cartTotal}
+                      {/* {constant.currency}
+                      {cartTotal} */}
+                      <Price amountUSD={cartTotal} />
                     </span>
                   </div>
                 </div>
 
-                <button
-                  onClick={handleCheckout}
-                  // onClick={createProductRequest}
-                  disabled={loading}
-                  className="w-full bg-black hover:bg-gray-800 text-white px-6 py-4 rounded-2xl flex items-center justify-between shadow-lg transition-all disabled:opacity-70 cursor-pointer disabled:cursor-not-allowed"
-                >
-                  <div className="text-left">
-                    <p className="text-lg font-semibold">
-                      {loading
-                        ? "Redirecting..."
-                        : `Pay ${constant.currency}${cartTotal}`}
-                    </p>
-                    <p className="text-xs opacity-80">
-                      {t("Secure checkout powered by Stripe")}
-                    </p>
-                  </div>
-
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
+                {user && Object.keys(user).length > 0 ? (
+                  // ===== Logged In =====
+                  <button
+                    onClick={handleCheckout}
+                    disabled={loading}
+                    className="w-full bg-black hover:bg-gray-800 text-white px-6 py-4 rounded-2xl flex items-center justify-between shadow-lg transition-all disabled:opacity-70 cursor-pointer disabled:cursor-not-allowed"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 11c.667 0 2 .4 2 2s-1.333 2-2 2-2-.4-2-2 .667-2 2-2z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M17 9V7a5 5 0 00-10 0v2M5 9h14v10H5V9z"
-                    />
-                  </svg>
-                </button>
+                    <div className="text-left">
+                      <p className="text-lg font-semibold">
+                        <p className="text-lg font-semibold flex items-center gap-1">
+                          {loading ? (
+                            "Redirecting..."
+                          ) : (
+                            <>
+                              Pay <Price amountUSD={cartTotal} />
+                            </>
+                          )}
+                        </p>
+                      </p>
+                      <p className="text-xs opacity-80">
+                        {t("Secure checkout powered by Stripe")}
+                      </p>
+                    </div>
+
+                    <svg
+                      className="w-6 h-6"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M12 11c.667 0 2 .4 2 2s-1.333 2-2 2-2-.4-2-2 .667-2 2-2z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M17 9V7a5 5 0 00-10 0v2M5 9h14v10H5V9z"
+                      />
+                    </svg>
+                  </button>
+                ) : (
+                  // ===== Not Logged In =====
+                  <button
+                    onClick={() => router.push("/login")}
+                    className="w-full bg-black hover:bg-gray-800 text-white px-6 py-4 rounded-2xl flex items-center justify-center shadow-lg transition-all cursor-pointer"
+                  >
+                    Login to Checkout
+                  </button>
+                )}
 
                 <div
                   onClick={() => router.push("/Collection?category=All")}

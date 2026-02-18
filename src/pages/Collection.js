@@ -25,6 +25,7 @@ const Collection = (props) => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [clothTypes, setClothTypes] = useState([]);
+  const [availabilityFilter, setAvailabilityFilter] = useState("available");
 
   const [pagenation, setPagenation] = useState({
     currentPage: 1,
@@ -53,7 +54,6 @@ const Collection = (props) => {
   const handleCategoryChange = (categoryName) => {
     setSelectedCategory(categoryName);
   };
-  const [availabilityFilter, setAvailabilityFilter] = useState("available");
 
   const getAllCategories = async () => {
     props.loader(true);
@@ -79,11 +79,12 @@ const Collection = (props) => {
   useEffect(() => {
     if (!router.isReady) return;
 
-    setselectedClothType(router.query.type || null);
-    setSelectedCategory(router.query.category || "All");
+    const { type, category } = router.query;
 
+    setselectedClothType(type || null);
+    setSelectedCategory(category || "All");
     setFiltersReady(true);
-  }, [router.isReady]);
+  }, [router.query]);
 
   useEffect(() => {
     if (!filtersReady) return;
@@ -140,7 +141,7 @@ const Collection = (props) => {
       const res = await Api(
         "get",
         "product/getProductBycategoryId",
-         params ,
+        params,
         router,
       );
       props.loader(false);
@@ -434,76 +435,77 @@ const Collection = (props) => {
               )}
             </div>
           </div>
+          {productList.length > 2 && (
+            <div className="col-span-6 w-full flex justify-center mt-8 mb-8">
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => handlePageChange(pagenation.currentPage - 1)}
+                  disabled={pagenation.currentPage === 1}
+                  className={`px-3.5 py-3 rounded-md ${
+                    pagenation.currentPage === 1
+                      ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                      : "bg-black text-white"
+                  }`}
+                >
+                  <FaChevronLeft />
+                </button>
 
-          <div className="col-span-6 w-full flex justify-center mt-8 mb-8">
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={() => handlePageChange(pagenation.currentPage - 1)}
-                disabled={pagenation.currentPage === 1}
-                className={`px-3.5 py-3 rounded-md ${
-                  pagenation.currentPage === 1
-                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                    : "bg-black text-white"
-                }`}
-              >
-                <FaChevronLeft />
-              </button>
-
-              {Array.from({ length: pagenation.totalPages }, (_, i) => i + 1)
-                .filter((page) => {
-                  return (
-                    page <= 2 ||
-                    page > pagenation.totalPages - 2 ||
-                    Math.abs(page - pagenation.currentPage) <= 1
-                  );
-                })
-                .reduce((acc, page, index, arr) => {
-                  if (index > 0 && page - arr[index - 1] > 1) {
-                    acc.push("ellipsis");
-                  }
-                  acc.push(page);
-                  return acc;
-                }, [])
-                .map((item, index) => {
-                  if (item === "ellipsis") {
+                {Array.from({ length: pagenation.totalPages }, (_, i) => i + 1)
+                  .filter((page) => {
                     return (
-                      <span
-                        key={`ellipsis-${index}`}
-                        className="px-2 text-gray-500"
-                      >
-                        ...
-                      </span>
+                      page <= 2 ||
+                      page > pagenation.totalPages - 2 ||
+                      Math.abs(page - pagenation.currentPage) <= 1
                     );
-                  }
+                  })
+                  .reduce((acc, page, index, arr) => {
+                    if (index > 0 && page - arr[index - 1] > 1) {
+                      acc.push("ellipsis");
+                    }
+                    acc.push(page);
+                    return acc;
+                  }, [])
+                  .map((item, index) => {
+                    if (item === "ellipsis") {
+                      return (
+                        <span
+                          key={`ellipsis-${index}`}
+                          className="px-2 text-gray-500"
+                        >
+                          ...
+                        </span>
+                      );
+                    }
 
-                  return (
-                    <button
-                      key={item}
-                      onClick={() => handlePageChange(item)}
-                      className={`w-10 h-10 flex items-center justify-center rounded-md ${
-                        item === pagenation.currentPage
-                          ? "bg-black text-white"
-                          : "text-black bg-gray-200"
-                      }`}
-                    >
-                      {item}
-                    </button>
-                  );
-                })}
+                    return (
+                      <button
+                        key={item}
+                        onClick={() => handlePageChange(item)}
+                        className={`w-10 h-10 flex items-center justify-center rounded-md ${
+                          item === pagenation.currentPage
+                            ? "bg-black text-white"
+                            : "text-black bg-gray-200"
+                        }`}
+                      >
+                        {item}
+                      </button>
+                    );
+                  })}
 
-              <button
-                onClick={() => handlePageChange(pagenation.currentPage + 1)}
-                disabled={pagenation.currentPage === pagenation.totalPages}
-                className={`px-3.5 py-3 rounded-md ${
-                  pagenation.currentPage === pagenation.totalPages
-                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                    : "bg-black text-white"
-                }`}
-              >
-                <FaChevronRight />
-              </button>
+                <button
+                  onClick={() => handlePageChange(pagenation.currentPage + 1)}
+                  disabled={pagenation.currentPage === pagenation.totalPages}
+                  className={`px-3.5 py-3 rounded-md ${
+                    pagenation.currentPage === pagenation.totalPages
+                      ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+                      : "bg-black text-white"
+                  }`}
+                >
+                  <FaChevronRight />
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </>
