@@ -49,7 +49,7 @@ export default function Home(props) {
 
         <MindfulLuxury />
 
-        <CustomerReviews />
+        {/* <CustomerReviews /> */}
       </div>
     </>
   );
