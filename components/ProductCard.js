@@ -128,12 +128,12 @@ const ProductCard = ({ product, url, toaster }) => {
             {product?.short_description.slice(0, 35) + "..."}
           </p>
 
-          <div className="flex items-center gap-1 text-yellow-400">
+          {/* <div className="flex items-center gap-1 text-yellow-400">
             {[...Array(5)].map((_, i) => (
               <Star key={i} size={14} fill="#FACC15" stroke="#FACC15" />
             ))}
             <span className="text-xs text-stone-500 ml-1">(58)</span>
-          </div>
+          </div> */}
 
           <div className="flex items-center gap-2">
             <span className="text-sm md:text-lg font-semibold text-stone-800">

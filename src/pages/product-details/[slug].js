@@ -401,12 +401,12 @@ function ProductDetails(props) {
                   <p className="text-[#757575] text-2xl">
                     {productsId?.clothTypeName || "Cotton dress"}{" "}
                   </p>
-                  <div className="text-black text-2xl flex items-center">
+                  {/* <div className="text-black text-2xl flex items-center">
                     <FaStar className="text-yellow-500" />
                     <span className="text-2xl text-gray-800">
                       ({productReviews?.length || 4.5})
                     </span>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="flex justify-between items-start mb-1">
                   <h1 className="text-gray-600 text-4xl md:text-6xl">
