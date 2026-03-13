@@ -169,7 +169,7 @@ const Cart = (props) => {
   const handleDecreaseQty = (item) => {
     const existingItem = cartData.find(
       (cartItem) =>
-        cartItem._id === item._id &&
+        cartItem?._id === item?._id &&
         cartItem.selectedColor === item.selectedColor &&
         JSON.stringify(cartItem.attribute) === JSON.stringify(item.attribute),
     );
@@ -179,8 +179,8 @@ const Cart = (props) => {
     const nextState = produce(cartData, (draft) => {
       const itemToUpdate = draft.find(
         (cartItem) =>
-          cartItem._id === item._id &&
-          cartItem.selectedColor === item.selectedColor &&
+          cartItem?._id === item?._id &&
+          cartItem?.selectedColor === item?.selectedColor &&
           JSON.stringify(cartItem.attribute) === JSON.stringify(item.attribute),
       );
 
@@ -325,7 +325,7 @@ const Cart = (props) => {
           type: "error",
           message: "Please Complete Address",
         });
-        if (user.id) {
+        if (user?.id) {
           getProfile();
         }
         setOpen(true);

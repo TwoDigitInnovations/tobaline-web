@@ -10,8 +10,6 @@ const symbols = {
 
 const Price = ({ amountUSD }) => {
   const { currency, rates } = useContext(CurrencyContext);
-  console.log(currency, rates);
-
   const convertedAmount = rates[currency]
     ? (amountUSD * rates[currency]).toFixed(2)
     : amountUSD;
