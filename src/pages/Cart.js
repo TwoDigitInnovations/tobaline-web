@@ -116,8 +116,8 @@ const Cart = (props) => {
   const handleIncreaseQty = (item) => {
     const existingItem = cartData.find(
       (cartItem) =>
-        cartItem._id === item._id &&
-        cartItem.selectedColor === item.selectedColor &&
+        cartItem?._id === item?._id &&
+        cartItem?.selectedColor === item?.selectedColor &&
         JSON.stringify(cartItem.attribute) === JSON.stringify(item.attribute),
     );
 
@@ -136,8 +136,8 @@ const Cart = (props) => {
     const nextState = produce(cartData, (draft) => {
       const itemToUpdate = draft.find(
         (cartItem) =>
-          cartItem._id === item._id &&
-          cartItem.selectedColor === item.selectedColor &&
+          cartItem?._id === item?._id &&
+          cartItem?.selectedColor === item?.selectedColor &&
           JSON.stringify(cartItem.attribute) === JSON.stringify(item.attribute),
       );
 
