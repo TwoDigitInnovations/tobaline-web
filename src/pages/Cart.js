@@ -55,12 +55,17 @@ const Cart = (props) => {
   const countryoptions = useMemo(() => countryList().getData(), []);
 
   useEffect(() => {
-    if (user?.id) {
-      getProfile();
-    }
+    getProfile();
   }, []);
 
   const getProfile = () => {
+    if (user && user?.id) {
+      return props.toaster({
+        type: "error",
+        message: "Please Login .",
+      });
+    }
+
     Api("get", "auth/profile", "", router).then(
       (res) => {
         if (res?.data?.data) {
