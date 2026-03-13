@@ -16,7 +16,7 @@ export const languageContext = createContext();
 
 function App({ Component, pageProps }) {
   const router = useRouter();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState("");
 
   const [open, setOpen] = useState(false);
   const [data, setData] = useState();

@@ -54,14 +54,31 @@ const Cart = (props) => {
 
   const countryoptions = useMemo(() => countryList().getData(), []);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const userDetails = localStorage.getItem("userDetails");
+useEffect(() => {
+  const token = localStorage.getItem("token");
+  const userDetails = localStorage.getItem("userDetails");
 
-    if (!token || !userDetails) {
-      getProfile();
-    }
-  }, []);
+  if (userDetails) {
+    const shipping = JSON.parse(userDetails);
+
+    setFormData({
+      Name: shipping?.name || "",
+      address: shipping?.shippingAddress?.address || "",
+      State: shipping?.shippingAddress?.State || "",
+      city: shipping?.shippingAddress?.city || "",
+      phoneNumber: shipping?.phone || "",
+      pinCode: shipping?.shippingAddress?.pinCode || "",
+      country: shipping?.shippingAddress?.country || "",
+    });
+
+    return; // API call stop
+  }
+
+  if (token) {
+    getProfile();
+  }
+}, []);
+
 
   const getProfile = () => {
     console.log("profile working");
