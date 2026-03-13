@@ -55,16 +55,16 @@ const Cart = (props) => {
   const countryoptions = useMemo(() => countryList().getData(), []);
 
   useEffect(() => {
-    getProfile();
+    const token = localStorage.getItem("token");
+    const userDetails = localStorage.getItem("userDetails");
+
+    if (!token || !userDetails) {
+      getProfile();
+    }
   }, []);
 
   const getProfile = () => {
-    if (user && user?.id) {
-      return props.toaster({
-        type: "error",
-        message: "Please Login .",
-      });
-    }
+    console.log("profile working");
 
     Api("get", "auth/profile", "", router).then(
       (res) => {
