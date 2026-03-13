@@ -416,7 +416,7 @@ function ProductDetails(props) {
 
                 <div className="flex flex-col items-start mt-8">
                   <div className="flex items-center justify-center gap-2">
-                    <span
+                    {/* <span
                       className={`text-2xl md:text-[32px] line-through   text-black ${
                         isCombinationAvailable === false
                           ? "blur-[2px] opacity-800"
@@ -424,7 +424,7 @@ function ProductDetails(props) {
                       }`}
                     >
                       {/* {constant.currency}
-                      {selectedSize?.price} */}
+                      {selectedSize?.price} 
                        <Price amountUSD={selectedSize?.price} />
                     </span>
 
@@ -446,7 +446,8 @@ function ProductDetails(props) {
                           %
                         </span>
                       </>
-                    )}
+                    )} */}
+
                   </div>
                   <span
                     className={` text-black font-semibold text-2xl md:text-[32px] ${

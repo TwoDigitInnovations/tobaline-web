@@ -124,7 +124,7 @@ const Cart = (props) => {
     if (!existingItem) return;
     console.log(existingItem);
 
-    if (existingItem.qty >= existingItem?.selectedVarients.qty) {
+    if (existingItem?.qty >= existingItem?.selectedVarients?.qty) {
       props.toaster({
         type: "error",
         message:

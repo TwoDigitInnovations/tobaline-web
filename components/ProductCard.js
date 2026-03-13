@@ -141,11 +141,11 @@ const ProductCard = ({ product, url, toaster }) => {
               <Price amountUSD={offerprice} />
             </span>
 
-            {price > offerprice && (
+            {/* {price > offerprice && (
               <span className="text-[12px] md:text-sm line-through text-[#3E3E40]">
                 <Price amountUSD={price} />
               </span>
-            )}
+            )} */}
           </div>
         </div>
       </div>
